@@ -18,6 +18,13 @@ public class GamePanel extends JPanel implements Runnable {
     private final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COLUMN; // 768 pixels
     private final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW; // 576
 
+    // WORLD SETTINGS
+    // TODO: Change based of final map1
+    private final int MAX_WORLD_COLUMN = 16;
+    private final int MAX_WORLD_ROW = 24;
+    private final int WORLD_WIDTH = TILE_SIZE * MAX_WORLD_COLUMN;
+    private final int WORLD_HEIGHT = TILE_SIZE * MAX_WORLD_ROW;
+
     // FPS
     private final int FPS = 60;
 
@@ -52,6 +59,18 @@ public class GamePanel extends JPanel implements Runnable {
 
     public int getSCREEN_HEIGHT() {
         return SCREEN_HEIGHT;
+    }
+
+    public int getMAX_WORLD_COLUMN() {
+        return MAX_WORLD_COLUMN;
+    }
+
+    public int getMAX_WORLD_ROW() {
+        return MAX_WORLD_ROW;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public void startGameThread() {

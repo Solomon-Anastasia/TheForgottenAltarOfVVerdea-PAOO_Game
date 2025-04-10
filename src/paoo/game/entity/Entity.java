@@ -3,8 +3,8 @@ package paoo.game.entity;
 import java.awt.image.BufferedImage;
 
 public class Entity {
-    protected int x;
-    protected int y;
+    protected int worldX;
+    protected int worldY;
     protected int speed;
 
     protected BufferedImage up1, up2, up3, up4, up5, up6;
@@ -16,4 +16,12 @@ public class Entity {
 
     protected int spriteCounter = 0;
     protected int spriteNumber = 1;
+
+    public int getWorldX() {
+        return worldX;
+    }
+
+    public int getWorldY() {
+        return worldY;
+    }
 }

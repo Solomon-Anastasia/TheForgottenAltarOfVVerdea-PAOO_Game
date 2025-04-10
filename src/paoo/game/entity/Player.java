@@ -13,17 +13,35 @@ public class Player extends Entity {
     GamePanel gamePanel;
     KeyHandler keyHandler;
 
+    // Where we draw player
+    private final int SCREEN_X;
+    private final int SCREEN_Y;
+
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
+
+        // Halfway point
+        SCREEN_X = gamePanel.getSCREEN_WIDTH() / 2 - (gamePanel.getTILE_SIZE() / 2);
+        SCREEN_Y = gamePanel.getSCREEN_HEIGHT() / 2 - (gamePanel.getTILE_SIZE() / 2);
 
         setDefaultValues();
         getPlayerImage();
     }
 
+    public int getSCREEN_X() {
+        return SCREEN_X;
+    }
+
+    public int getSCREEN_Y() {
+        return SCREEN_Y;
+    }
+
     public void setDefaultValues() {
-        x = 100;
-        y = 100;
+        // Player position in the map
+        // TODO: Change position based of map
+        worldX = gamePanel.getTILE_SIZE() * 6; // Start column
+        worldY = gamePanel.getTILE_SIZE() * 11; // Start line
         speed = 4;
         direction = "down";
     }
@@ -33,16 +51,16 @@ public class Player extends Entity {
                 || keyHandler.isRightPressed() || keyHandler.isLeftPressed()) {
             if (keyHandler.isUpPressed()) {
                 direction = "up";
-                y -= speed;
+                worldY -= speed;
             } else if (keyHandler.isDownPressed()) {
                 direction = "down";
-                y += speed;
+                worldY += speed;
             } else if (keyHandler.isLeftPressed()) {
                 direction = "left";
-                x -= speed;
+                worldX -= speed;
             } else if (keyHandler.isRightPressed()) {
                 direction = "right";
-                x += speed;
+                worldX += speed;
             }
 
             spriteCounter++;
@@ -70,7 +88,7 @@ public class Player extends Entity {
             case "right" -> image = getBufferedImage(image, right1, right2, right3, right4, right5, right6);
         }
 
-        graphics2D.drawImage(image, x, y, gamePanel.getTILE_SIZE(), gamePanel.getTILE_SIZE(), null);
+        graphics2D.drawImage(image, SCREEN_X, SCREEN_Y, gamePanel.getTILE_SIZE(), gamePanel.getTILE_SIZE(), null);
     }
 
     private BufferedImage getBufferedImage(BufferedImage image, BufferedImage down1, BufferedImage down2, BufferedImage down3, BufferedImage down4, BufferedImage down5, BufferedImage down6) {
