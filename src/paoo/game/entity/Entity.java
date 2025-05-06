@@ -1,5 +1,6 @@
 package paoo.game.entity;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Entity {
@@ -17,11 +18,30 @@ public class Entity {
     protected int spriteCounter = 0;
     protected int spriteNumber = 1;
 
+    protected Rectangle solidArea;
+    protected boolean isCollisionOn = false;
+
     public int getWorldX() {
         return worldX;
     }
 
     public int getWorldY() {
         return worldY;
+    }
+
+    public Rectangle getSolidArea() {
+        return solidArea;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setCollisionOn(boolean collisionOn) {
+        isCollisionOn = collisionOn;
     }
 }

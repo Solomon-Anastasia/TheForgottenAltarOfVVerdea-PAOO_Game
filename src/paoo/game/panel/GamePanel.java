@@ -2,6 +2,9 @@ package paoo.game.panel;
 
 import paoo.game.entity.Player;
 import paoo.game.handler.KeyHandler;
+import paoo.game.main.AssetSetter;
+import paoo.game.main.CollisionChecker;
+import paoo.game.object.SuperObject;
 import paoo.game.tile.TileManager;
 
 import javax.swing.*;
@@ -20,7 +23,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     // WORLD SETTINGS
     // TODO: Change based of final map1
-    private final int MAX_WORLD_COLUMN = 85;
+//    private final int MAX_WORLD_COLUMN = 85;
+//    private final int MAX_WORLD_ROW = 44;
+    private final int MAX_WORLD_COLUMN = 81;
     private final int MAX_WORLD_ROW = 44;
     private final int WORLD_WIDTH = TILE_SIZE * MAX_WORLD_COLUMN;
     private final int WORLD_HEIGHT = TILE_SIZE * MAX_WORLD_ROW;
@@ -28,10 +33,17 @@ public class GamePanel extends JPanel implements Runnable {
     // FPS
     private final int FPS = 60;
 
+    private TileManager tileManager = new TileManager(this);
     private KeyHandler keyHandler = new KeyHandler();
     private Thread gameThread;
+
+    private CollisionChecker collisionChecker = new CollisionChecker(this);
+    private AssetSetter assetSetter = new AssetSetter(this);
     private Player player = new Player(this, keyHandler);
-    private TileManager tileManager = new TileManager(this);
+
+    // TODO: Change number of objects
+    // Nr. of max objects displayed
+    public SuperObject[] object = new SuperObject[10];
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -41,16 +53,12 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
     }
 
+    public void setupGame() {
+        assetSetter.setObject();
+    }
+
     public int getTILE_SIZE() {
         return TILE_SIZE;
-    }
-
-    public int getMAX_SCREEN_COLUMN() {
-        return MAX_SCREEN_COLUMN;
-    }
-
-    public int getMAX_SCREEN_ROW() {
-        return MAX_SCREEN_ROW;
     }
 
     public int getSCREEN_WIDTH() {
@@ -73,6 +81,14 @@ public class GamePanel extends JPanel implements Runnable {
         return player;
     }
 
+    public TileManager getTileManager() {
+        return tileManager;
+    }
+
+    public CollisionChecker getCollisionChecker() {
+        return collisionChecker;
+    }
+
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
@@ -89,6 +105,13 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D graphics2D = (Graphics2D) graphics;
 
         tileManager.draw(graphics2D);
+
+        for (SuperObject superObject : object) {
+            if (superObject != null) {
+                superObject.draw(graphics2D, this);
+            }
+        }
+
         player.draw(graphics2D);
 
         graphics2D.dispose(); // Save some memory

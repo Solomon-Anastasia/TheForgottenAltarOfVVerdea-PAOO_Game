@@ -25,6 +25,13 @@ public class Player extends Entity {
         SCREEN_X = gamePanel.getSCREEN_WIDTH() / 2 - (gamePanel.getTILE_SIZE() / 2);
         SCREEN_Y = gamePanel.getSCREEN_HEIGHT() / 2 - (gamePanel.getTILE_SIZE() / 2);
 
+        // Collision for player
+        solidArea = new Rectangle();
+        solidArea.x = 13;
+        solidArea.y = 16;
+        solidArea.width = 22;
+        solidArea.height = 22;
+
         setDefaultValues();
         getPlayerImage();
     }
@@ -40,9 +47,9 @@ public class Player extends Entity {
     public void setDefaultValues() {
         // Player position in the map
         // TODO: Change position based of map
-        worldX = gamePanel.getTILE_SIZE() * 6; // Start column
-        worldY = gamePanel.getTILE_SIZE() * 11; // Start line
-        speed = 4;
+        worldX = gamePanel.getTILE_SIZE() * 45; // Start column
+        worldY = gamePanel.getTILE_SIZE() * 26; // Start line
+        speed = 5;
         direction = "down";
     }
 
@@ -51,16 +58,26 @@ public class Player extends Entity {
                 || keyHandler.isRightPressed() || keyHandler.isLeftPressed()) {
             if (keyHandler.isUpPressed()) {
                 direction = "up";
-                worldY -= speed;
             } else if (keyHandler.isDownPressed()) {
                 direction = "down";
-                worldY += speed;
             } else if (keyHandler.isLeftPressed()) {
                 direction = "left";
-                worldX -= speed;
             } else if (keyHandler.isRightPressed()) {
                 direction = "right";
-                worldX += speed;
+            }
+
+            // Check tile collision
+            isCollisionOn = false;
+            gamePanel.getCollisionChecker().checkTile(this);
+
+            // If collision is false, player can move
+            if (!isCollisionOn) {
+                switch (direction) {
+                    case "up" -> worldY -= speed;
+                    case "down" -> worldY += speed;
+                    case "left" -> worldX -= speed;
+                    case "right" -> worldX += speed;
+                }
             }
 
             spriteCounter++;
