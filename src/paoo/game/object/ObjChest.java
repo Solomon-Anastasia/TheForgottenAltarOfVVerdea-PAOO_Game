@@ -13,5 +13,10 @@ public class ObjChest extends SuperObject {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+
+        collision = true;
+
+        // Match collision to the size of image
+        setSize(48, 48);
     }
 }

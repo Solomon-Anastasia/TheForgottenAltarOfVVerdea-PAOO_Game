@@ -4,6 +4,8 @@ import paoo.game.entity.Player;
 import paoo.game.handler.KeyHandler;
 import paoo.game.main.AssetSetter;
 import paoo.game.main.CollisionChecker;
+import paoo.game.main.Sound;
+import paoo.game.main.UI;
 import paoo.game.object.SuperObject;
 import paoo.game.tile.TileManager;
 
@@ -19,31 +21,33 @@ public class GamePanel extends JPanel implements Runnable {
     private final int MAX_SCREEN_COLUMN = 16;
     private final int MAX_SCREEN_ROW = 12;
     private final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COLUMN; // 768 pixels
-    private final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW; // 576
+    private final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW; // 576 pixels
 
-    // WORLD SETTINGS
+    // World settings
     // TODO: Change based of final map1
-//    private final int MAX_WORLD_COLUMN = 85;
-//    private final int MAX_WORLD_ROW = 44;
     private final int MAX_WORLD_COLUMN = 81;
     private final int MAX_WORLD_ROW = 44;
-    private final int WORLD_WIDTH = TILE_SIZE * MAX_WORLD_COLUMN;
-    private final int WORLD_HEIGHT = TILE_SIZE * MAX_WORLD_ROW;
 
     // FPS
     private final int FPS = 60;
 
+    // System
     private TileManager tileManager = new TileManager(this);
     private KeyHandler keyHandler = new KeyHandler();
-    private Thread gameThread;
-
+    private Sound music = new Sound();
+    private Sound soundEffect = new Sound();
     private CollisionChecker collisionChecker = new CollisionChecker(this);
     private AssetSetter assetSetter = new AssetSetter(this);
-    private Player player = new Player(this, keyHandler);
+    private Thread gameThread;
 
+    // UI
+    private UI ui = new UI(this);
+
+    // Entity and objects
+    private Player player = new Player(this, keyHandler);
     // TODO: Change number of objects
     // Nr. of max objects displayed
-    public SuperObject[] object = new SuperObject[10];
+    private SuperObject[] object = new SuperObject[10];
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -55,6 +59,17 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void setupGame() {
         assetSetter.setObject();
+
+        // TODO: Uncomment this after level is done
+        // playMusic(0);
+    }
+
+    public void setGameThread(Thread gameThread) {
+        this.gameThread = gameThread;
+    }
+
+    public SuperObject[] getObject() {
+        return object;
     }
 
     public int getTILE_SIZE() {
@@ -89,6 +104,10 @@ public class GamePanel extends JPanel implements Runnable {
         return collisionChecker;
     }
 
+    public UI getUi() {
+        return ui;
+    }
+
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
@@ -96,6 +115,22 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
         player.update();
+    }
+
+    public void playMusic(int i) {
+        music.setFile(i);
+        music.play();
+        music.loop();
+    }
+
+    public void stopMusic() {
+        music.stop();
+    }
+
+    // Sound effect
+    public void playSE(int i) {
+        soundEffect.setFile(i);
+        soundEffect.play();
     }
 
     @Override
@@ -113,6 +148,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         player.draw(graphics2D);
+        ui.draw(graphics2D);
 
         graphics2D.dispose(); // Save some memory
     }

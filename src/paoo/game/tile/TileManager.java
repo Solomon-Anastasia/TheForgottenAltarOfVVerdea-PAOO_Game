@@ -4,10 +4,12 @@ import paoo.game.panel.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.Objects;
 
 // Flyweight pattern
@@ -16,6 +18,7 @@ public class TileManager {
     private Tile[] tiles;
 
     private int[][][] mapTileNumber;
+    private HashMap<String, BufferedImage> imageCache = new HashMap<>();
 
     public TileManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -26,8 +29,8 @@ public class TileManager {
         loadMap(new String[]{"/maps/Map1.txt", "/maps/Map1_Objects.txt"});
     }
 
-    public int getMapTileNumber(int layer, int row, int col) {
-        return mapTileNumber[layer][row][col];
+    public int[][][] getMapTileNumber() {
+        return mapTileNumber;
     }
 
     public Tile getTile(int i) {
@@ -35,496 +38,140 @@ public class TileManager {
     }
 
     public void getTileImage() {
-        try {
-            // TODO: ADD tiles[i].collision = true where is needed
-            tiles[65] = new Tile();
-            tiles[65].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_65.png")));
-
-            tiles[66] = new Tile();
-            tiles[66].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_66.png")));
-
-            tiles[67] = new Tile();
-            tiles[67].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_67.png")));
-
-            tiles[261] = new Tile();
-            tiles[261].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_261.png")));
-            tiles[261].collision = true;
-
-            tiles[262] = new Tile();
-            tiles[262].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_262.png")));
-            tiles[262].collision = true;
-
-            tiles[263] = new Tile();
-            tiles[263].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_263.png")));
-            tiles[263].collision = true;
-
-            tiles[266] = new Tile();
-            tiles[266].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_266.png")));
-            tiles[266].collision = true;
-
-            tiles[449] = new Tile();
-            tiles[449].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_449.png")));
-
-            tiles[468] = new Tile();
-            tiles[468].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_468.png")));
-
-            tiles[469] = new Tile();
-            tiles[469].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_469.png")));
-
-            tiles[532] = new Tile();
-            tiles[532].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_532.png")));
-
-            tiles[533] = new Tile();
-            tiles[533].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_533.png")));
-
-            tiles[1163] = new Tile();
-            tiles[1163].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_1163.png")));
-            tiles[1163].collision = true;
-
-            tiles[1164] = new Tile();
-            tiles[1164].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_1164.png")));
-            tiles[1164].collision = true;
-
-            tiles[1165] = new Tile();
-            tiles[1165].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_1165.png")));
-            tiles[1165].collision = true;
-
-            tiles[1166] = new Tile();
-            tiles[1166].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_1166.png")));
-            tiles[1166].collision = true;
-
-            tiles[1227] = new Tile();
-            tiles[1227].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_1227.png")));
-            tiles[1227].collision = true;
-
-            tiles[1228] = new Tile();
-            tiles[1228].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_1228.png")));
-            tiles[1228].collision = true;
-
-            tiles[1229] = new Tile();
-            tiles[1229].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_1229.png")));
-            tiles[1229].collision = true;
-
-            tiles[1230] = new Tile();
-            tiles[1230].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_1230.png")));
-            tiles[1230].collision = true;
-
-            tiles[1291] = new Tile();
-            tiles[1291].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_1291.png")));
-            tiles[1291].collision = true;
-
-            tiles[1292] = new Tile();
-            tiles[1292].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_1292.png")));
-            tiles[1292].collision = true;
-
-            tiles[1293] = new Tile();
-            tiles[1293].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_1293.png")));
-            tiles[1293].collision = true;
-
-            tiles[1294] = new Tile();
-            tiles[1294].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_1294.png")));
-            tiles[1294].collision = true;
-
-            tiles[1355] = new Tile();
-            tiles[1355].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_1355.png")));
-            tiles[1355].collision = true;
-
-            tiles[1356] = new Tile();
-            tiles[1356].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_1356.png")));
-            tiles[1356].collision = true;
-
-            tiles[1357] = new Tile();
-            tiles[1357].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_1357.png")));
-            tiles[1357].collision = true;
-
-            tiles[1358] = new Tile();
-            tiles[1358].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_1358.png")));
-            tiles[1358].collision = true;
-
-            tiles[1985] = new Tile();
-            tiles[1985].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_1985.png")));
-            tiles[1985].collision = true;
-
-            tiles[1986] = new Tile();
-            tiles[1986].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_1986.png")));
-            tiles[1986].collision = true;
-
-            tiles[1987] = new Tile();
-            tiles[1987].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/map1/tile_1987.png")));
-            tiles[1987].collision = true;
-
-            // Tiles for second layer
-
-            tiles[0] = new Tile();
-            tiles[0].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_0.png")));
-
-            tiles[102] = new Tile();
-            tiles[102].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_102.png")));
-            tiles[102].collision = true;
-
-            tiles[103] = new Tile();
-            tiles[103].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_103.png")));
-            tiles[103].collision = true;
-
-            tiles[105] = new Tile();
-            tiles[105].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_105.png")));
-            tiles[105].collision = true;
-
-            tiles[106] = new Tile();
-            tiles[106].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_106.png")));
-            tiles[106].collision = true;
-
-            tiles[121] = new Tile();
-            tiles[121].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_121.png")));
-
-            tiles[122] = new Tile();
-            tiles[122].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_122.png")));
-
-            tiles[167] = new Tile();
-            tiles[167].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_167.png")));
-            tiles[167].collision = true;
-
-            tiles[183] = new Tile();
-            tiles[183].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_183.png")));
-
-            tiles[184] = new Tile();
-            tiles[184].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_184.png")));
-
-            tiles[185] = new Tile();
-            tiles[185].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_185.png")));
-
-            tiles[186] = new Tile();
-            tiles[186].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_186.png")));
-
-            tiles[232] = new Tile();
-            tiles[232].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_232.png")));
-            tiles[232].collision = true;
-
-            tiles[245] = new Tile();
-            tiles[245].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_245.png")));
-
-            tiles[247] = new Tile();
-            tiles[247].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_247.png")));
-
-            tiles[248] = new Tile();
-            tiles[248].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_248.png")));
-
-            tiles[249] = new Tile();
-            tiles[249].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_249.png")));
-
-            tiles[250] = new Tile();
-            tiles[250].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_250.png")));
-
-            tiles[309] = new Tile();
-            tiles[309].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_309.png")));
-
-            tiles[310] = new Tile();
-            tiles[310].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_310.png")));
-
-            tiles[311] = new Tile();
-            tiles[311].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_311.png")));
-
-            tiles[312] = new Tile();
-            tiles[312].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_312.png")));
-
-            tiles[313] = new Tile();
-            tiles[313].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_313.png")));
-
-            tiles[314] = new Tile();
-            tiles[314].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_314.png")));
-
-            tiles[315] = new Tile();
-            tiles[315].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_315.png")));
-
-            tiles[316] = new Tile();
-            tiles[316].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_316.png")));
-
-            tiles[374] = new Tile();
-            tiles[374].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_374.png")));
-
-            tiles[375] = new Tile();
-            tiles[375].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_375.png")));
-
-            tiles[376] = new Tile();
-            tiles[376].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_376.png")));
-
-            tiles[377] = new Tile();
-            tiles[377].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_377.png")));
-
-            tiles[378] = new Tile();
-            tiles[378].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_378.png")));
-
-            tiles[379] = new Tile();
-            tiles[379].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_379.png")));
-
-            tiles[437] = new Tile();
-            tiles[437].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_437.png")));
-
-            tiles[438] = new Tile();
-            tiles[438].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_438.png")));
-
-            tiles[439] = new Tile();
-            tiles[439].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_439.png")));
-
-            tiles[440] = new Tile();
-            tiles[440].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_440.png")));
-
-            tiles[441] = new Tile();
-            tiles[441].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_441.png")));
-
-            tiles[442] = new Tile();
-            tiles[442].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_442.png")));
-
-            tiles[443] = new Tile();
-            tiles[443].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_443.png")));
-
-            tiles[444] = new Tile();
-            tiles[444].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_444.png")));
-
-            tiles[501] = new Tile();
-            tiles[501].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_501.png")));
-
-            tiles[502] = new Tile();
-            tiles[502].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_502.png")));
-
-            tiles[503] = new Tile();
-            tiles[503].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_503.png")));
-
-            tiles[504] = new Tile();
-            tiles[504].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_504.png")));
-
-            tiles[505] = new Tile();
-            tiles[505].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_505.png")));
-
-            tiles[507] = new Tile();
-            tiles[507].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_507.png")));
-
-            tiles[508] = new Tile();
-            tiles[508].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_508.png")));
-
-            tiles[567] = new Tile();
-            tiles[567].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_567.png")));
-
-            tiles[568] = new Tile();
-            tiles[568].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_568.png")));
-
-            tiles[569] = new Tile();
-            tiles[569].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_569.png")));
-
-            tiles[570] = new Tile();
-            tiles[570].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_570.png")));
-
-            tiles[598] = new Tile();
-            tiles[598].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_598.png")));
-
-            tiles[599] = new Tile();
-            tiles[599].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_599.png")));
-
-            tiles[631] = new Tile();
-            tiles[631].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_631.png")));
-
-            tiles[632] = new Tile();
-            tiles[632].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_632.png")));
-
-            tiles[633] = new Tile();
-            tiles[633].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_633.png")));
-
-            tiles[634] = new Tile();
-            tiles[634].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_634.png")));
-
-            tiles[724] = new Tile();
-            tiles[724].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_724.png")));
-
-            tiles[725] = new Tile();
-            tiles[725].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_725.png")));
-
-            tiles[726] = new Tile();
-            tiles[726].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_726.png")));
-
-            tiles[730] = new Tile();
-            tiles[730].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_730.png")));
-
-            tiles[732] = new Tile();
-            tiles[732].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_732.png")));
-
-            tiles[788] = new Tile();
-            tiles[788].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_788.png")));
-
-            tiles[789] = new Tile();
-            tiles[789].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_789.png")));
-
-            tiles[790] = new Tile();
-            tiles[790].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_790.png")));
-
-            tiles[791] = new Tile();
-            tiles[791].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_791.png")));
-
-            tiles[792] = new Tile();
-            tiles[792].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_792.png")));
-
-            tiles[794] = new Tile();
-            tiles[794].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_794.png")));
-
-            tiles[795] = new Tile();
-            tiles[795].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_795.png")));
-
-            tiles[796] = new Tile();
-            tiles[796].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_796.png")));
-
-            tiles[852] = new Tile();
-            tiles[852].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_852.png")));
-
-            tiles[860] = new Tile();
-            tiles[860].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_860.png")));
-
-            tiles[862] = new Tile();
-            tiles[862].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_862.png")));
-
-            tiles[918] = new Tile();
-            tiles[918].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_918.png")));
-
-            tiles[920] = new Tile();
-            tiles[920].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_920.png")));
-
-            tiles[922] = new Tile();
-            tiles[922].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_922.png")));
-
-            tiles[923] = new Tile();
-            tiles[923].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_923.png")));
-            tiles[923].collision = true;
-
-            tiles[924] = new Tile();
-            tiles[924].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_924.png")));
-            tiles[924].collision = true;
-
-            tiles[980] = new Tile();
-            tiles[980].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_980.png")));
-
-            tiles[981] = new Tile();
-            tiles[981].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_981.png")));
-
-            tiles[982] = new Tile();
-            tiles[982].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_982.png")));
-
-            tiles[985] = new Tile();
-            tiles[985].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_985.png")));
-            tiles[985].collision = true;
-
-            tiles[986] = new Tile();
-            tiles[986].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_986.png")));
-
-            tiles[987] = new Tile();
-            tiles[987].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_987.png")));
-
-            tiles[988] = new Tile();
-            tiles[988].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_988.png")));
-
-            tiles[1196] = new Tile();
-            tiles[1196].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_1196.png")));
-
-            tiles[1197] = new Tile();
-            tiles[1197].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_1197.png")));
-
-            tiles[1260] = new Tile();
-            tiles[1260].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_1260.png")));
-
-            tiles[1261] = new Tile();
-            tiles[1261].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_1261.png")));
-
-            tiles[1324] = new Tile();
-            tiles[1324].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_1324.png")));
-
-            tiles[1325] = new Tile();
-            tiles[1325].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_1325.png")));
-
-            tiles[1388] = new Tile();
-            tiles[1388].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_1388.png")));
-
-            tiles[1389] = new Tile();
-            tiles[1389].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_1389.png")));
-
-            tiles[1511] = new Tile();
-            tiles[1511].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_1511.png")));
-
-            tiles[2022] = new Tile();
-            tiles[2022].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_2022.png")));
-
-            tiles[2049] = new Tile();
-            tiles[2049].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_2049.png")));
-            tiles[2049].collision = true;
-
-            tiles[2050] = new Tile();
-            tiles[2050].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_2050.png")));
-            tiles[2050].collision = true;
-
-            tiles[2051] = new Tile();
-            tiles[2051].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/tiles/secondlayer/tile_2051.png")));
-            tiles[2051].collision = true;
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+            setup(65, "map1/tile_65", false);
+            setup(66, "map1/tile_66", false);
+            setup(67, "map1/tile_67", false);
+            setup(261, "map1/tile_261", true);
+            setup(262, "map1/tile_262", true);
+            setup(263, "map1/tile_263", true);
+            setup(266, "map1/tile_266", true);
+            setup(449, "map1/tile_449", false);
+            setup(468, "map1/tile_468", false);
+            setup(469, "map1/tile_469", false);
+            setup(532, "map1/tile_532", false);
+            setup(533, "map1/tile_533", false);
+            setup(1163, "map1/tile_1163", true);
+            setup(1164, "map1/tile_1164", true);
+            setup(1165, "map1/tile_1165", true);
+            setup(1166, "map1/tile_1166", true);
+            setup(1227, "map1/tile_1227", true);
+            setup(1228, "map1/tile_1228", true);
+            setup(1229, "map1/tile_1229", true);
+            setup(1230, "map1/tile_1230", true);
+            setup(1291, "map1/tile_1291", true);
+            setup(1292, "map1/tile_1292", true);
+            setup(1293, "map1/tile_1293", true);
+            setup(1294, "map1/tile_1294", true);
+            setup(1355, "map1/tile_1355", true);
+            setup(1356, "map1/tile_1356", true);
+            setup(1357, "map1/tile_1357", true);
+            setup(1358, "map1/tile_1358", true);
+            setup(1985, "map1/tile_1985", true);
+            setup(1986, "map1/tile_1986", true);
+            setup(1987, "map1/tile_1987", true);
+
+            // Second layer tiles
+            setup(0, "secondlayer/tile_0", false);
+            setup(102, "secondlayer/tile_102", true);
+            setup(103, "secondlayer/tile_103", true);
+            setup(105, "secondlayer/tile_105", true);
+            setup(106, "secondlayer/tile_106", true);
+            setup(121, "secondlayer/tile_121", false);
+            setup(122, "secondlayer/tile_122", false);
+            setup(167, "secondlayer/tile_167", true);
+            setup(183, "secondlayer/tile_183", false);
+            setup(184, "secondlayer/tile_184", false);
+            setup(185, "secondlayer/tile_185", false);
+            setup(186, "secondlayer/tile_186", false);
+            setup(232, "secondlayer/tile_232", true);
+            setup(245, "secondlayer/tile_245", false);
+            setup(247, "secondlayer/tile_247", false);
+            setup(248, "secondlayer/tile_248", false);
+            setup(249, "secondlayer/tile_249", false);
+            setup(250, "secondlayer/tile_250", false);
+            setup(309, "secondlayer/tile_309", false);
+            setup(310, "secondlayer/tile_310", false);
+            setup(311, "secondlayer/tile_311", false);
+            setup(312, "secondlayer/tile_312", false);
+            setup(313, "secondlayer/tile_313", false);
+            setup(314, "secondlayer/tile_314", false);
+            setup(315, "secondlayer/tile_315", false);
+            setup(316, "secondlayer/tile_316", false);
+            setup(374, "secondlayer/tile_374", false);
+            setup(375, "secondlayer/tile_375", false);
+            setup(376, "secondlayer/tile_376", false);
+            setup(377, "secondlayer/tile_377", false);
+            setup(378, "secondlayer/tile_378", false);
+            setup(379, "secondlayer/tile_379", false);
+            setup(437, "secondlayer/tile_437", false);
+            setup(438, "secondlayer/tile_438", false);
+            setup(439, "secondlayer/tile_439", false);
+            setup(440, "secondlayer/tile_440", false);
+            setup(441, "secondlayer/tile_441", false);
+            setup(442, "secondlayer/tile_442", false);
+            setup(443, "secondlayer/tile_443", false);
+            setup(444, "secondlayer/tile_444", false);
+            setup(501, "secondlayer/tile_501", false);
+            setup(502, "secondlayer/tile_502", false);
+            setup(503, "secondlayer/tile_503", false);
+            setup(504, "secondlayer/tile_504", false);
+            setup(505, "secondlayer/tile_505", false);
+            setup(507, "secondlayer/tile_507", false);
+            setup(508, "secondlayer/tile_508", false);
+            setup(567, "secondlayer/tile_567", false);
+            setup(568, "secondlayer/tile_568", false);
+            setup(569, "secondlayer/tile_569", false);
+            setup(570, "secondlayer/tile_570", false);
+            setup(598, "secondlayer/tile_598", false);
+            setup(599, "secondlayer/tile_599", false);
+            setup(631, "secondlayer/tile_631", false);
+            setup(632, "secondlayer/tile_632", false);
+            setup(633, "secondlayer/tile_633", false);
+            setup(634, "secondlayer/tile_634", false);
+            setup(724, "secondlayer/tile_724", false);
+            setup(725, "secondlayer/tile_725", false);
+            setup(726, "secondlayer/tile_726", false);
+            setup(730, "secondlayer/tile_730", false);
+            setup(732, "secondlayer/tile_732", false);
+            setup(788, "secondlayer/tile_788", false);
+            setup(789, "secondlayer/tile_789", false);
+            setup(790, "secondlayer/tile_790", false);
+            setup(791, "secondlayer/tile_791", false);
+            setup(792, "secondlayer/tile_792", false);
+            setup(794, "secondlayer/tile_794", false);
+            setup(795, "secondlayer/tile_795", false);
+            setup(796, "secondlayer/tile_796", false);
+            setup(852, "secondlayer/tile_852", false);
+            setup(860, "secondlayer/tile_860", false);
+            setup(862, "secondlayer/tile_862", false);
+            setup(918, "secondlayer/tile_918", false);
+            setup(920, "secondlayer/tile_920", false);
+            setup(922, "secondlayer/tile_922", false);
+            setup(923, "secondlayer/tile_923", true);
+            setup(924, "secondlayer/tile_924", true);
+            setup(980, "secondlayer/tile_980", false);
+            setup(981, "secondlayer/tile_981", false);
+            setup(982, "secondlayer/tile_982", false);
+            setup(985, "secondlayer/tile_985", true);
+            setup(986, "secondlayer/tile_986", false);
+            setup(987, "secondlayer/tile_987", false);
+            setup(988, "secondlayer/tile_988", false);
+            setup(1196, "secondlayer/tile_1196", false);
+            setup(1197, "secondlayer/tile_1197", false);
+            setup(1260, "secondlayer/tile_1260", false);
+            setup(1261, "secondlayer/tile_1261", false);
+            setup(1324, "secondlayer/tile_1324", false);
+            setup(1325, "secondlayer/tile_1325", false);
+            setup(1388, "secondlayer/tile_1388", false);
+            setup(1389, "secondlayer/tile_1389", false);
+            setup(1511, "secondlayer/tile_1511", false);
+            setup(2022, "secondlayer/tile_2022", false);
+            setup(2049, "secondlayer/tile_2049", true);
+            setup(2050, "secondlayer/tile_2050", true);
+            setup(2051, "secondlayer/tile_2051", true);
     }
 
     // CAMERA
-    /*public void draw(Graphics2D graphics2D) {
-        int worldColum = 0;
-        int worldRow = 0;
-
-        while (worldColum < gamePanel.getMAX_WORLD_COLUMN() && worldRow < gamePanel.getMAX_WORLD_ROW()) {
-            int tileNumber = mapTileNumber[2][worldColum][worldRow];
-
-            int worldX = worldColum * gamePanel.getTILE_SIZE();
-            int worldY = worldRow * gamePanel.getTILE_SIZE();
-            int screenX = worldX - gamePanel.getPlayer().getWorldX() + gamePanel.getPlayer().getSCREEN_X();
-            int screenY = worldY - gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getSCREEN_Y();
-
-            // Boundary (so not all map is loaded because it's not needed => save memory)
-            if (worldX + gamePanel.getTILE_SIZE() > gamePanel.getPlayer().getWorldX() - gamePanel.getPlayer().getSCREEN_X()
-                    && worldX - gamePanel.getTILE_SIZE() < gamePanel.getPlayer().getWorldX() + gamePanel.getPlayer().getSCREEN_X()
-                    && worldY + gamePanel.getTILE_SIZE() > gamePanel.getPlayer().getWorldY() - gamePanel.getPlayer().getSCREEN_Y()
-                    && worldY - gamePanel.getTILE_SIZE() < gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getSCREEN_Y()
-            ) {
-                graphics2D.drawImage(tiles[tileNumber].image, screenX, screenY, gamePanel.getTILE_SIZE(), gamePanel.getTILE_SIZE(), null);
-            }
-            worldColum++;
-
-            if (worldColum == gamePanel.getMAX_WORLD_COLUMN()) {
-                worldColum = 0;
-                worldRow++;
-            }
-        }
-    }
-
-    public void loadMap(String filePath) {
-        try {
-            InputStream inputStream = getClass().getResourceAsStream(filePath);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-
-            int column = 0;
-            int row = 0;
-
-            while (column < gamePanel.getMAX_WORLD_COLUMN() && row < gamePanel.getMAX_WORLD_ROW()) {
-                String line = bufferedReader.readLine();
-
-                while (column < gamePanel.getMAX_WORLD_COLUMN()) {
-                    String[] numbers = line.split(" ");
-                    int number = Integer.parseInt(numbers[column]);
-
-                    mapTileNumber[column][row] = number;
-                    column++;
-                }
-                if (column == gamePanel.getMAX_WORLD_COLUMN()) {
-                    column = 0;
-                    row++;
-                }
-            }
-
-            bufferedReader.close();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }*/
-
     public void draw(Graphics2D graphics2D) {
         for (int row = 0; row < gamePanel.getMAX_WORLD_ROW(); row++) {
             for (int col = 0; col < gamePanel.getMAX_WORLD_COLUMN(); col++) {
@@ -538,19 +185,33 @@ public class TileManager {
                         && worldY + gamePanel.getTILE_SIZE() > gamePanel.getPlayer().getWorldY() - gamePanel.getPlayer().getSCREEN_Y()
                         && worldY - gamePanel.getTILE_SIZE() < gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getSCREEN_Y()) {
 
-                    for (int layer = 0; layer < mapTileNumber.length; layer++) {
-                        int tileNum = mapTileNumber[layer][col][row];
+                    for (int[][] ints : mapTileNumber) {
+                        int tileNum = ints[col][row];
 
                         if (tileNum >= 0 && tileNum < tiles.length) {
                             Tile tile = tiles[tileNum];
                             if (tile != null && tile.image != null) {
-                                graphics2D.drawImage(tile.image, screenX, screenY,
-                                        gamePanel.getTILE_SIZE(), gamePanel.getTILE_SIZE(), null);
+                                graphics2D.drawImage(tile.image, screenX, screenY, gamePanel.getTILE_SIZE(), gamePanel.getTILE_SIZE(), null);
                             }
                         }
                     }
                 }
             }
+        }
+    }
+
+    public void setup(int index, String imagePath, boolean collision) {
+        try {
+            if (!imageCache.containsKey(imagePath)) {
+                BufferedImage image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/" + imagePath + ".png")));
+                imageCache.put(imagePath, image);
+            }
+            tiles[index] = new Tile();
+            tiles[index].image = imageCache.get(imagePath);
+            tiles[index].collision = collision;
+        } catch (IOException e) {
+            System.err.println("Error loading image for tile: " + imagePath);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -587,6 +248,6 @@ public class TileManager {
                 System.out.println("Error loading layer " + layer + ": " + e.getMessage());
             }
         }
-        }
     }
+}
 

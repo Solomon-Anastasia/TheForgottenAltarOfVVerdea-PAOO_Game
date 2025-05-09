@@ -17,6 +17,17 @@ public class Player extends Entity {
     private final int SCREEN_X;
     private final int SCREEN_Y;
 
+    // TODO: Change it after artefact is added, etc
+    private int nrArtefacts = 0;
+    private int nrCarrots = 0;
+
+    private boolean isMoving = false;
+
+    private BufferedImage upIdle1, upIdle2;
+    private BufferedImage downIdle1, downIdle2;
+    private BufferedImage leftIdle1, leftIdle2;
+    private BufferedImage rightIdle1, rightIdle2;
+
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
@@ -29,6 +40,10 @@ public class Player extends Entity {
         solidArea = new Rectangle();
         solidArea.x = 13;
         solidArea.y = 16;
+
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
+
         solidArea.width = 22;
         solidArea.height = 22;
 
@@ -44,6 +59,10 @@ public class Player extends Entity {
         return SCREEN_Y;
     }
 
+    public int getNrCarrots() {
+        return nrCarrots;
+    }
+
     public void setDefaultValues() {
         // Player position in the map
         // TODO: Change position based of map
@@ -54,8 +73,9 @@ public class Player extends Entity {
     }
 
     public void update() {
-        if (keyHandler.isUpPressed() || keyHandler.isDownPressed()
-                || keyHandler.isRightPressed() || keyHandler.isLeftPressed()) {
+        isMoving = keyHandler.isUpPressed() || keyHandler.isDownPressed() || keyHandler.isRightPressed() || keyHandler.isLeftPressed();
+
+        if (isMoving) {
             if (keyHandler.isUpPressed()) {
                 direction = "up";
             } else if (keyHandler.isDownPressed()) {
@@ -69,6 +89,12 @@ public class Player extends Entity {
             // Check tile collision
             isCollisionOn = false;
             gamePanel.getCollisionChecker().checkTile(this);
+
+            // Check object collision
+            int objectIndex = gamePanel.getCollisionChecker().checkObject(this, true);
+
+            // Based of index, determine payer interaction with it
+            pickUpObject(objectIndex);
 
             // If collision is false, player can move
             if (!isCollisionOn) {
@@ -92,32 +118,94 @@ public class Player extends Entity {
                 }
                 spriteCounter = 0;
             }
+        } else {
+            spriteCounter++;
+        }
+    }
+
+    // TODO: Set specific reaction for each object
+    public void pickUpObject(int i) {
+        if (i != -1) {
+            String objectName = gamePanel.getObject()[i].getName();
+
+            // TODO: Add artefact object, etc
+            switch (objectName) {
+                case "Artefact" -> {
+                    nrArtefacts++;
+
+                    // Object disappear (delete)
+                    gamePanel.getObject()[i] = null;
+                }
+
+                // TODO: Getting seeds from grandpa, after the dialogue
+                case "Seed" -> {
+                    gamePanel.getUi().showMessage("Carrot seed!");
+//                    if (Check dialogue ){
+//                        gamePanel.getObject()[i] = null;
+//                    }
+                }
+                case "Carrot" -> {
+                    // TODO: Add sound effects when carrot is picked up
+                    // TODO: Check carrot stage first, if it is ready to pick up, then increment
+                    gamePanel.getUi().showMessage("Carrot picked up!");
+                    nrArtefacts++;
+//                    gamePanel.playSE(number of sound);
+
+                }
+                case "Portal" -> {
+                    if (nrArtefacts > 0) {
+                        // TODO: Move to the next level
+                        nrArtefacts--;
+                    }
+                }
+                case "Chest" -> {
+                    // TODO: Add sound for unlocking chest
+//                    gamePanel.playSE(numer of sound);
+                    gamePanel.getUi().showMessage("Chest will open after the task is done!");
+                    if (nrCarrots >= 5) {
+                        gamePanel.getUi().setGameFinished(true);
+                        gamePanel.stopMusic();
+//                        gamePanel.playSE(nr. of win first level);
+                    }
+                }
+            }
         }
     }
 
     public void draw(Graphics2D graphics2D) {
         BufferedImage image = null;
 
-        switch (direction) {
-            case "up" -> image = getBufferedImage(image, up1, up2, up3, up4, up5, up6);
-            case "down" -> image = getBufferedImage(image, down1, down2, down3, down4, down5, down6);
-            case "left" -> image = getBufferedImage(image, left1, left2, left3, left4, left5, left6);
-            case "right" -> image = getBufferedImage(image, right1, right2, right3, right4, right5, right6);
+        if (isMoving) {
+            switch (direction) {
+                case "up" -> image = getBufferedImage(spriteNumber, up1, up2, up3, up4, up5, up6);
+                case "down" -> image = getBufferedImage(spriteNumber, down1, down2, down3, down4, down5, down6);
+                case "left" -> image = getBufferedImage(spriteNumber, left1, left2, left3, left4, left5, left6);
+                case "right" -> image = getBufferedImage(spriteNumber, right1, right2, right3, right4, right5, right6);
+            }
+        } else {
+            int idleFrame = (spriteCounter / 25) % 2 + 1; // Cycle every ~25 ticks
+
+            switch (direction) {
+                case "up" -> image = (idleFrame == 1) ? upIdle1 : upIdle2;
+                case "down" -> image = (idleFrame == 1) ? downIdle1 : downIdle2;
+                case "left" -> image = (idleFrame == 1) ? leftIdle1 : leftIdle2;
+                case "right" -> image = (idleFrame == 1) ? rightIdle1 : rightIdle2;
+            }
         }
 
         graphics2D.drawImage(image, SCREEN_X, SCREEN_Y, gamePanel.getTILE_SIZE(), gamePanel.getTILE_SIZE(), null);
     }
 
-    private BufferedImage getBufferedImage(BufferedImage image, BufferedImage down1, BufferedImage down2, BufferedImage down3, BufferedImage down4, BufferedImage down5, BufferedImage down6) {
-        switch (spriteNumber) {
-            case 1 -> image = down1;
-            case 2 -> image = down2;
-            case 3 -> image = down3;
-            case 4 -> image = down4;
-            case 5 -> image = down5;
-            case 6 -> image = down6;
-        }
-        return image;
+    private BufferedImage getBufferedImage(int frame, BufferedImage down1, BufferedImage down2, BufferedImage down3, BufferedImage down4, BufferedImage down5, BufferedImage down6) {
+        return switch (frame) {
+            case 1 -> down1;
+            case 2 -> down2;
+            case 3 -> down3;
+            case 4 -> down4;
+            case 5 -> down5;
+            case 6 -> down6;
+            default -> down1;
+        };
     }
 
     public void getPlayerImage() {
@@ -149,6 +237,18 @@ public class Player extends Entity {
             down4 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_down_4.png")));
             down5 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_down_5.png")));
             down6 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_down_6.png")));
+
+            upIdle1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_upIdle_1.png")));
+            upIdle2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_upIdle_2.png")));
+
+            downIdle1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_downIdle_1.png")));
+            downIdle2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_downIdle_2.png")));
+
+            leftIdle1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_leftIdle_1.png")));
+            leftIdle2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_leftIdle_2.png")));
+
+            rightIdle1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_rightIdle_1.png")));
+            rightIdle2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_rightIdle_2.png")));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

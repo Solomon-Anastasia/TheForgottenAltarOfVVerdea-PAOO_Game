@@ -12,6 +12,15 @@ public class SuperObject {
     protected int worldX;
     protected int worldY;
 
+    // By default, all object is considered solid
+    protected Rectangle solidArea = new Rectangle(0, 0, 48, 48);
+    protected int solidAreaDefaultX = 0;
+    protected int solidAreaDefaultY = 0;
+
+    // Default size
+    protected int width = 16;
+    protected int height = 16;
+
     public void setWorldX(int worldX) {
         this.worldX = worldX;
     }
@@ -20,8 +29,55 @@ public class SuperObject {
         this.worldY = worldY;
     }
 
-    public void setCollision(boolean collision) {
-        this.collision = collision;
+    public void setSize(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    public void setSolidArea(int xOffset, int yOffset, int width, int height) {
+        this.solidArea = new Rectangle(xOffset, yOffset, width, height);
+        this.solidAreaDefaultX = xOffset;
+        this.solidAreaDefaultY = yOffset;
+    }
+
+    public Rectangle getSolidArea() {
+        return solidArea;
+    }
+
+    public int getWorldX() {
+        return worldX;
+    }
+
+    public int getWorldY() {
+        return worldY;
+    }
+
+    public int getSolidAreaDefaultX() {
+        return solidAreaDefaultX;
+    }
+
+    public int getSolidAreaDefaultY() {
+        return solidAreaDefaultY;
+    }
+
+    public boolean isCollision() {
+        return collision;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public BufferedImage getImage() {
+        return image;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
     }
 
     public void draw(Graphics2D graphics2D, GamePanel gamePanel) {
@@ -34,7 +90,7 @@ public class SuperObject {
                 && worldY + gamePanel.getTILE_SIZE() > gamePanel.getPlayer().getWorldY() - gamePanel.getPlayer().getSCREEN_Y()
                 && worldY - gamePanel.getTILE_SIZE() < gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getSCREEN_Y()
         ) {
-            graphics2D.drawImage(image, screenX, screenY, gamePanel.getTILE_SIZE(), gamePanel.getTILE_SIZE(), null);
+            graphics2D.drawImage(image, screenX, screenY, width, height, null);
         }
     }
 }

@@ -19,6 +19,8 @@ public class Entity {
     protected int spriteNumber = 1;
 
     protected Rectangle solidArea;
+    protected int solidAreaDefaultX;
+    protected int solidAreaDefaultY;
     protected boolean isCollisionOn = false;
 
     public int getWorldX() {
@@ -43,5 +45,13 @@ public class Entity {
 
     public void setCollisionOn(boolean collisionOn) {
         isCollisionOn = collisionOn;
+    }
+
+    public int getSolidAreaDefaultX() {
+        return solidAreaDefaultX;
+    }
+
+    public int getSolidAreaDefaultY() {
+        return solidAreaDefaultY;
     }
 }

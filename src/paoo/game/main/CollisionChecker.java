@@ -25,13 +25,14 @@ public class CollisionChecker {
         int tileNum2;
         int layers = 2;
 
+        // Only check 2 tiles touching the player
         switch (entity.getDirection()) {
             case "up" -> {
                 entityTopRow = (entityTopWorldY - entity.getSpeed()) / gamePanel.getTILE_SIZE();
 
                 for (int i = 0; i < layers; ++i) {
-                    tileNum1 = gamePanel.getTileManager().getMapTileNumber(i, entityLeftCol, entityTopRow);
-                    tileNum2 = gamePanel.getTileManager().getMapTileNumber(i, entityRightCol, entityTopRow);
+                    tileNum1 = gamePanel.getTileManager().getMapTileNumber()[i][entityLeftCol][entityTopRow];
+                    tileNum2 = gamePanel.getTileManager().getMapTileNumber()[i][entityRightCol][entityTopRow];
 
                     if (gamePanel.getTileManager().getTile(tileNum1).isCollision() ||
                             gamePanel.getTileManager().getTile(tileNum2).isCollision()) {
@@ -42,13 +43,13 @@ public class CollisionChecker {
             case "down" -> {
                 entityBottomRow = (entityBottomWorldY + entity.getSpeed()) / gamePanel.getTILE_SIZE();
 
-                for (int i = 0; i < layers; ++i){
-                tileNum1 = gamePanel.getTileManager().getMapTileNumber(i, entityLeftCol, entityBottomRow);
-                tileNum2 = gamePanel.getTileManager().getMapTileNumber(i, entityRightCol, entityBottomRow);
+                for (int i = 0; i < layers; ++i) {
+                    tileNum1 = gamePanel.getTileManager().getMapTileNumber()[i][entityLeftCol][entityBottomRow];
+                    tileNum2 = gamePanel.getTileManager().getMapTileNumber()[i][entityRightCol][entityBottomRow];
 
-                if (gamePanel.getTileManager().getTile(tileNum1).isCollision() ||
-                        gamePanel.getTileManager().getTile(tileNum2).isCollision()) {
-                    entity.setCollisionOn(true);
+                    if (gamePanel.getTileManager().getTile(tileNum1).isCollision() ||
+                            gamePanel.getTileManager().getTile(tileNum2).isCollision()) {
+                        entity.setCollisionOn(true);
                     }
                 }
             }
@@ -56,8 +57,8 @@ public class CollisionChecker {
                 entityLeftCol = (entityLeftWorldX - entity.getSpeed()) / gamePanel.getTILE_SIZE();
 
                 for (int i = 0; i < layers; ++i) {
-                    tileNum1 = gamePanel.getTileManager().getMapTileNumber(i, entityLeftCol, entityTopRow);
-                    tileNum2 = gamePanel.getTileManager().getMapTileNumber(i, entityLeftCol, entityBottomRow);
+                    tileNum1 = gamePanel.getTileManager().getMapTileNumber()[i][entityLeftCol][entityTopRow];
+                    tileNum2 = gamePanel.getTileManager().getMapTileNumber()[i][entityLeftCol][entityBottomRow];
 
                     if (gamePanel.getTileManager().getTile(tileNum1).isCollision() ||
                             gamePanel.getTileManager().getTile(tileNum2).isCollision()) {
@@ -69,9 +70,8 @@ public class CollisionChecker {
                 entityRightCol = (entityRightWorldX + entity.getSpeed()) / gamePanel.getTILE_SIZE();
 
                 for (int i = 0; i < layers; ++i) {
-
-                    tileNum1 = gamePanel.getTileManager().getMapTileNumber(i, entityRightCol, entityTopRow);
-                    tileNum2 = gamePanel.getTileManager().getMapTileNumber(i, entityRightCol, entityBottomRow);
+                    tileNum1 = gamePanel.getTileManager().getMapTileNumber()[i][entityRightCol][entityTopRow];
+                    tileNum2 = gamePanel.getTileManager().getMapTileNumber()[i][entityRightCol][entityBottomRow];
 
                     if (gamePanel.getTileManager().getTile(tileNum1).isCollision() ||
                             gamePanel.getTileManager().getTile(tileNum2).isCollision()) {
@@ -80,6 +80,94 @@ public class CollisionChecker {
                 }
             }
         }
+    }
 
+    public int checkObject(Entity entity, boolean player) {
+        // Suppose the player isn't touching any object
+        int index = -1;
+
+        for (int i = 0; i < gamePanel.getObject().length; ++i) {
+            if (gamePanel.getObject()[i] != null) {
+                // Get entity's solid area position
+                entity.getSolidArea().x = entity.getWorldX() + entity.getSolidArea().x;
+                entity.getSolidArea().y = entity.getWorldY() + entity.getSolidArea().y;
+
+                // Get object's solid area position
+                gamePanel.getObject()[i].getSolidArea().x = gamePanel.getObject()[i].getWorldX() + gamePanel.getObject()[i].getSolidArea().x;
+                gamePanel.getObject()[i].getSolidArea().y = gamePanel.getObject()[i].getWorldY() + gamePanel.getObject()[i].getSolidArea().y;
+
+                switch (entity.getDirection()) {
+                    case "up" -> {
+                        entity.getSolidArea().y -= entity.getSpeed();
+
+                        // Check if 2 rectangle intersects (for collision)
+                        if (entity.getSolidArea().intersects(gamePanel.getObject()[i].getSolidArea())) {
+                            if (gamePanel.getObject()[i].isCollision()) {
+                                entity.setCollisionOn(true);
+                            }
+
+                            // Only player can get object
+                            if (player) {
+                                index = i;
+                            }
+                        }
+                    }
+                    case "down" -> {
+                        entity.getSolidArea().y += entity.getSpeed();
+
+                        // Check if 2 rectangle intersects (for collision)
+                        if (entity.getSolidArea().intersects(gamePanel.getObject()[i].getSolidArea())) {
+                            if (gamePanel.getObject()[i].isCollision()) {
+                                entity.setCollisionOn(true);
+                            }
+
+                            // Only player can get object
+                            if (player) {
+                                index = i;
+                            }
+                        }
+                    }
+                    case "left" -> {
+                        entity.getSolidArea().x -= entity.getSpeed();
+
+                        // Check if 2 rectangle intersects (for collision)
+                        if (entity.getSolidArea().intersects(gamePanel.getObject()[i].getSolidArea())) {
+                            if (gamePanel.getObject()[i].isCollision()) {
+                                entity.setCollisionOn(true);
+                            }
+
+                            // Only player can get object
+                            if (player) {
+                                index = i;
+                            }
+                        }
+                    }
+                    case "right" -> {
+                        entity.getSolidArea().x += entity.getSpeed();
+
+                        // Check if 2 rectangle intersects (for collision)
+                        if (entity.getSolidArea().intersects(gamePanel.getObject()[i].getSolidArea())) {
+                            if (gamePanel.getObject()[i].isCollision()) {
+                                entity.setCollisionOn(true);
+                            }
+
+                            // Only player can get object
+                            if (player) {
+                                index = i;
+                            }
+                        }
+                    }
+                }
+
+                // Reset solid area
+                entity.getSolidArea().x = entity.getSolidAreaDefaultX();
+                entity.getSolidArea().y = entity.getSolidAreaDefaultY();
+
+                gamePanel.getObject()[i].getSolidArea().x = gamePanel.getObject()[i].getSolidAreaDefaultX();
+                gamePanel.getObject()[i].getSolidArea().y = gamePanel.getObject()[i].getSolidAreaDefaultY();
+            }
+        }
+
+        return index;
     }
 }
