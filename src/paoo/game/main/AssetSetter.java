@@ -13,14 +13,14 @@ public class AssetSetter {
 
     public void setObject() {
         // Chest
-        gamePanel.getObject()[0] = new ObjChest();
+        gamePanel.getObject()[0] = new ObjChest(gamePanel);
         // Column
         gamePanel.getObject()[0].setWorldX(59 * gamePanel.getTILE_SIZE());
         // Row
         gamePanel.getObject()[0].setWorldY(39 * gamePanel.getTILE_SIZE());
 
         // Seed
-        gamePanel.getObject()[1] = new ObjSeed();
+        gamePanel.getObject()[1] = new ObjSeed(gamePanel);
         gamePanel.getObject()[1].setWorldX(46 * gamePanel.getTILE_SIZE());
         gamePanel.getObject()[1].setWorldY(26 * gamePanel.getTILE_SIZE());
 

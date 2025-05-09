@@ -1,5 +1,6 @@
 package paoo.game.object;
 
+import paoo.game.main.UtilityTool;
 import paoo.game.panel.GamePanel;
 
 import java.awt.*;
@@ -20,6 +21,8 @@ public class SuperObject {
     // Default size
     protected int width = 16;
     protected int height = 16;
+
+    protected UtilityTool utilityTool = new UtilityTool();
 
     public void setWorldX(int worldX) {
         this.worldX = worldX;

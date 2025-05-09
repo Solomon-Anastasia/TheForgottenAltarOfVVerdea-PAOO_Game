@@ -1,9 +1,17 @@
 package paoo.game.entity;
 
+import paoo.game.main.UtilityTool;
+import paoo.game.panel.GamePanel;
+
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
 
 public class Entity {
+    private GamePanel gamePanel;
+
     protected int worldX;
     protected int worldY;
     protected int speed;
@@ -22,6 +30,10 @@ public class Entity {
     protected int solidAreaDefaultX;
     protected int solidAreaDefaultY;
     protected boolean isCollisionOn = false;
+
+    public Entity(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
+    }
 
     public int getWorldX() {
         return worldX;
@@ -53,5 +65,19 @@ public class Entity {
 
     public int getSolidAreaDefaultY() {
         return solidAreaDefaultY;
+    }
+
+    public BufferedImage setup(String imageName) {
+        UtilityTool utilityTool = new UtilityTool();
+        BufferedImage image = null;
+
+        try {
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/" + imageName + ".png")));
+            image = utilityTool.scaleImage(image, gamePanel.getTILE_SIZE(), gamePanel.getTILE_SIZE());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return image;
     }
 }

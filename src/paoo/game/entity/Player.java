@@ -3,11 +3,8 @@ package paoo.game.entity;
 import paoo.game.handler.KeyHandler;
 import paoo.game.panel.GamePanel;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.Objects;
 
 public class Player extends Entity {
     GamePanel gamePanel;
@@ -29,6 +26,8 @@ public class Player extends Entity {
     private BufferedImage rightIdle1, rightIdle2;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
+        super(gamePanel);
+
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
 
@@ -193,7 +192,7 @@ public class Player extends Entity {
             }
         }
 
-        graphics2D.drawImage(image, SCREEN_X, SCREEN_Y, gamePanel.getTILE_SIZE(), gamePanel.getTILE_SIZE(), null);
+        graphics2D.drawImage(image, SCREEN_X, SCREEN_Y, null);
     }
 
     private BufferedImage getBufferedImage(int frame, BufferedImage down1, BufferedImage down2, BufferedImage down3, BufferedImage down4, BufferedImage down5, BufferedImage down6) {
@@ -209,48 +208,46 @@ public class Player extends Entity {
     }
 
     public void getPlayerImage() {
-        try {
-            right1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_right_1.png")));
-            right2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_right_2.png")));
-            right3 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_right_3.png")));
-            right4 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_right_4.png")));
-            right5 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_right_5.png")));
-            right6 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_right_6.png")));
+        // Walking animations
+        right1 = setup("player_right_1");
+        right2 = setup("player_right_2");
+        right3 = setup("player_right_3");
+        right4 = setup("player_right_4");
+        right5 = setup("player_right_5");
+        right6 = setup("player_right_6");
 
-            left1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_left_1.png")));
-            left2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_left_2.png")));
-            left3 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_left_3.png")));
-            left4 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_left_4.png")));
-            left5 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_left_5.png")));
-            left6 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_left_6.png")));
+        left1 = setup("player_left_1");
+        left2 = setup("player_left_2");
+        left3 = setup("player_left_3");
+        left4 = setup("player_left_4");
+        left5 = setup("player_left_5");
+        left6 = setup("player_left_6");
 
-            up1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_up_1.png")));
-            up2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_up_2.png")));
-            up3 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_up_3.png")));
-            up4 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_up_4.png")));
-            up5 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_up_5.png")));
-            up6 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_up_6.png")));
+        up1 = setup("player_up_1");
+        up2 = setup("player_up_2");
+        up3 = setup("player_up_3");
+        up4 = setup("player_up_4");
+        up5 = setup("player_up_5");
+        up6 = setup("player_up_6");
 
-            down1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_down_1.png")));
-            down2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_down_2.png")));
-            down3 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_down_3.png")));
-            down4 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_down_4.png")));
-            down5 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_down_5.png")));
-            down6 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_down_6.png")));
+        down1 = setup("player_down_1");
+        down2 = setup("player_down_2");
+        down3 = setup("player_down_3");
+        down4 = setup("player_down_4");
+        down5 = setup("player_down_5");
+        down6 = setup("player_down_6");
 
-            upIdle1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_upIdle_1.png")));
-            upIdle2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_upIdle_2.png")));
+        // Idle animations
+        upIdle1 = setup("player_upIdle_1");
+        upIdle2 = setup("player_upIdle_2");
 
-            downIdle1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_downIdle_1.png")));
-            downIdle2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_downIdle_2.png")));
+        downIdle1 = setup("player_downIdle_1");
+        downIdle2 = setup("player_downIdle_2");
 
-            leftIdle1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_leftIdle_1.png")));
-            leftIdle2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_leftIdle_2.png")));
+        leftIdle1 = setup("player_leftIdle_1");
+        leftIdle2 = setup("player_leftIdle_2");
 
-            rightIdle1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_rightIdle_1.png")));
-            rightIdle2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/player_rightIdle_2.png")));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        rightIdle1 = setup("player_rightIdle_1");
+        rightIdle2 = setup("player_rightIdle_2");
     }
 }

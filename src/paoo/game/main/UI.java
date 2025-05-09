@@ -25,7 +25,7 @@ public class UI {
         arial20 = new Font("Arial", Font.BOLD, 20);
         arial25 = new Font("Arial", Font.BOLD, 25);
 
-        carrot = new ObjCarrot();
+        carrot = new ObjCarrot(gamePanel);
     }
 
     public void setGameFinished(boolean gameFinished) {
