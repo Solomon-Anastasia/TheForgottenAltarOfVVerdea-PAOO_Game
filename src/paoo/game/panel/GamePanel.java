@@ -6,6 +6,7 @@ import paoo.game.main.AssetSetter;
 import paoo.game.main.CollisionChecker;
 import paoo.game.main.Sound;
 import paoo.game.main.UI;
+import paoo.game.object.ObjCarrot;
 import paoo.game.object.SuperObject;
 import paoo.game.tile.TileManager;
 
@@ -33,7 +34,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     // System
     private TileManager tileManager = new TileManager(this);
-    private KeyHandler keyHandler = new KeyHandler();
+    private KeyHandler keyHandler = new KeyHandler(this);
     private Sound music = new Sound();
     private Sound soundEffect = new Sound();
     private CollisionChecker collisionChecker = new CollisionChecker(this);
@@ -47,7 +48,12 @@ public class GamePanel extends JPanel implements Runnable {
     private Player player = new Player(this, keyHandler);
     // TODO: Change number of objects
     // Nr. of max objects displayed
-    private SuperObject[] object = new SuperObject[10];
+    private SuperObject[] objects = new SuperObject[10];
+
+    // Game state
+    private int gameState;
+    private final int PLAY_STATE = 1;
+    private final int PAUSE_STATE = 2;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -62,14 +68,20 @@ public class GamePanel extends JPanel implements Runnable {
 
         // TODO: Uncomment this after level is done
         // playMusic(0);
+
+        gameState = PLAY_STATE;
     }
 
     public void setGameThread(Thread gameThread) {
         this.gameThread = gameThread;
     }
 
-    public SuperObject[] getObject() {
-        return object;
+    public void setGameState(int gameState) {
+        this.gameState = gameState;
+    }
+
+    public SuperObject[] getObjects() {
+        return objects;
     }
 
     public int getTILE_SIZE() {
@@ -108,13 +120,40 @@ public class GamePanel extends JPanel implements Runnable {
         return ui;
     }
 
+    public int getGameState() {
+        return gameState;
+    }
+
+    public int getPLAY_STATE() {
+        return PLAY_STATE;
+    }
+
+    public int getPAUSE_STATE() {
+        return PAUSE_STATE;
+    }
+
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
     }
 
     public void update() {
-        player.update();
+        if (gameState == PLAY_STATE) {
+            player.update();
+
+            for (SuperObject object : objects) {
+                if (object != null) {
+                    if (object instanceof ObjCarrot) {
+                        ((ObjCarrot) object).update();  // Call update on Carrot to possibly advance its stage
+                    }
+                }
+            }
+        }
+
+        // TODO: Do the pause
+        if (gameState == PAUSE_STATE) {
+
+        }
     }
 
     public void playMusic(int i) {
@@ -141,7 +180,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         tileManager.draw(graphics2D);
 
-        for (SuperObject superObject : object) {
+        for (SuperObject superObject : objects) {
             if (superObject != null) {
                 superObject.draw(graphics2D, this);
             }

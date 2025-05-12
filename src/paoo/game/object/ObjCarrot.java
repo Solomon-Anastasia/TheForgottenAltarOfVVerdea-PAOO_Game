@@ -2,28 +2,73 @@ package paoo.game.object;
 
 import paoo.game.panel.GamePanel;
 
-import javax.imageio.ImageIO;
-import java.io.IOException;
-import java.util.Objects;
+import java.awt.image.BufferedImage;
 
 public class ObjCarrot extends SuperObject {
-    private GamePanel gamePanel;
+    private BufferedImage[] stages;
+    private BufferedImage harvestedImage;
+    private int currentStage = 0;
+    private long lastUpdateTime;
+
+    // Waiting tipe for each stage
+    // TODO: Uncomment
+//    private static final long[] COOLDOWN_TIMES = {10_000, 10_000, 10_000, 10_000};
+    private static final long[] COOLDOWN_TIMES = {1_000, 1_000, 1_000, 1_000};
+    private boolean isHarvested = false;
+    private boolean isCollected = false;
 
     public ObjCarrot(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
-        name = "Carrot";
+        super(gamePanel);
+        this.name = "Carrot";
 
         try {
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/objects/carrot_05.png")));
-            utilityTool.scaleImage(image, this.gamePanel.getTILE_SIZE(), this.gamePanel.getTILE_SIZE());
-        } catch (IOException e) {
+            stages = new BufferedImage[5];
+            stages[0] = setup("carrot_01");
+            stages[1] = setup("carrot_02");
+            stages[2] = setup("carrot_03");
+            stages[3] = setup("carrot_04");
+            stages[4] = setup("carrot_05");
+
+            harvestedImage = setup("soil_03");
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        lastUpdateTime = System.currentTimeMillis();
+        collision = false;
+    }
 
-        collision = true;
-        setSize(16, 16);
+    public boolean isHarvested() {
+        return isHarvested;
+    }
 
-        // Match collision to the size of image
-        setSolidArea(0, 0, 16, 16);
+    public boolean isCollected() {
+        return isCollected;
+    }
+
+    public boolean isReadyForHarvest() {
+        return currentStage == 4;
+    }
+
+    public void collect() {
+        isCollected = true;
+    }
+
+    public void update() {
+        if (!isHarvested && currentStage < COOLDOWN_TIMES.length && System.currentTimeMillis() - lastUpdateTime > COOLDOWN_TIMES[currentStage]) {
+            if (currentStage < stages.length - 1) {
+                image = stages[currentStage];
+                currentStage++;
+
+                // Reset time
+                lastUpdateTime = System.currentTimeMillis();
+            }
+        }
+    }
+
+    public void harvest() {
+        if (isReadyForHarvest() && !isHarvested) {
+            isHarvested = true;
+            image = harvestedImage;
+        }
     }
 }

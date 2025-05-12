@@ -1,13 +1,13 @@
 package paoo.game.entity;
 
 import paoo.game.handler.KeyHandler;
+import paoo.game.object.ObjCarrot;
 import paoo.game.panel.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Player extends Entity {
-    GamePanel gamePanel;
     KeyHandler keyHandler;
 
     // Where we draw player
@@ -20,15 +20,9 @@ public class Player extends Entity {
 
     private boolean isMoving = false;
 
-    private BufferedImage upIdle1, upIdle2;
-    private BufferedImage downIdle1, downIdle2;
-    private BufferedImage leftIdle1, leftIdle2;
-    private BufferedImage rightIdle1, rightIdle2;
-
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         super(gamePanel);
 
-        this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
 
         // Halfway point
@@ -36,15 +30,14 @@ public class Player extends Entity {
         SCREEN_Y = gamePanel.getSCREEN_HEIGHT() / 2 - (gamePanel.getTILE_SIZE() / 2);
 
         // Collision for player
-        solidArea = new Rectangle();
-        solidArea.x = 13;
-        solidArea.y = 16;
+        solidArea.x = 18;
+        solidArea.y = 20;
 
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
 
-        solidArea.width = 22;
-        solidArea.height = 22;
+        solidArea.width = 10;
+        solidArea.height = 13;
 
         setDefaultValues();
         getPlayerImage();
@@ -125,48 +118,58 @@ public class Player extends Entity {
     // TODO: Set specific reaction for each object
     public void pickUpObject(int i) {
         if (i != -1) {
-            String objectName = gamePanel.getObject()[i].getName();
+            // TODO: Leave only necessary
+            String objectName = gamePanel.getObjects()[i].getName();
 
             // TODO: Add artefact object, etc
             switch (objectName) {
-                case "Artefact" -> {
-                    nrArtefacts++;
-
-                    // Object disappear (delete)
-                    gamePanel.getObject()[i] = null;
-                }
-
-                // TODO: Getting seeds from grandpa, after the dialogue
-                case "Seed" -> {
-                    gamePanel.getUi().showMessage("Carrot seed!");
-//                    if (Check dialogue ){
-//                        gamePanel.getObject()[i] = null;
-//                    }
-                }
                 case "Carrot" -> {
-                    // TODO: Add sound effects when carrot is picked up
-                    // TODO: Check carrot stage first, if it is ready to pick up, then increment
-                    gamePanel.getUi().showMessage("Carrot picked up!");
-                    nrArtefacts++;
-//                    gamePanel.playSE(number of sound);
+                    ObjCarrot carrot = (ObjCarrot) gamePanel.getObjects()[i];
 
-                }
-                case "Portal" -> {
-                    if (nrArtefacts > 0) {
-                        // TODO: Move to the next level
-                        nrArtefacts--;
+                    if (carrot.isHarvested() && !carrot.isCollected()) {
+                        gamePanel.getUi().showMessage("You harvested a carrot!");
+                        gamePanel.playSE(1);
+
+                        nrCarrots++;
+                        carrot.collect(); // Mark this carrot as collected
+                        System.out.println("CARROT NR. " + nrCarrots);
+                    } else if (carrot.isReadyForHarvest()) {
+                        carrot.harvest();
+                    } else {
+                        gamePanel.getUi().showMessage("The carrot is not ready to be harvested yet.");
                     }
                 }
-                case "Chest" -> {
-                    // TODO: Add sound for unlocking chest
-//                    gamePanel.playSE(numer of sound);
-                    gamePanel.getUi().showMessage("Chest will open after the task is done!");
-                    if (nrCarrots >= 5) {
-                        gamePanel.getUi().setGameFinished(true);
-                        gamePanel.stopMusic();
-//                        gamePanel.playSE(nr. of win first level);
-                    }
-                }
+
+//                case "Artefact" -> {
+//                    n`rArtefacts++;
+//
+//                    // Object disappear (delete)
+//                    gamePanel.getObject()[i] = null;
+//                }
+//
+//                // TODO: Getting seeds from grandpa, after the dialogue
+//                case "Seed" -> {
+//                    gamePanel.getUi().showMessage("Carrot seed!");
+////                    if (Check dialogue ){
+////                        gamePanel.getObject()[i] = null;
+////                    }
+//                }
+//                case "Portal" -> {
+//                    if (nrArtefacts > 0) {
+//                        // TODO: Move to the next level
+//                        nrArtefacts--;
+//                    }
+//                }
+//                case "Chest" -> {
+//                    // TODO: Add sound for unlocking chest
+////                    gamePanel.playSE(numer of sound);
+//                    gamePanel.getUi().showMessage("Chest will open after the task is done!");
+//                    if (nrCarrots >= 5) {
+//                        gamePanel.getUi().setGameFinished(true);
+//                        gamePanel.stopMusic();
+////                        gamePanel.playSE(nr. of win first level);
+//                    }
+//                }
             }
         }
     }
@@ -193,6 +196,11 @@ public class Player extends Entity {
         }
 
         graphics2D.drawImage(image, SCREEN_X, SCREEN_Y, null);
+
+        // Draw solid area for debug purposes
+        // TODO: Remove after game completion
+//        graphics2D.setColor(Color.RED);
+//        graphics2D.drawRect(getSCREEN_X() + solidArea.x, getSCREEN_Y() + solidArea.y, solidArea.width, solidArea.height);
     }
 
     private BufferedImage getBufferedImage(int frame, BufferedImage down1, BufferedImage down2, BufferedImage down3, BufferedImage down4, BufferedImage down5, BufferedImage down6) {
@@ -209,45 +217,45 @@ public class Player extends Entity {
 
     public void getPlayerImage() {
         // Walking animations
-        right1 = setup("player_right_1");
-        right2 = setup("player_right_2");
-        right3 = setup("player_right_3");
-        right4 = setup("player_right_4");
-        right5 = setup("player_right_5");
-        right6 = setup("player_right_6");
+        right1 = setup("/player/player_right_1");
+        right2 = setup("/player/player_right_2");
+        right3 = setup("/player/player_right_3");
+        right4 = setup("/player/player_right_4");
+        right5 = setup("/player/player_right_5");
+        right6 = setup("/player/player_right_6");
 
-        left1 = setup("player_left_1");
-        left2 = setup("player_left_2");
-        left3 = setup("player_left_3");
-        left4 = setup("player_left_4");
-        left5 = setup("player_left_5");
-        left6 = setup("player_left_6");
+        left1 = setup("/player/player_left_1");
+        left2 = setup("/player/player_left_2");
+        left3 = setup("/player/player_left_3");
+        left4 = setup("/player/player_left_4");
+        left5 = setup("/player/player_left_5");
+        left6 = setup("/player/player_left_6");
 
-        up1 = setup("player_up_1");
-        up2 = setup("player_up_2");
-        up3 = setup("player_up_3");
-        up4 = setup("player_up_4");
-        up5 = setup("player_up_5");
-        up6 = setup("player_up_6");
+        up1 = setup("/player/player_up_1");
+        up2 = setup("/player/player_up_2");
+        up3 = setup("/player/player_up_3");
+        up4 = setup("/player/player_up_4");
+        up5 = setup("/player/player_up_5");
+        up6 = setup("/player/player_up_6");
 
-        down1 = setup("player_down_1");
-        down2 = setup("player_down_2");
-        down3 = setup("player_down_3");
-        down4 = setup("player_down_4");
-        down5 = setup("player_down_5");
-        down6 = setup("player_down_6");
+        down1 = setup("/player/player_down_1");
+        down2 = setup("/player/player_down_2");
+        down3 = setup("/player/player_down_3");
+        down4 = setup("/player/player_down_4");
+        down5 = setup("/player/player_down_5");
+        down6 = setup("/player/player_down_6");
 
         // Idle animations
-        upIdle1 = setup("player_upIdle_1");
-        upIdle2 = setup("player_upIdle_2");
+        upIdle1 = setup("/player/player_upIdle_1");
+        upIdle2 = setup("/player/player_upIdle_2");
 
-        downIdle1 = setup("player_downIdle_1");
-        downIdle2 = setup("player_downIdle_2");
+        downIdle1 = setup("/player/player_downIdle_1");
+        downIdle2 = setup("/player/player_downIdle_2");
 
-        leftIdle1 = setup("player_leftIdle_1");
-        leftIdle2 = setup("player_leftIdle_2");
+        leftIdle1 = setup("/player/player_leftIdle_1");
+        leftIdle2 = setup("/player/player_leftIdle_2");
 
-        rightIdle1 = setup("player_rightIdle_1");
-        rightIdle2 = setup("player_rightIdle_2");
+        rightIdle1 = setup("/player/player_rightIdle_1");
+        rightIdle2 = setup("/player/player_rightIdle_2");
     }
 }

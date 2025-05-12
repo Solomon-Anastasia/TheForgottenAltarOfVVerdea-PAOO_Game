@@ -3,8 +3,11 @@ package paoo.game.object;
 import paoo.game.main.UtilityTool;
 import paoo.game.panel.GamePanel;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
 
 public class SuperObject {
     protected BufferedImage image;
@@ -23,6 +26,12 @@ public class SuperObject {
     protected int height = 16;
 
     protected UtilityTool utilityTool = new UtilityTool();
+
+    protected GamePanel gamePanel;
+
+    public SuperObject(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
+    }
 
     public void setWorldX(int worldX) {
         this.worldX = worldX;
@@ -63,24 +72,12 @@ public class SuperObject {
         return solidAreaDefaultY;
     }
 
-    public boolean isCollision() {
-        return collision;
-    }
-
     public String getName() {
         return name;
     }
 
-    public BufferedImage getImage() {
-        return image;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public int getWidth() {
-        return width;
+    public boolean isCollision() {
+        return collision;
     }
 
     public void draw(Graphics2D graphics2D, GamePanel gamePanel) {
@@ -95,5 +92,19 @@ public class SuperObject {
         ) {
             graphics2D.drawImage(image, screenX, screenY, width, height, null);
         }
+    }
+
+    public BufferedImage setup(String imageName) {
+        UtilityTool utilityTool = new UtilityTool();
+        BufferedImage image = null;
+
+        try {
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/objects/" + imageName + ".png")));
+            image = utilityTool.scaleImage(image, gamePanel.getTILE_SIZE(), gamePanel.getTILE_SIZE());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return image;
     }
 }

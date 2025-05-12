@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Entity {
-    private GamePanel gamePanel;
+    protected GamePanel gamePanel;
 
     protected int worldX;
     protected int worldY;
@@ -21,12 +21,17 @@ public class Entity {
     protected BufferedImage left1, left2, left3, left4, left5, left6;
     protected BufferedImage right1, right2, right3, right4, right5, right6;
 
+    protected BufferedImage upIdle1, upIdle2;
+    protected BufferedImage downIdle1, downIdle2;
+    protected BufferedImage leftIdle1, leftIdle2;
+    protected BufferedImage rightIdle1, rightIdle2;
+
     protected String direction;
 
     protected int spriteCounter = 0;
     protected int spriteNumber = 1;
 
-    protected Rectangle solidArea;
+    protected Rectangle solidArea = new Rectangle(0, 0,48, 48);
     protected int solidAreaDefaultX;
     protected int solidAreaDefaultY;
     protected boolean isCollisionOn = false;
@@ -72,7 +77,7 @@ public class Entity {
         BufferedImage image = null;
 
         try {
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/" + imageName + ".png")));
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream( imageName + ".png")));
             image = utilityTool.scaleImage(image, gamePanel.getTILE_SIZE(), gamePanel.getTILE_SIZE());
         } catch (IOException e) {
             System.out.println(e.getMessage());

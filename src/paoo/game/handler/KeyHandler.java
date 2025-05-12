@@ -1,13 +1,21 @@
 package paoo.game.handler;
 
+import paoo.game.panel.GamePanel;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
+    private GamePanel gamePanel;
+
     private boolean isUpPressed;
     private boolean isDownPressed;
     private boolean isLeftPressed;
     private boolean isRightPressed;
+
+    public KeyHandler(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
+    }
 
     public boolean isUpPressed() {
         return isUpPressed;
@@ -44,6 +52,13 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_D) {
             isRightPressed = true;
+        }
+        if (code == KeyEvent.VK_P) {
+            if (gamePanel.getGameState() == gamePanel.getPLAY_STATE()) {
+                gamePanel.setGameState(gamePanel.getPAUSE_STATE());
+            } else if (gamePanel.getGameState() == gamePanel.getPAUSE_STATE()) {
+                gamePanel.setGameState(gamePanel.getPLAY_STATE());
+            }
         }
     }
 

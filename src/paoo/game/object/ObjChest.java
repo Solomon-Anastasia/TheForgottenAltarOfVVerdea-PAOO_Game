@@ -7,10 +7,9 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class ObjChest extends SuperObject {
-    private GamePanel gamePanel;
 
     public ObjChest(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
+        super(gamePanel);
         name = "Chest";
 
         try {

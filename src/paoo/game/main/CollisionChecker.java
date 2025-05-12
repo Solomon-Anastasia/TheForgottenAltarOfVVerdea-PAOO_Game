@@ -86,23 +86,23 @@ public class CollisionChecker {
         // Suppose the player isn't touching any object
         int index = -1;
 
-        for (int i = 0; i < gamePanel.getObject().length; ++i) {
-            if (gamePanel.getObject()[i] != null) {
+        for (int i = 0; i < gamePanel.getObjects().length; ++i) {
+            if (gamePanel.getObjects()[i] != null) {
                 // Get entity's solid area position
                 entity.getSolidArea().x = entity.getWorldX() + entity.getSolidArea().x;
                 entity.getSolidArea().y = entity.getWorldY() + entity.getSolidArea().y;
 
                 // Get object's solid area position
-                gamePanel.getObject()[i].getSolidArea().x = gamePanel.getObject()[i].getWorldX() + gamePanel.getObject()[i].getSolidArea().x;
-                gamePanel.getObject()[i].getSolidArea().y = gamePanel.getObject()[i].getWorldY() + gamePanel.getObject()[i].getSolidArea().y;
+                gamePanel.getObjects()[i].getSolidArea().x = gamePanel.getObjects()[i].getWorldX() + gamePanel.getObjects()[i].getSolidArea().x;
+                gamePanel.getObjects()[i].getSolidArea().y = gamePanel.getObjects()[i].getWorldY() + gamePanel.getObjects()[i].getSolidArea().y;
 
                 switch (entity.getDirection()) {
                     case "up" -> {
                         entity.getSolidArea().y -= entity.getSpeed();
 
                         // Check if 2 rectangle intersects (for collision)
-                        if (entity.getSolidArea().intersects(gamePanel.getObject()[i].getSolidArea())) {
-                            if (gamePanel.getObject()[i].isCollision()) {
+                        if (entity.getSolidArea().intersects(gamePanel.getObjects()[i].getSolidArea())) {
+                            if (gamePanel.getObjects()[i].isCollision()) {
                                 entity.setCollisionOn(true);
                             }
 
@@ -116,8 +116,8 @@ public class CollisionChecker {
                         entity.getSolidArea().y += entity.getSpeed();
 
                         // Check if 2 rectangle intersects (for collision)
-                        if (entity.getSolidArea().intersects(gamePanel.getObject()[i].getSolidArea())) {
-                            if (gamePanel.getObject()[i].isCollision()) {
+                        if (entity.getSolidArea().intersects(gamePanel.getObjects()[i].getSolidArea())) {
+                            if (gamePanel.getObjects()[i].isCollision()) {
                                 entity.setCollisionOn(true);
                             }
 
@@ -131,8 +131,8 @@ public class CollisionChecker {
                         entity.getSolidArea().x -= entity.getSpeed();
 
                         // Check if 2 rectangle intersects (for collision)
-                        if (entity.getSolidArea().intersects(gamePanel.getObject()[i].getSolidArea())) {
-                            if (gamePanel.getObject()[i].isCollision()) {
+                        if (entity.getSolidArea().intersects(gamePanel.getObjects()[i].getSolidArea())) {
+                            if (gamePanel.getObjects()[i].isCollision()) {
                                 entity.setCollisionOn(true);
                             }
 
@@ -146,8 +146,8 @@ public class CollisionChecker {
                         entity.getSolidArea().x += entity.getSpeed();
 
                         // Check if 2 rectangle intersects (for collision)
-                        if (entity.getSolidArea().intersects(gamePanel.getObject()[i].getSolidArea())) {
-                            if (gamePanel.getObject()[i].isCollision()) {
+                        if (entity.getSolidArea().intersects(gamePanel.getObjects()[i].getSolidArea())) {
+                            if (gamePanel.getObjects()[i].isCollision()) {
                                 entity.setCollisionOn(true);
                             }
 
@@ -163,8 +163,8 @@ public class CollisionChecker {
                 entity.getSolidArea().x = entity.getSolidAreaDefaultX();
                 entity.getSolidArea().y = entity.getSolidAreaDefaultY();
 
-                gamePanel.getObject()[i].getSolidArea().x = gamePanel.getObject()[i].getSolidAreaDefaultX();
-                gamePanel.getObject()[i].getSolidArea().y = gamePanel.getObject()[i].getSolidAreaDefaultY();
+                gamePanel.getObjects()[i].getSolidArea().x = gamePanel.getObjects()[i].getSolidAreaDefaultX();
+                gamePanel.getObjects()[i].getSolidArea().y = gamePanel.getObjects()[i].getSolidAreaDefaultY();
             }
         }
 
