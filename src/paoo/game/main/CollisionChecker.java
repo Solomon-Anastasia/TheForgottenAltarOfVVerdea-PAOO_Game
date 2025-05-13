@@ -31,8 +31,8 @@ public class CollisionChecker {
                 entityTopRow = (entityTopWorldY - entity.getSpeed()) / gamePanel.getTILE_SIZE();
 
                 for (int i = 0; i < layers; ++i) {
-                    tileNum1 = gamePanel.getTileManager().getMapTileNumber()[i][entityLeftCol][entityTopRow];
-                    tileNum2 = gamePanel.getTileManager().getMapTileNumber()[i][entityRightCol][entityTopRow];
+                    tileNum1 = gamePanel.getTileManager().getMapTileNumber()[gamePanel.getCurrentMap()][i][entityLeftCol][entityTopRow];
+                    tileNum2 = gamePanel.getTileManager().getMapTileNumber()[gamePanel.getCurrentMap()][i][entityRightCol][entityTopRow];
 
                     if (gamePanel.getTileManager().getTile(tileNum1).isCollision() ||
                             gamePanel.getTileManager().getTile(tileNum2).isCollision()) {
@@ -44,8 +44,8 @@ public class CollisionChecker {
                 entityBottomRow = (entityBottomWorldY + entity.getSpeed()) / gamePanel.getTILE_SIZE();
 
                 for (int i = 0; i < layers; ++i) {
-                    tileNum1 = gamePanel.getTileManager().getMapTileNumber()[i][entityLeftCol][entityBottomRow];
-                    tileNum2 = gamePanel.getTileManager().getMapTileNumber()[i][entityRightCol][entityBottomRow];
+                    tileNum1 = gamePanel.getTileManager().getMapTileNumber()[gamePanel.getCurrentMap()][i][entityLeftCol][entityBottomRow];
+                    tileNum2 = gamePanel.getTileManager().getMapTileNumber()[gamePanel.getCurrentMap()][i][entityRightCol][entityBottomRow];
 
                     if (gamePanel.getTileManager().getTile(tileNum1).isCollision() ||
                             gamePanel.getTileManager().getTile(tileNum2).isCollision()) {
@@ -57,8 +57,8 @@ public class CollisionChecker {
                 entityLeftCol = (entityLeftWorldX - entity.getSpeed()) / gamePanel.getTILE_SIZE();
 
                 for (int i = 0; i < layers; ++i) {
-                    tileNum1 = gamePanel.getTileManager().getMapTileNumber()[i][entityLeftCol][entityTopRow];
-                    tileNum2 = gamePanel.getTileManager().getMapTileNumber()[i][entityLeftCol][entityBottomRow];
+                    tileNum1 = gamePanel.getTileManager().getMapTileNumber()[gamePanel.getCurrentMap()][i][entityLeftCol][entityTopRow];
+                    tileNum2 = gamePanel.getTileManager().getMapTileNumber()[gamePanel.getCurrentMap()][i][entityLeftCol][entityBottomRow];
 
                     if (gamePanel.getTileManager().getTile(tileNum1).isCollision() ||
                             gamePanel.getTileManager().getTile(tileNum2).isCollision()) {
@@ -70,8 +70,8 @@ public class CollisionChecker {
                 entityRightCol = (entityRightWorldX + entity.getSpeed()) / gamePanel.getTILE_SIZE();
 
                 for (int i = 0; i < layers; ++i) {
-                    tileNum1 = gamePanel.getTileManager().getMapTileNumber()[i][entityRightCol][entityTopRow];
-                    tileNum2 = gamePanel.getTileManager().getMapTileNumber()[i][entityRightCol][entityBottomRow];
+                    tileNum1 = gamePanel.getTileManager().getMapTileNumber()[gamePanel.getCurrentMap()][i][entityRightCol][entityTopRow];
+                    tileNum2 = gamePanel.getTileManager().getMapTileNumber()[gamePanel.getCurrentMap()][i][entityRightCol][entityBottomRow];
 
                     if (gamePanel.getTileManager().getTile(tileNum1).isCollision() ||
                             gamePanel.getTileManager().getTile(tileNum2).isCollision()) {

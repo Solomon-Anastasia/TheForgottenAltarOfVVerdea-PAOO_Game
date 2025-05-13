@@ -13,6 +13,8 @@ public class KeyHandler implements KeyListener {
     private boolean isLeftPressed;
     private boolean isRightPressed;
 
+    private boolean isLevel2;
+
     public KeyHandler(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
@@ -32,6 +34,8 @@ public class KeyHandler implements KeyListener {
     public boolean isRightPressed() {
         return isRightPressed;
     }
+
+    public boolean isLevel2(){ return isLevel2;}
 
     @Override
     public void keyTyped(KeyEvent e) { // Won't be used
@@ -60,6 +64,9 @@ public class KeyHandler implements KeyListener {
                 gamePanel.setGameState(gamePanel.getPLAY_STATE());
             }
         }
+        if(code == KeyEvent.VK_2) {
+            isLevel2 = true;
+        }
     }
 
     @Override
@@ -77,6 +84,9 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_D) {
             isRightPressed = false;
+        }
+        if(code == KeyEvent.VK_2) {
+            isLevel2 = false;
         }
     }
 }

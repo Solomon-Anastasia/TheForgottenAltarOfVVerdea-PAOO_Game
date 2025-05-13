@@ -64,6 +64,11 @@ public class Player extends Entity {
         direction = "down";
     }
 
+    public void setDefaultPosition(int tileX, int tileY) {
+        worldX = tileX * gamePanel.getTILE_SIZE();
+        worldY = tileY * gamePanel.getTILE_SIZE();
+    }
+
     public void update() {
         isMoving = keyHandler.isUpPressed() || keyHandler.isDownPressed() || keyHandler.isRightPressed() || keyHandler.isLeftPressed();
 

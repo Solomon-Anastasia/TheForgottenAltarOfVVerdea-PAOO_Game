@@ -28,6 +28,8 @@ public class GamePanel extends JPanel implements Runnable {
     // TODO: Change based of final map1
     private final int MAX_WORLD_COLUMN = 81;
     private final int MAX_WORLD_ROW = 44;
+    private final int maxMap = 3;
+    private int currentMap = 0;
 
     // FPS
     private final int FPS = 60;
@@ -132,6 +134,10 @@ public class GamePanel extends JPanel implements Runnable {
         return PAUSE_STATE;
     }
 
+    public int getCurrentMap(){return currentMap;}
+
+    public int getMaxMap(){return maxMap;}
+
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
@@ -146,6 +152,14 @@ public class GamePanel extends JPanel implements Runnable {
                     if (object instanceof ObjCarrot) {
                         ((ObjCarrot) object).update();  // Call update on Carrot to possibly advance its stage
                     }
+                }
+            }
+
+            if (keyHandler.isLevel2()) {
+                if (currentMap != 1) {
+                    currentMap = 1;
+                    assetSetter.setObject();
+                    player.setDefaultPosition(24, 25);
                 }
             }
         }
