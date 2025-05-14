@@ -1,5 +1,6 @@
 package paoo.game.panel;
 
+import paoo.game.entity.Entity;
 import paoo.game.entity.Player;
 import paoo.game.handler.KeyHandler;
 import paoo.game.main.AssetSetter;
@@ -28,7 +29,7 @@ public class GamePanel extends JPanel implements Runnable {
     // TODO: Change based of final map1
     private final int MAX_WORLD_COLUMN = 96;
     private final int MAX_WORLD_ROW = 90;
-    private final int maxMap = 3;
+    private final int MAX_MAP = 3;
     private int currentMap = 0;
 
     // FPS
@@ -51,11 +52,13 @@ public class GamePanel extends JPanel implements Runnable {
     // TODO: Change number of objects
     // Nr. of max objects displayed
     private SuperObject[] objects = new SuperObject[10];
+    private Entity[] npc = new Entity[10];
 
     // Game state
     private int gameState;
     private final int PLAY_STATE = 1;
     private final int PAUSE_STATE = 2;
+    private final int DIALOG_STATE = 3;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -67,9 +70,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void setupGame() {
         assetSetter.setObject();
+        assetSetter.setNpc();
 
         // TODO: Uncomment this after level is done
-        // playMusic(0);
+//         playMusic(0);
 
         gameState = PLAY_STATE;
     }
@@ -136,7 +140,19 @@ public class GamePanel extends JPanel implements Runnable {
 
     public int getCurrentMap(){return currentMap;}
 
-    public int getMaxMap(){return maxMap;}
+    public int getMAX_MAP(){return MAX_MAP;}
+
+    public int getDIALOG_STATE() {
+        return DIALOG_STATE;
+    }
+
+    public Entity[] getNpc() {
+        return npc;
+    }
+
+    public KeyHandler getKeyHandler() {
+        return keyHandler;
+    }
 
     public void startGameThread() {
         gameThread = new Thread(this);
@@ -145,8 +161,17 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
         if (gameState == PLAY_STATE) {
+            // Player
             player.update();
 
+            // NPCs
+            for (Entity entity : npc) {
+                if (entity != null) {
+                    entity.update();
+                }
+            }
+
+            // Objects
             for (SuperObject object : objects) {
                 if (object != null) {
                     if (object instanceof ObjCarrot) {
@@ -194,9 +219,17 @@ public class GamePanel extends JPanel implements Runnable {
 
         tileManager.draw(graphics2D);
 
+        // Objects
         for (SuperObject superObject : objects) {
             if (superObject != null) {
                 superObject.draw(graphics2D, this);
+            }
+        }
+
+        // NPCs
+        for (Entity entity : npc) {
+            if (entity != null) {
+                entity.draw(graphics2D);
             }
         }
 

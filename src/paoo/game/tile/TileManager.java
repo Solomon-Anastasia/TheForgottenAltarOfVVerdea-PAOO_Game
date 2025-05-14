@@ -23,7 +23,7 @@ public class TileManager {
     public TileManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         tiles = new Tile[3336]; // Array of different tiles type
-        mapTileNumber = new int[gamePanel.getMaxMap()][2][gamePanel.getMAX_WORLD_COLUMN()][gamePanel.getMAX_WORLD_ROW()];
+        mapTileNumber = new int[gamePanel.getMAX_MAP()][2][gamePanel.getMAX_WORLD_COLUMN()][gamePanel.getMAX_WORLD_ROW()];
 
         getTileImage();
         loadMap(new String[]{"/maps/Map1.txt", "/maps/Map1_Objects.txt"}, 0);

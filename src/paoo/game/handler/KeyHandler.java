@@ -13,6 +13,8 @@ public class KeyHandler implements KeyListener {
     private boolean isLeftPressed;
     private boolean isRightPressed;
 
+    private boolean isEnterPressed = false;
+
     private boolean isLevel2;
 
     public KeyHandler(GamePanel gamePanel) {
@@ -35,7 +37,15 @@ public class KeyHandler implements KeyListener {
         return isRightPressed;
     }
 
+    public boolean isEnterPressed() {
+        return isEnterPressed;
+    }
+
     public boolean isLevel2(){ return isLevel2;}
+
+    public void setEnterPressed(boolean enterPressed) {
+        isEnterPressed = enterPressed;
+    }
 
     @Override
     public void keyTyped(KeyEvent e) { // Won't be used
@@ -45,27 +55,41 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
-        if (code == KeyEvent.VK_W) {
-            isUpPressed = true;
-        }
-        if (code == KeyEvent.VK_S) {
-            isDownPressed = true;
-        }
-        if (code == KeyEvent.VK_A) {
-            isLeftPressed = true;
-        }
-        if (code == KeyEvent.VK_D) {
-            isRightPressed = true;
-        }
-        if (code == KeyEvent.VK_P) {
-            if (gamePanel.getGameState() == gamePanel.getPLAY_STATE()) {
+        // Play state
+        if (gamePanel.getGameState() == gamePanel.getPLAY_STATE()) {
+            if (code == KeyEvent.VK_W) {
+                isUpPressed = true;
+            }
+            if (code == KeyEvent.VK_S) {
+                isDownPressed = true;
+            }
+            if (code == KeyEvent.VK_A) {
+                isLeftPressed = true;
+            }
+            if (code == KeyEvent.VK_D) {
+                isRightPressed = true;
+            }
+            if (code == KeyEvent.VK_P) {
                 gamePanel.setGameState(gamePanel.getPAUSE_STATE());
-            } else if (gamePanel.getGameState() == gamePanel.getPAUSE_STATE()) {
+            }
+            if (code == KeyEvent.VK_ENTER) {
+                isEnterPressed = true;
+            }
+            if (code == KeyEvent.VK_2) {
+                isLevel2 = true;
+            }
+        }
+        // Pause state
+        else if (gamePanel.getGameState() == gamePanel.getPAUSE_STATE()) {
+            if (code == KeyEvent.VK_P) {
                 gamePanel.setGameState(gamePanel.getPLAY_STATE());
             }
         }
-        if(code == KeyEvent.VK_2) {
-            isLevel2 = true;
+        // Dialogue state
+        else if (gamePanel.getGameState() == gamePanel.getDIALOG_STATE()) {
+            if (code == KeyEvent.VK_ENTER) {
+                 gamePanel.setGameState(gamePanel.getPLAY_STATE());
+            }
         }
     }
 

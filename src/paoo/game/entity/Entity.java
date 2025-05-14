@@ -16,6 +16,10 @@ public class Entity {
     protected int worldY;
     protected int speed;
 
+    // Default size
+    protected int width;
+    protected int height;
+
     protected BufferedImage up1, up2, up3, up4, up5, up6;
     protected BufferedImage down1, down2, down3, down4, down5, down6;
     protected BufferedImage left1, left2, left3, left4, left5, left6;
@@ -31,13 +35,21 @@ public class Entity {
     protected int spriteCounter = 0;
     protected int spriteNumber = 1;
 
-    protected Rectangle solidArea = new Rectangle(0, 0,48, 48);
+    protected Rectangle solidArea = new Rectangle(0, 0, 48, 48);
     protected int solidAreaDefaultX;
     protected int solidAreaDefaultY;
     protected boolean isCollisionOn = false;
 
+    protected int actionLockCounter = 0;
+
+    protected String[] dialogues = new String[20];
+    protected int dialogueIndex = 0;
+
     public Entity(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
+
+        width = gamePanel.getTILE_SIZE();
+        height = gamePanel.getHeight();
     }
 
     public int getWorldX() {
@@ -60,10 +72,6 @@ public class Entity {
         return speed;
     }
 
-    public void setCollisionOn(boolean collisionOn) {
-        isCollisionOn = collisionOn;
-    }
-
     public int getSolidAreaDefaultX() {
         return solidAreaDefaultX;
     }
@@ -72,12 +80,103 @@ public class Entity {
         return solidAreaDefaultY;
     }
 
-    public BufferedImage setup(String imageName) {
+    public void setCollisionOn(boolean collisionOn) {
+        isCollisionOn = collisionOn;
+    }
+
+    public void setWorldX(int worldX) {
+        this.worldX = worldX;
+    }
+
+    public void setWorldY(int worldY) {
+        this.worldY = worldY;
+    }
+
+    public void setAction() {
+
+    }
+
+    public void update() {
+        setAction();
+
+        isCollisionOn = false;
+        gamePanel.getCollisionChecker().checkTile(this);
+        gamePanel.getCollisionChecker().checkObject(this, false);
+        gamePanel.getCollisionChecker().checkPlayer(this);
+
+        // If collision is false, entity can move
+        if (!isCollisionOn) {
+            switch (direction) {
+                case "up" -> worldY -= speed;
+                case "down" -> worldY += speed;
+                case "left" -> worldX -= speed;
+                case "right" -> worldX += speed;
+            }
+        }
+
+        spriteCounter++;
+        if (spriteCounter > 4) {
+            switch (spriteNumber) {
+                case 1 -> spriteNumber = 2;
+                case 2 -> spriteNumber = 3;
+                case 3 -> spriteNumber = 4;
+                case 4 -> spriteNumber = 1;
+            }
+            spriteCounter = 0;
+        }
+    }
+
+    public void draw(Graphics2D graphics2D) {
+        BufferedImage image = null;
+        int screenX = worldX - gamePanel.getPlayer().getWorldX() + gamePanel.getPlayer().getSCREEN_X();
+        int screenY = worldY - gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getSCREEN_Y();
+
+        // Boundary (so not all map is loaded because it's not needed => save memory)
+        if (worldX + gamePanel.getTILE_SIZE() > gamePanel.getPlayer().getWorldX() - gamePanel.getPlayer().getSCREEN_X()
+                && worldX - gamePanel.getTILE_SIZE() < gamePanel.getPlayer().getWorldX() + gamePanel.getPlayer().getSCREEN_X()
+                && worldY + gamePanel.getTILE_SIZE() > gamePanel.getPlayer().getWorldY() - gamePanel.getPlayer().getSCREEN_Y()
+                && worldY - gamePanel.getTILE_SIZE() < gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getSCREEN_Y()
+        ) {
+            switch (direction) {
+                case "up" -> image = getBufferedImage(spriteNumber, up1, up2, up3, up4);
+                case "down" -> image = getBufferedImage(spriteNumber, down1, down2, down3, down4);
+                case "left" -> image = getBufferedImage(spriteNumber, left1, left2, left3, left4);
+                case "right" -> image = getBufferedImage(spriteNumber, right1, right2, right3, right4);
+            }
+            graphics2D.drawImage(image, screenX, screenY, width, height, null);
+        }
+    }
+
+    public void speak() {
+        if (dialogues[dialogueIndex] == null) {
+            dialogueIndex = 0;
+        }
+        gamePanel.getUi().setCurrentDialogue(dialogues[dialogueIndex]);
+        dialogueIndex++;
+
+        switch (gamePanel.getPlayer().direction) {
+            case "up" -> direction = "down";
+            case "down" -> direction = "up";
+            case "left" -> direction = "right";
+            case "right" -> direction = "left";
+        }
+    }
+
+    protected BufferedImage getBufferedImage(int frame, BufferedImage frame1, BufferedImage frame2, BufferedImage frame3, BufferedImage frame4) {
+        return switch (frame) {
+            case 2 -> frame2;
+            case 3 -> frame3;
+            case 4 -> frame4;
+            default -> frame1;
+        };
+    }
+
+    public BufferedImage setup(String imagePath) {
         UtilityTool utilityTool = new UtilityTool();
         BufferedImage image = null;
 
         try {
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream( imageName + ".png")));
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imagePath + ".png")));
             image = utilityTool.scaleImage(image, gamePanel.getTILE_SIZE(), gamePanel.getTILE_SIZE());
         } catch (IOException e) {
             System.out.println(e.getMessage());

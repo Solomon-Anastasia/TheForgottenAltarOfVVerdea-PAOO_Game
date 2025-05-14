@@ -4,7 +4,6 @@ import paoo.game.object.ObjCarrot;
 import paoo.game.panel.GamePanel;
 
 import java.awt.*;
-import java.text.DecimalFormat;
 
 public class UI {
     private GamePanel gamePanel;
@@ -19,8 +18,11 @@ public class UI {
 
     private boolean isGameFinished = false;
 
-    private double playTime;
-    private DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+    private String currentDialogue;
+
+    // TODO: Don't forget to add time back
+//    private double playTime;
+//    private DecimalFormat decimalFormat = new DecimalFormat("#0.00");
 
     public UI(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -28,6 +30,10 @@ public class UI {
         arial25 = new Font("Arial", Font.BOLD, 25);
 
         carrot = new ObjCarrot(gamePanel);
+    }
+
+    public void setCurrentDialogue(String currentDialogue) {
+        this.currentDialogue = currentDialogue;
     }
 
     public void setGameFinished(boolean gameFinished) {
@@ -50,6 +56,9 @@ public class UI {
         }
         if (gamePanel.getGameState() == gamePanel.getPAUSE_STATE()) {
             drawPauseScreen();
+        }
+        if (gamePanel.getGameState() == gamePanel.getDIALOG_STATE()) {
+            drawDialogScreen();
         }
 
         // TODO: ADD later only necessary
@@ -87,18 +96,18 @@ public class UI {
 //            playTime += (double) 1 / 60;
 //            g2.drawString("Time: " + decimalFormat.format(playTime), gamePanel.getTILE_SIZE() * 13, gamePanel.getTILE_SIZE());
 //
-            // Message
-            if (messageOn) {
-                // TODO: Pick place for message
-                g2.setFont(g2.getFont().deriveFont(20F));
-                g2.drawString(message, gamePanel.getTILE_SIZE() * 5, gamePanel.getTILE_SIZE() * 5);
+        // Message
+        if (messageOn) {
+            // TODO: Pick place for message
+            g2.setFont(g2.getFont().deriveFont(20F));
+            g2.drawString(message, gamePanel.getTILE_SIZE() * 5, gamePanel.getTILE_SIZE() * 5);
 
-                messageCounter++;
-                if (messageCounter > 120) {
-                    messageCounter = 0;
-                    messageOn = false;
-                }
+            messageCounter++;
+            if (messageCounter > 120) {
+                messageCounter = 0;
+                messageOn = false;
             }
+        }
 //        }
     }
 
@@ -109,6 +118,37 @@ public class UI {
         int x = getXCenteredText(text);
         int y = gamePanel.getSCREEN_HEIGHT() / 2;
         g2.drawString(text, x, y);
+    }
+
+    public void drawDialogScreen() {
+        // Window
+        int x = gamePanel.getTILE_SIZE() * 2;
+        int y = gamePanel.getTILE_SIZE() / 2;
+        int width = gamePanel.getSCREEN_WIDTH() - (gamePanel.getTILE_SIZE() * 4);
+        int height = gamePanel.getTILE_SIZE() * 4;
+
+        drawSubWindow(x, y, width, height);
+
+        x += gamePanel.getTILE_SIZE();
+        y += gamePanel.getTILE_SIZE();
+
+        for (String line: currentDialogue.split("\n")) {
+            g2.drawString(line, x, y);
+            y += 35;
+        }
+    }
+
+    public void drawSubWindow(int x, int y, int width, int height) {
+        // New color
+        Color color = new Color(0, 0, 0, 210);
+
+        g2.setColor(color);
+        g2.fillRoundRect(x, y, width, height, 35, 35);
+
+        color = new Color(255, 255, 255);
+        g2.setColor(color);
+        g2.setStroke(new BasicStroke(5));
+        g2.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
     }
 
     public int getXCenteredText(String text) {

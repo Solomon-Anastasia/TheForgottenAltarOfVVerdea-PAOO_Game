@@ -1,5 +1,6 @@
 package paoo.game.main;
 
+import paoo.game.entity.Grandpa;
 import paoo.game.object.ObjCarrot;
 import paoo.game.object.ObjChest;
 import paoo.game.panel.GamePanel;
@@ -25,10 +26,15 @@ public class AssetSetter {
         gamePanel.getObjects()[1].setWorldY(26 * gamePanel.getTILE_SIZE());
 
         // TODO: Modify if needed
-//        // Seed
+        // Seed
 //        gamePanel.getObject()[1] = new ObjSeed(gamePanel);
 //        gamePanel.getObject()[1].setWorldX(46 * gamePanel.getTILE_SIZE());
 //        gamePanel.getObject()[1].setWorldY(26 * gamePanel.getTILE_SIZE());
+    }
 
+    public void setNpc() {
+        gamePanel.getNpc()[0] = new Grandpa(gamePanel);
+        gamePanel.getNpc()[0].setWorldX(gamePanel.getTILE_SIZE() * 37); // Start column
+        gamePanel.getNpc()[0].setWorldY(gamePanel.getTILE_SIZE() * 25); // Start line
     }
 }

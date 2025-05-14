@@ -93,6 +93,10 @@ public class Player extends Entity {
             // Based of index, determine payer interaction with it
             pickUpObject(objectIndex);
 
+            // Check NPC collision
+            int npcIndex = gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getNpc());
+            interactNpc(npcIndex);
+
             // If collision is false, player can move
             if (!isCollisionOn) {
                 switch (direction) {
@@ -179,6 +183,16 @@ public class Player extends Entity {
         }
     }
 
+    public void interactNpc(int i) {
+        if (i != -1) {
+            if (gamePanel.getKeyHandler().isEnterPressed()) {
+                gamePanel.setGameState(gamePanel.getDIALOG_STATE());
+                gamePanel.getNpc()[i].speak();
+            }
+        }
+        gamePanel.getKeyHandler().setEnterPressed(false);
+    }
+
     public void draw(Graphics2D graphics2D) {
         BufferedImage image = null;
 
@@ -208,9 +222,8 @@ public class Player extends Entity {
 //        graphics2D.drawRect(getSCREEN_X() + solidArea.x, getSCREEN_Y() + solidArea.y, solidArea.width, solidArea.height);
     }
 
-    private BufferedImage getBufferedImage(int frame, BufferedImage down1, BufferedImage down2, BufferedImage down3, BufferedImage down4, BufferedImage down5, BufferedImage down6) {
+    protected BufferedImage getBufferedImage(int frame, BufferedImage down1, BufferedImage down2, BufferedImage down3, BufferedImage down4, BufferedImage down5, BufferedImage down6) {
         return switch (frame) {
-            case 1 -> down1;
             case 2 -> down2;
             case 3 -> down3;
             case 4 -> down4;
