@@ -26,8 +26,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     // World settings
     // TODO: Change based of final map1
-    private final int MAX_WORLD_COLUMN = 81;
-    private final int MAX_WORLD_ROW = 44;
+    private final int MAX_WORLD_COLUMN = 96;
+    private final int MAX_WORLD_ROW = 51;
     private final int maxMap = 3;
     private int currentMap = 0;
 
