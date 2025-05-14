@@ -27,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable {
     // World settings
     // TODO: Change based of final map1
     private final int MAX_WORLD_COLUMN = 96;
-    private final int MAX_WORLD_ROW = 51;
+    private final int MAX_WORLD_ROW = 90;
     private final int maxMap = 3;
     private int currentMap = 0;
 
@@ -159,7 +159,7 @@ public class GamePanel extends JPanel implements Runnable {
                 if (currentMap != 1) {
                     currentMap = 1;
                     assetSetter.setObject();
-                    player.setDefaultPosition(24, 25);
+                    player.setDefaultPosition(30, 30);
                 }
             }
         }
