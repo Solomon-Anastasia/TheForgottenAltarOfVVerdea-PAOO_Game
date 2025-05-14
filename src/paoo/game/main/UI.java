@@ -3,7 +3,11 @@ package paoo.game.main;
 import paoo.game.object.ObjCarrot;
 import paoo.game.panel.GamePanel;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
 
 public class UI {
     private GamePanel gamePanel;
@@ -19,6 +23,7 @@ public class UI {
     private boolean isGameFinished = false;
 
     private String currentDialogue;
+    private int commandNum = 0;
 
     // TODO: Don't forget to add time back
 //    private double playTime;
@@ -30,6 +35,14 @@ public class UI {
         arial25 = new Font("Arial", Font.BOLD, 25);
 
         carrot = new ObjCarrot(gamePanel);
+    }
+
+    public int getCommandNum() {
+        return commandNum;
+    }
+
+    public void setCommandNum(int commandNum) {
+        this.commandNum = commandNum;
     }
 
     public void setCurrentDialogue(String currentDialogue) {
@@ -51,6 +64,9 @@ public class UI {
         g2.setFont(arial20);
         g2.setColor(Color.WHITE);
 
+        if (gamePanel.getGameState() == gamePanel.getTITLE_STATE()) {
+            drawTitleScreen();
+        }
         if (gamePanel.getGameState() == gamePanel.getPLAY_STATE()) {
             // Do play state
         }
@@ -60,6 +76,7 @@ public class UI {
         if (gamePanel.getGameState() == gamePanel.getDIALOG_STATE()) {
             drawDialogScreen();
         }
+
 
         // TODO: ADD later only necessary
 //        if (isGameFinished) {
@@ -111,6 +128,53 @@ public class UI {
 //        }
     }
 
+    private BufferedImage loadImage(String path) {
+        try {
+            return ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(path)));
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    public void drawTitleScreen() {
+        // Title image + name
+        BufferedImage menuImage = loadImage("/Titles/TitleScreen.png");
+        g2.drawImage(menuImage, 0, 0, gamePanel.getSCREEN_WIDTH(), gamePanel.getSCREEN_HEIGHT(), null);
+
+        g2.setColor(new Color(0, 0, 0, 210));
+        g2.fillRect(0, 0, gamePanel.getSCREEN_WIDTH(), gamePanel.getSCREEN_HEIGHT());
+
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+        String text = "The Forgotten Altar of Verdea";
+        int x = getXCenteredText(text);
+        int y = gamePanel.getTILE_SIZE() * 2;
+
+        // Shadow
+        g2.setColor(Color.GRAY);
+        g2.drawString(text, x + 2, y + 2);
+
+        // Main color
+        g2.setColor(Color.WHITE);
+        g2.drawString(text, x, y);
+
+        // Menu
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 25F));
+
+        // Menu options
+        String[] options = {"New Game", "Load Game", "Exit"};
+        y += gamePanel.getTILE_SIZE() * 2;
+        for (int i = 0; i < options.length; i++) {
+            x = getXCenteredText(options[i]);
+            y += gamePanel.getTILE_SIZE();
+
+            g2.drawString(options[i], x, y);
+            if (commandNum == i) {
+                g2.drawString(">", x - gamePanel.getTILE_SIZE() / 2, y);
+            }
+        }
+    }
+
     public void drawPauseScreen() {
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
 
@@ -132,7 +196,7 @@ public class UI {
         x += gamePanel.getTILE_SIZE();
         y += gamePanel.getTILE_SIZE();
 
-        for (String line: currentDialogue.split("\n")) {
+        for (String line : currentDialogue.split("\n")) {
             g2.drawString(line, x, y);
             y += 35;
         }

@@ -56,6 +56,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     // Game state
     private int gameState;
+    private final int TITLE_STATE = 0;
     private final int PLAY_STATE = 1;
     private final int PAUSE_STATE = 2;
     private final int DIALOG_STATE = 3;
@@ -72,10 +73,7 @@ public class GamePanel extends JPanel implements Runnable {
         assetSetter.setObject();
         assetSetter.setNpc();
 
-        // TODO: Uncomment this after level is done
-//         playMusic(0);
-
-        gameState = PLAY_STATE;
+        gameState = TITLE_STATE;
     }
 
     public void setGameThread(Thread gameThread) {
@@ -144,6 +142,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     public int getDIALOG_STATE() {
         return DIALOG_STATE;
+    }
+
+    public int getTITLE_STATE() {
+        return TITLE_STATE;
     }
 
     public Entity[] getNpc() {
@@ -217,25 +219,34 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D graphics2D = (Graphics2D) graphics;
 
-        tileManager.draw(graphics2D);
-
-        // Objects
-        for (SuperObject superObject : objects) {
-            if (superObject != null) {
-                superObject.draw(graphics2D, this);
-            }
+        // Title screen
+        if (gameState == TITLE_STATE) {
+            ui.draw(graphics2D);
         }
+        // Others
+        else {
+            // Tile
+            tileManager.draw(graphics2D);
 
-        // NPCs
-        for (Entity entity : npc) {
-            if (entity != null) {
-                entity.draw(graphics2D);
+            // Objects
+            for (SuperObject superObject : objects) {
+                if (superObject != null) {
+                    superObject.draw(graphics2D, this);
+                }
             }
+
+            // NPCs
+            for (Entity entity : npc) {
+                if (entity != null) {
+                    entity.draw(graphics2D);
+                }
+            }
+
+            // Player
+            player.draw(graphics2D);
+
+            ui.draw(graphics2D);
         }
-
-        player.draw(graphics2D);
-        ui.draw(graphics2D);
-
         graphics2D.dispose(); // Save some memory
     }
 

@@ -12,7 +12,6 @@ public class KeyHandler implements KeyListener {
     private boolean isDownPressed;
     private boolean isLeftPressed;
     private boolean isRightPressed;
-
     private boolean isEnterPressed = false;
 
     private boolean isLevel2;
@@ -41,7 +40,9 @@ public class KeyHandler implements KeyListener {
         return isEnterPressed;
     }
 
-    public boolean isLevel2(){ return isLevel2;}
+    public boolean isLevel2() {
+        return isLevel2;
+    }
 
     public void setEnterPressed(boolean enterPressed) {
         isEnterPressed = enterPressed;
@@ -55,8 +56,40 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
+        // Title state
+        if (gamePanel.getGameState() == gamePanel.getTITLE_STATE()) {
+            if (code == KeyEvent.VK_W) {
+                gamePanel.getUi().setCommandNum(gamePanel.getUi().getCommandNum() - 1);
+
+                if (gamePanel.getUi().getCommandNum() < 0) {
+                    gamePanel.getUi().setCommandNum(2);
+                }
+            }
+            if (code == KeyEvent.VK_S) {
+                gamePanel.getUi().setCommandNum(gamePanel.getUi().getCommandNum() + 1);
+
+                if (gamePanel.getUi().getCommandNum() > 2) {
+                    gamePanel.getUi().setCommandNum(0);
+                }
+            }
+
+            if (code == KeyEvent.VK_ENTER) {
+                switch (gamePanel.getUi().getCommandNum()) {
+                    case 0 -> {
+                        gamePanel.setGameState(gamePanel.getPLAY_STATE());
+                        gamePanel.playMusic(0);
+                    }
+                    case 1 -> {
+                        // TODO: Add load from database
+                    }
+                    case 2 -> {
+                        System.exit(0);
+                    }
+                }
+            }
+        }
         // Play state
-        if (gamePanel.getGameState() == gamePanel.getPLAY_STATE()) {
+        else if (gamePanel.getGameState() == gamePanel.getPLAY_STATE()) {
             if (code == KeyEvent.VK_W) {
                 isUpPressed = true;
             }
@@ -88,7 +121,7 @@ public class KeyHandler implements KeyListener {
         // Dialogue state
         else if (gamePanel.getGameState() == gamePanel.getDIALOG_STATE()) {
             if (code == KeyEvent.VK_ENTER) {
-                 gamePanel.setGameState(gamePanel.getPLAY_STATE());
+                gamePanel.setGameState(gamePanel.getPLAY_STATE());
             }
         }
     }
@@ -109,7 +142,7 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_D) {
             isRightPressed = false;
         }
-        if(code == KeyEvent.VK_2) {
+        if (code == KeyEvent.VK_2) {
             isLevel2 = false;
         }
     }
