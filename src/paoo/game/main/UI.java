@@ -164,7 +164,7 @@ public class UI {
         // Menu options
         String[] options = {"New Game", "Load Game", "Exit"};
         y += gamePanel.getTILE_SIZE() * 2;
-        for (int i = 0; i < options.length; i++) {
+        for (int i = 0; i < options.length; ++i) {
             x = getXCenteredText(options[i]);
             y += gamePanel.getTILE_SIZE();
 

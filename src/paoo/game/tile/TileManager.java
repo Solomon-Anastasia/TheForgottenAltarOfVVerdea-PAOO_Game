@@ -27,7 +27,7 @@ public class TileManager {
 
         getTileImage();
         loadMap(new String[]{"/maps/Map1.txt", "/maps/Map1_Objects.txt"}, 0);
-        loadMap(new String[]{"/maps/Map2.txt","/maps/Map2_Objects.txt"}, 1);
+        loadMap(new String[]{"/maps/Map2.txt", "/maps/Map2_Objects.txt"}, 1);
     }
 
     public int[][][][] getMapTileNumber() {
@@ -196,37 +196,36 @@ public class TileManager {
 
     // CAMERA
     public void draw(Graphics2D graphics2D) {
-        for (int row = 0; row < gamePanel.getMAX_WORLD_ROW(); row++) {
-            for (int col = 0; col < gamePanel.getMAX_WORLD_COLUMN(); col++) {
-                int tileNum = mapTileNumber[gamePanel.getCurrentMap()][0][col][row];
-                if (tileNum >= 0 && tileNum < tiles.length) {
-                    Tile tile = tiles[tileNum];
-                    if (tile != null && tile.image != null) {
-                        int worldX = col * gamePanel.getTILE_SIZE();
-                        int worldY = row * gamePanel.getTILE_SIZE();
-                        int screenX = worldX - gamePanel.getPlayer().getWorldX() + gamePanel.getPlayer().getSCREEN_X();
-                        int screenY = worldY - gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getSCREEN_Y();
-                        graphics2D.drawImage(tile.image, screenX, screenY, gamePanel.getTILE_SIZE(), gamePanel.getTILE_SIZE(), null);
-                    }
-                }
-            }
-        }
-        for (int row = 0; row < gamePanel.getMAX_WORLD_ROW(); row++) {
-            for (int col = 0; col < gamePanel.getMAX_WORLD_COLUMN(); col++) {
-                int tileNum = mapTileNumber[gamePanel.getCurrentMap()][1][col][row];  // Layer 0
-                if (tileNum >= 0 && tileNum < tiles.length) {
-                    Tile tile = tiles[tileNum];
-                    if (tile != null && tile.image != null) {
-                        int worldX = col * gamePanel.getTILE_SIZE();
-                        int worldY = row * gamePanel.getTILE_SIZE();
-                        int screenX = worldX - gamePanel.getPlayer().getWorldX() + gamePanel.getPlayer().getSCREEN_X();
-                        int screenY = worldY - gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getSCREEN_Y();
-                        graphics2D.drawImage(tile.image, screenX, screenY, gamePanel.getTILE_SIZE(), gamePanel.getTILE_SIZE(), null);
-                    }
-                }
-            }
-        }
+        int maxRow = gamePanel.getMAX_WORLD_ROW();
+        int maxCol = gamePanel.getMAX_WORLD_COLUMN();
+        int tileSize = gamePanel.getTILE_SIZE();
+        int currentMap = gamePanel.getCurrentMap();
+        int playerWorldX = gamePanel.getPlayer().getWorldX();
+        int playerWorldY = gamePanel.getPlayer().getWorldY();
+        int playerScreenX = gamePanel.getPlayer().getSCREEN_X();
+        int playerScreenY = gamePanel.getPlayer().getSCREEN_Y();
 
+        // Loop over all layers
+        for (int layer = 0; layer < 2; layer++) {
+            for (int row = 0; row < maxRow; row++) {
+                for (int col = 0; col < maxCol; col++) {
+                    int tileNum = mapTileNumber[currentMap][layer][col][row];
+
+                    if (tileNum >= 0 && tileNum < tiles.length) {
+                        Tile tile = tiles[tileNum];
+                        if (tile != null && tile.image != null) {
+                            int worldX = col * tileSize;
+                            int worldY = row * tileSize;
+
+                            int screenX = worldX - playerWorldX + playerScreenX;
+                            int screenY = worldY - playerWorldY + playerScreenY;
+
+                            graphics2D.drawImage(tile.image, screenX, screenY, tileSize, tileSize, null);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public void setup(int index, String imagePath, boolean collision) {
