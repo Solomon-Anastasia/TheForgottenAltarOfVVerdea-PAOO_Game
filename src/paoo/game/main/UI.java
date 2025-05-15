@@ -219,8 +219,6 @@ public class UI {
     }
 
     public void drawPlayerLife() {
-        gamePanel.getPlayer().setLife(5);
-
         int x = gamePanel.getTILE_SIZE() / 2;
         int y = gamePanel.getTILE_SIZE() / 2;
         int i = 0;
