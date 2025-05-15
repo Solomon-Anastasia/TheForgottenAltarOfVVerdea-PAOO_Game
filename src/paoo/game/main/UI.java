@@ -228,7 +228,7 @@ public class UI {
             g2.drawImage(heart_blank, x, y, null);
 
             ++i;
-            x += gamePanel.getTILE_SIZE();
+            x += gamePanel.getTILE_SIZE() + 5;
         }
 
         // Reset
@@ -246,7 +246,7 @@ public class UI {
             }
 
             ++i;
-            x += gamePanel.getTILE_SIZE();
+            x += gamePanel.getTILE_SIZE() + 5;
         }
     }
 
