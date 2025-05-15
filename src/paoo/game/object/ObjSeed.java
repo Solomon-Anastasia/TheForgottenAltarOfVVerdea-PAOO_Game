@@ -13,8 +13,8 @@ public class ObjSeed extends SuperObject {
         name = "Seed";
 
         try {
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/objects/carrot_00.png")));
-            utilityTool.scaleImage(image, this.gamePanel.getTILE_SIZE(), this.gamePanel.getTILE_SIZE());
+            image1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/objects/carrot_00.png")));
+            image1 = utilityTool.scaleImage(image1, this.gamePanel.getTILE_SIZE(), this.gamePanel.getTILE_SIZE());
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

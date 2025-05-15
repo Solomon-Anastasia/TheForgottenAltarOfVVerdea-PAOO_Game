@@ -77,7 +77,9 @@ public class KeyHandler implements KeyListener {
                 switch (gamePanel.getUi().getCommandNum()) {
                     case 0 -> {
                         gamePanel.setGameState(gamePanel.getPLAY_STATE());
-                        gamePanel.playMusic(0);
+
+                        // TODO: Uncomment after finishing level 1
+//                        gamePanel.playMusic(0);
                     }
                     case 1 -> {
                         // TODO: Add load from database

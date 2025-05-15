@@ -10,7 +10,10 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class SuperObject {
-    protected BufferedImage image;
+    protected BufferedImage image1;
+    protected BufferedImage image2;
+    protected BufferedImage image3;
+
     protected String name;
     protected boolean collision = false;
     protected int worldX;
@@ -52,6 +55,18 @@ public class SuperObject {
         this.solidAreaDefaultY = yOffset;
     }
 
+    public BufferedImage getImage1() {
+        return image1;
+    }
+
+    public BufferedImage getImage2() {
+        return image2;
+    }
+
+    public BufferedImage getImage3() {
+        return image3;
+    }
+
     public Rectangle getSolidArea() {
         return solidArea;
     }
@@ -90,7 +105,7 @@ public class SuperObject {
                 && worldY + gamePanel.getTILE_SIZE() > gamePanel.getPlayer().getWorldY() - gamePanel.getPlayer().getSCREEN_Y()
                 && worldY - gamePanel.getTILE_SIZE() < gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getSCREEN_Y()
         ) {
-            graphics2D.drawImage(image, screenX, screenY, width, height, null);
+            graphics2D.drawImage(image1, screenX, screenY, width, height, null);
         }
     }
 

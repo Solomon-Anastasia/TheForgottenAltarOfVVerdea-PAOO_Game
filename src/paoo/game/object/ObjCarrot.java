@@ -56,7 +56,7 @@ public class ObjCarrot extends SuperObject {
     public void update() {
         if (!isHarvested && currentStage < COOLDOWN_TIMES.length && System.currentTimeMillis() - lastUpdateTime > COOLDOWN_TIMES[currentStage]) {
             if (currentStage < stages.length - 1) {
-                image = stages[currentStage];
+                image1 = stages[currentStage];
                 currentStage++;
 
                 // Reset time
@@ -68,7 +68,7 @@ public class ObjCarrot extends SuperObject {
     public void harvest() {
         if (isReadyForHarvest() && !isHarvested) {
             isHarvested = true;
-            image = harvestedImage;
+            image1 = harvestedImage;
         }
     }
 }

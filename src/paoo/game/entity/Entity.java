@@ -45,6 +45,10 @@ public class Entity {
     protected String[] dialogues = new String[20];
     protected int dialogueIndex = 0;
 
+    // Character status
+    protected int maxLife;
+    protected int life;
+
     public Entity(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 
@@ -80,6 +84,14 @@ public class Entity {
         return solidAreaDefaultY;
     }
 
+    public int getMaxLife() {
+        return maxLife;
+    }
+
+    public int getLife() {
+        return life;
+    }
+
     public void setCollisionOn(boolean collisionOn) {
         isCollisionOn = collisionOn;
     }
@@ -90,6 +102,10 @@ public class Entity {
 
     public void setWorldY(int worldY) {
         this.worldY = worldY;
+    }
+
+    public void setLife(int life) {
+        this.life = life;
     }
 
     public void setAction() {

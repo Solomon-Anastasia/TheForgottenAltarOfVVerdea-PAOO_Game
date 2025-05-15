@@ -1,6 +1,8 @@
 package paoo.game.main;
 
 import paoo.game.object.ObjCarrot;
+import paoo.game.object.ObjHeart;
+import paoo.game.object.SuperObject;
 import paoo.game.panel.GamePanel;
 
 import javax.imageio.ImageIO;
@@ -13,17 +15,22 @@ public class UI {
     private GamePanel gamePanel;
     private Graphics2D g2;
 
+    private BufferedImage heart_full;
+    private BufferedImage heart_half;
+    private BufferedImage heart_blank;
+
     private Font arial20;
     private Font arial25;
+
     private ObjCarrot carrot;
+
     private boolean messageOn = false;
     private String message = "";
     private int messageCounter = 0;
-
-    private boolean isGameFinished = false;
-
     private String currentDialogue;
     private int commandNum = 0;
+
+    private boolean isGameFinished = false;
 
     // TODO: Don't forget to add time back
 //    private double playTime;
@@ -31,10 +38,17 @@ public class UI {
 
     public UI(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
+
         arial20 = new Font("Arial", Font.BOLD, 20);
         arial25 = new Font("Arial", Font.BOLD, 25);
 
-        carrot = new ObjCarrot(gamePanel);
+        // carrot = new ObjCarrot(gamePanel);
+
+        // Create HUD object
+        SuperObject heart = new ObjHeart(gamePanel);
+        heart_full = heart.getImage1();
+        heart_half = heart.getImage2();
+        heart_blank = heart.getImage3();
     }
 
     public int getCommandNum() {
@@ -68,12 +82,14 @@ public class UI {
             drawTitleScreen();
         }
         if (gamePanel.getGameState() == gamePanel.getPLAY_STATE()) {
-            // Do play state
+            drawPlayerLife();
         }
         if (gamePanel.getGameState() == gamePanel.getPAUSE_STATE()) {
+            drawPlayerLife();
             drawPauseScreen();
         }
         if (gamePanel.getGameState() == gamePanel.getDIALOG_STATE()) {
+            drawPlayerLife();
             drawDialogScreen();
         }
 
@@ -199,6 +215,40 @@ public class UI {
         for (String line : currentDialogue.split("\n")) {
             g2.drawString(line, x, y);
             y += 35;
+        }
+    }
+
+    public void drawPlayerLife() {
+        gamePanel.getPlayer().setLife(5);
+
+        int x = gamePanel.getTILE_SIZE() / 2;
+        int y = gamePanel.getTILE_SIZE() / 2;
+        int i = 0;
+
+        // Draw max file
+        while (i < (gamePanel.getPlayer().getMaxLife() / 2)) {
+            g2.drawImage(heart_blank, x, y, null);
+
+            ++i;
+            x += gamePanel.getTILE_SIZE();
+        }
+
+        // Reset
+        x = gamePanel.getTILE_SIZE() / 2;
+        y = gamePanel.getTILE_SIZE() / 2;
+        i = 0;
+
+        // Draw current life
+        while (i < gamePanel.getPlayer().getLife()) {
+            g2.drawImage(heart_half, x, y, null);
+            ++i;
+
+            if (i < gamePanel.getPlayer().getLife()) {
+                g2.drawImage(heart_full, x, y, null);
+            }
+
+            ++i;
+            x += gamePanel.getTILE_SIZE();
         }
     }
 

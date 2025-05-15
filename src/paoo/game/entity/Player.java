@@ -60,8 +60,13 @@ public class Player extends Entity {
         // TODO: Change position based of map
         worldX = gamePanel.getTILE_SIZE() * 45; // Start column
         worldY = gamePanel.getTILE_SIZE() * 26; // Start line
+
         speed = 5;
         direction = "down";
+
+        // Player status
+        maxLife = 6;
+        life = maxLife;
     }
 
     public void setDefaultPosition(int tileX, int tileY) {
