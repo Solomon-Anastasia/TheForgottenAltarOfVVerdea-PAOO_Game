@@ -15,10 +15,8 @@ public class AssetSetter {
     public void setObject() {
         // Chest
         gamePanel.getObjects()[0] = new ObjChest(gamePanel);
-        // Column
-        gamePanel.getObjects()[0].setWorldX(59 * gamePanel.getTILE_SIZE());
-        // Row
-        gamePanel.getObjects()[0].setWorldY(39 * gamePanel.getTILE_SIZE());
+        gamePanel.getObjects()[0].setWorldX(59 * gamePanel.getTILE_SIZE()); // Column
+        gamePanel.getObjects()[0].setWorldY(39 * gamePanel.getTILE_SIZE()); // Row
 
         // Carrot
         gamePanel.getObjects()[1] = new ObjCarrot(gamePanel);

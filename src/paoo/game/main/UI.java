@@ -1,8 +1,8 @@
 package paoo.game.main;
 
+import paoo.game.entity.Entity;
 import paoo.game.object.ObjCarrot;
 import paoo.game.object.ObjHeart;
-import paoo.game.object.SuperObject;
 import paoo.game.panel.GamePanel;
 
 import javax.imageio.ImageIO;
@@ -45,7 +45,7 @@ public class UI {
         // carrot = new ObjCarrot(gamePanel);
 
         // Create HUD object
-        SuperObject heart = new ObjHeart(gamePanel);
+        Entity heart = new ObjHeart(gamePanel);
         heart_full = heart.getImage1();
         heart_half = heart.getImage2();
         heart_blank = heart.getImage3();

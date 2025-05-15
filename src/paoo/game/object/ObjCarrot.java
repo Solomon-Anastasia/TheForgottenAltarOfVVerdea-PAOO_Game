@@ -1,10 +1,11 @@
 package paoo.game.object;
 
+import paoo.game.entity.Entity;
 import paoo.game.panel.GamePanel;
 
 import java.awt.image.BufferedImage;
 
-public class ObjCarrot extends SuperObject {
+public class ObjCarrot extends Entity {
     private BufferedImage[] stages;
     private BufferedImage harvestedImage;
     private int currentStage = 0;
@@ -23,16 +24,25 @@ public class ObjCarrot extends SuperObject {
 
         try {
             stages = new BufferedImage[5];
-            stages[0] = setup("carrot_01");
-            stages[1] = setup("carrot_02");
-            stages[2] = setup("carrot_03");
-            stages[3] = setup("carrot_04");
-            stages[4] = setup("carrot_05");
 
-            harvestedImage = setup("soil_03");
+            stages[0] = setup("/objects/carrot_01");
+            stages[1] = setup("/objects/carrot_02");
+            stages[2] = setup("/objects/carrot_03");
+            stages[3] = setup("/objects/carrot_04");
+            stages[4] = setup("/objects/carrot_05");
+
+            harvestedImage = setup("/objects/soil_03");
+
+            down1 = stages[0];
+            down2 = stages[4];
+            direction = "down";
+            renderPriority = 0;
+
+            setSize(16, 16);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
         lastUpdateTime = System.currentTimeMillis();
         collision = false;
     }
@@ -56,7 +66,7 @@ public class ObjCarrot extends SuperObject {
     public void update() {
         if (!isHarvested && currentStage < COOLDOWN_TIMES.length && System.currentTimeMillis() - lastUpdateTime > COOLDOWN_TIMES[currentStage]) {
             if (currentStage < stages.length - 1) {
-                image1 = stages[currentStage];
+                down1 = stages[currentStage];
                 currentStage++;
 
                 // Reset time
@@ -68,7 +78,7 @@ public class ObjCarrot extends SuperObject {
     public void harvest() {
         if (isReadyForHarvest() && !isHarvested) {
             isHarvested = true;
-            image1 = harvestedImage;
+            down1 = harvestedImage;
         }
     }
 }

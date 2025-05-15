@@ -39,6 +39,8 @@ public class Player extends Entity {
         solidArea.width = 10;
         solidArea.height = 13;
 
+        renderPriority = 1;
+
         setDefaultValues();
         getPlayerImage();
     }
@@ -101,6 +103,10 @@ public class Player extends Entity {
             // Check NPC collision
             int npcIndex = gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getNpc());
             interactNpc(npcIndex);
+
+            // Check event
+            gamePanel.getEventHandler().checkEvent();
+            gamePanel.getKeyHandler().setEnterPressed(false);
 
             // If collision is false, player can move
             if (!isCollisionOn) {
@@ -195,7 +201,6 @@ public class Player extends Entity {
                 gamePanel.getNpc()[i].speak();
             }
         }
-        gamePanel.getKeyHandler().setEnterPressed(false);
     }
 
     public void draw(Graphics2D graphics2D) {

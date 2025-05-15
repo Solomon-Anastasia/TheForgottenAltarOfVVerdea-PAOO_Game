@@ -30,7 +30,14 @@ public class Entity {
     protected BufferedImage leftIdle1, leftIdle2;
     protected BufferedImage rightIdle1, rightIdle2;
 
-    protected String direction;
+    protected BufferedImage image1;
+    protected BufferedImage image2;
+    protected BufferedImage image3;
+
+    protected String name;
+    protected boolean collision = false;
+
+    protected String direction = "down";
 
     protected int spriteCounter = 0;
     protected int spriteNumber = 1;
@@ -41,6 +48,7 @@ public class Entity {
     protected boolean isCollisionOn = false;
 
     protected int actionLockCounter = 0;
+    protected int renderPriority = 1;
 
     protected String[] dialogues = new String[20];
     protected int dialogueIndex = 0;
@@ -92,6 +100,34 @@ public class Entity {
         return life;
     }
 
+    public BufferedImage getImage1() {
+        return image1;
+    }
+
+    public BufferedImage getImage2() {
+        return image2;
+    }
+
+    public boolean isCollision() {
+        return collision;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public BufferedImage getImage3() {
+        return image3;
+    }
+
+    public int getRenderPriority() {
+        return renderPriority;
+    }
+
+    public void setRenderPriority(int priority) {
+        this.renderPriority = priority;
+    }
+
     public void setCollisionOn(boolean collisionOn) {
         isCollisionOn = collisionOn;
     }
@@ -106,6 +142,17 @@ public class Entity {
 
     public void setLife(int life) {
         this.life = life;
+    }
+
+    public void setSize(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    public void setSolidArea(int xOffset, int yOffset, int width, int height) {
+        this.solidArea = new Rectangle(xOffset, yOffset, width, height);
+        this.solidAreaDefaultX = xOffset;
+        this.solidAreaDefaultY = yOffset;
     }
 
     public void setAction() {

@@ -1,24 +1,14 @@
 package paoo.game.object;
 
+import paoo.game.entity.Entity;
 import paoo.game.panel.GamePanel;
 
-import javax.imageio.ImageIO;
-import java.io.IOException;
-import java.util.Objects;
-
-public class ObjSeed extends SuperObject {
+public class ObjSeed extends Entity {
 
     public ObjSeed(GamePanel gamePanel) {
         super(gamePanel);
         name = "Seed";
-
-        try {
-            image1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/objects/carrot_00.png")));
-            image1 = utilityTool.scaleImage(image1, this.gamePanel.getTILE_SIZE(), this.gamePanel.getTILE_SIZE());
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-
+        down1 = setup("/objects/carrot_00");
         collision = true;
         setSize(16, 16);
 

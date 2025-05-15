@@ -3,16 +3,13 @@ package paoo.game.panel;
 import paoo.game.entity.Entity;
 import paoo.game.entity.Player;
 import paoo.game.handler.KeyHandler;
-import paoo.game.main.AssetSetter;
-import paoo.game.main.CollisionChecker;
-import paoo.game.main.Sound;
-import paoo.game.main.UI;
+import paoo.game.main.*;
 import paoo.game.object.ObjCarrot;
-import paoo.game.object.SuperObject;
 import paoo.game.tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable {
     // Screen Settings
@@ -38,6 +35,8 @@ public class GamePanel extends JPanel implements Runnable {
     // System
     private TileManager tileManager = new TileManager(this);
     private KeyHandler keyHandler = new KeyHandler(this);
+    private EventHandler eventHandler = new EventHandler(this);
+
     private Sound music = new Sound();
     private Sound soundEffect = new Sound();
     private CollisionChecker collisionChecker = new CollisionChecker(this);
@@ -49,10 +48,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     // Entity and objects
     private Player player = new Player(this, keyHandler);
-    // TODO: Change number of objects
-    // Nr. of max objects displayed
-    private SuperObject[] objects = new SuperObject[10];
+    private Entity[] objects = new Entity[10];
     private Entity[] npc = new Entity[10];
+    private ArrayList<Entity> entityList = new ArrayList<>();
 
     // Game state
     private int gameState;
@@ -84,7 +82,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.gameState = gameState;
     }
 
-    public SuperObject[] getObjects() {
+    public Entity[] getObjects() {
         return objects;
     }
 
@@ -136,9 +134,13 @@ public class GamePanel extends JPanel implements Runnable {
         return PAUSE_STATE;
     }
 
-    public int getCurrentMap(){return currentMap;}
+    public int getCurrentMap() {
+        return currentMap;
+    }
 
-    public int getMAX_MAP(){return MAX_MAP;}
+    public int getMAX_MAP() {
+        return MAX_MAP;
+    }
 
     public int getDIALOG_STATE() {
         return DIALOG_STATE;
@@ -154,6 +156,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     public KeyHandler getKeyHandler() {
         return keyHandler;
+    }
+
+    public EventHandler getEventHandler() {
+        return eventHandler;
     }
 
     public void startGameThread() {
@@ -174,10 +180,10 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
             // Objects
-            for (SuperObject object : objects) {
+            for (Entity object : objects) {
                 if (object != null) {
                     if (object instanceof ObjCarrot) {
-                        ((ObjCarrot) object).update();  // Call update on Carrot to possibly advance its stage
+                        object.update();  // Call update on Carrot to possibly advance its stage
                     }
                 }
             }
@@ -228,22 +234,33 @@ public class GamePanel extends JPanel implements Runnable {
             // Tile
             tileManager.draw(graphics2D);
 
-            // Objects
-            for (SuperObject superObject : objects) {
-                if (superObject != null) {
-                    superObject.draw(graphics2D, this);
+            entityList.clear();
+            entityList.add(player);
+
+            for (Entity npc : npc) {
+                if (npc != null) {
+                    entityList.add(npc);
                 }
             }
 
-            // NPCs
-            for (Entity entity : npc) {
-                if (entity != null) {
-                    entity.draw(graphics2D);
+            for (Entity object : objects) {
+                if (object != null) {
+                    entityList.add(object);
                 }
             }
 
-            // Player
-            player.draw(graphics2D);
+            // Sort by priority first, then by Y position for entities with same priority
+            entityList.sort((e1, e2) -> {
+                if (e1.getRenderPriority() != e2.getRenderPriority()) {
+                    return Integer.compare(e1.getRenderPriority(), e2.getRenderPriority());
+                }
+                return Integer.compare(e1.getWorldY(), e2.getWorldY());
+            });
+
+            // Draw entities
+            for (Entity entity : entityList) {
+                entity.draw(graphics2D);
+            }
 
             ui.draw(graphics2D);
         }
