@@ -195,6 +195,14 @@ public class GamePanel extends JPanel implements Runnable {
                     player.setDefaultPosition(30, 30);
                 }
             }
+
+            if (keyHandler.isLevel3()) {
+                if (currentMap != 2) {
+                    currentMap = 2;
+                    assetSetter.setObject();
+                    player.setDefaultPosition(40, 40);
+                }
+            }
         }
 
         // TODO: Do the pause

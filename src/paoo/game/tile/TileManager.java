@@ -28,6 +28,7 @@ public class TileManager {
         getTileImage();
         loadMap(new String[]{"/maps/Map1.txt", "/maps/Map1_Objects.txt"}, 0);
         loadMap(new String[]{"/maps/Map2.txt", "/maps/Map2_Objects.txt"}, 1);
+        loadMap(new String[]{"/maps/Map3.txt", "/maps/Map3_Objects.txt"}, 2);
     }
 
     public int[][][][] getMapTileNumber() {
@@ -39,9 +40,11 @@ public class TileManager {
     }
 
     public void getTileImage() {
+        setup(12, "map3/tile_12", false);
         setup(65, "map1/tile_65", false);
         setup(66, "map1/tile_66", false);
         setup(67, "map1/tile_67", false);
+        setup(70, "map3/tile_70", false);
         setup(261, "map1/tile_261", true);
         setup(262, "map1/tile_262", true);
         setup(263, "map1/tile_263", true);
@@ -192,6 +195,40 @@ public class TileManager {
         setup(2049, "secondlayer/tile_2049", true);
         setup(2050, "secondlayer/tile_2050", true);
         setup(2051, "secondlayer/tile_2051", true);
+
+        setup(0, "secondlayer3/tile_0", false);
+        setup(287, "secondlayer3/tile_287", false);
+        setup(288, "secondlayer3/tile_288", false);
+        setup(290, "secondlayer3/tile_290", false);
+        setup(493, "secondlayer3/tile_493", false);
+        setup(494, "secondlayer3/tile_494", false);
+        setup(495, "secondlayer3/tile_495", false);
+        setup(496, "secondlayer3/tile_496", false);
+        setup(557, "secondlayer3/tile_557", false);
+        setup(558, "secondlayer3/tile_558", false);
+        setup(559, "secondlayer3/tile_559", false);
+        setup(560, "secondlayer3/tile_560", false);
+        setup(615, "secondlayer3/tile_615", true);
+        setup(616, "secondlayer3/tile_616", true);
+        setup(679, "secondlayer3/tile_679", true);
+        setup(680, "secondlayer3/tile_680", true);
+        setup(702, "secondlayer3/tile_702", false);
+        setup(703, "secondlayer3/tile_703", false);
+        setup(704, "secondlayer3/tile_704", false);
+        setup(1393, "secondlayer3/tile_1393", false);
+        setup(1394, "secondlayer3/tile_1394", false);
+        setup(1457, "secondlayer3/tile_1457", false);
+        setup(1458, "secondlayer3/tile_1458", false);
+        setup(1463, "secondlayer3/tile_1463", false);
+        setup(301, "secondlayer3/tile_301", true);
+        setup(302, "secondlayer3/tile_302", true);
+        setup(303, "secondlayer3/tile_303", true);
+        setup(172, "secondlayer3/tile_172", true);
+        setup(108, "secondlayer3/tile_108", true);
+        setup(109, "secondlayer3/tile_109", true);
+        setup(110, "secondlayer3/tile_110", true);
+        setup(111, "secondlayer3/tile_111", true);
+
     }
 
     // CAMERA

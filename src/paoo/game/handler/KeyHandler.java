@@ -15,6 +15,7 @@ public class KeyHandler implements KeyListener {
     private boolean isEnterPressed = false;
 
     private boolean isLevel2;
+    private boolean isLevel3;
 
     public KeyHandler(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -42,6 +43,10 @@ public class KeyHandler implements KeyListener {
 
     public boolean isLevel2() {
         return isLevel2;
+    }
+
+    public boolean isLevel3() {
+        return isLevel3;
     }
 
     public void setEnterPressed(boolean enterPressed) {
@@ -113,6 +118,10 @@ public class KeyHandler implements KeyListener {
             if (code == KeyEvent.VK_2) {
                 isLevel2 = true;
             }
+
+            if (code == KeyEvent.VK_3) {
+                isLevel3 = true;
+            }
         }
         // Pause state
         else if (gamePanel.getGameState() == gamePanel.getPAUSE_STATE()) {
@@ -146,6 +155,10 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_2) {
             isLevel2 = false;
+        }
+
+        if (code == KeyEvent.VK_3) {
+            isLevel3 = false;
         }
     }
 }
