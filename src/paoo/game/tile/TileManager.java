@@ -243,7 +243,6 @@ public class TileManager {
         int playerScreenX = gamePanel.getPlayer().getSCREEN_X();
         int playerScreenY = gamePanel.getPlayer().getSCREEN_Y();
 
-        // Loop over all layers
         for (int layer = 0; layer < 2; layer++) {
             for (int row = 0; row < maxRow; row++) {
                 for (int col = 0; col < maxCol; col++) {
