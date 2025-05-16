@@ -93,6 +93,7 @@ public class TileManager {
         setup(139, "secondlayer2/tile_139", true);
         setup(140, "secondlayer2/tile_140", true);
         setup(167, "secondlayer/tile_167", true);
+        setup(169, "secondlayer2/tile_169", true);
         setup(179, "secondlayer2/tile_179", true);
         setup(180, "secondlayer2/tile_180", true);
         setup(183, "secondlayer/tile_183", false);
@@ -215,10 +216,10 @@ public class TileManager {
         setup(702, "secondlayer3/tile_702", false);
         setup(703, "secondlayer3/tile_703", false);
         setup(704, "secondlayer3/tile_704", false);
-        setup(1393, "secondlayer3/tile_1393", false);
-        setup(1394, "secondlayer3/tile_1394", false);
-        setup(1457, "secondlayer3/tile_1457", false);
-        setup(1458, "secondlayer3/tile_1458", false);
+        setup(1393, "secondlayer3/tile_1393", true);
+        setup(1394, "secondlayer3/tile_1394", true);
+        setup(1457, "secondlayer3/tile_1457", true);
+        setup(1458, "secondlayer3/tile_1458", true);
         setup(1463, "secondlayer3/tile_1463", false);
         setup(301, "secondlayer3/tile_301", true);
         setup(302, "secondlayer3/tile_302", true);
