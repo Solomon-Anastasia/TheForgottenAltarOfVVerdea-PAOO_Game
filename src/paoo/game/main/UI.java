@@ -158,7 +158,7 @@ public class UI {
         BufferedImage menuImage = loadImage("/Titles/TitleScreen.png");
         g2.drawImage(menuImage, 0, 0, gamePanel.getSCREEN_WIDTH(), gamePanel.getSCREEN_HEIGHT(), null);
 
-        g2.setColor(new Color(0, 0, 0, 255));
+        g2.setColor(new Color(0, 0, 0, 200));
         g2.fillRect(0, 0, gamePanel.getSCREEN_WIDTH(), gamePanel.getSCREEN_HEIGHT());
 
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
