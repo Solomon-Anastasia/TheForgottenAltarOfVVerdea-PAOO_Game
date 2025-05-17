@@ -104,6 +104,12 @@ public class Player extends Entity {
             int npcIndex = gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getNpc());
             interactNpc(npcIndex);
 
+            // Check monster collision
+
+            int monsterIndex = gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getMonster());
+            contactMonster(monsterIndex);
+
+
             // Check event
             gamePanel.getEventHandler().checkEvent();
             gamePanel.getKeyHandler().setEnterPressed(false);
@@ -133,6 +139,15 @@ public class Player extends Entity {
         } else {
             spriteCounter++;
         }
+
+        if(invincible == true) {
+            invincibleCounter ++;
+            if(invincibleCounter > 60) {
+                invincible = false;
+                invincibleCounter = 0;
+            }
+        }
+
     }
 
     // TODO: Set specific reaction for each object
@@ -203,6 +218,16 @@ public class Player extends Entity {
         }
     }
 
+    public void contactMonster(int i) {
+        if(i != -1) {
+
+            if(invincible == false) {
+                life -= 1;
+                invincible = true;
+            }
+        }
+    }
+
     public void draw(Graphics2D graphics2D) {
         BufferedImage image = null;
 
@@ -225,6 +250,14 @@ public class Player extends Entity {
         }
 
         graphics2D.drawImage(image, SCREEN_X, SCREEN_Y, null);
+
+        if(invincible) {
+            graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
+        }
+
+        // Reset alpha
+
+        graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 
         // Draw solid area for debug purposes
         // TODO: Remove after game completion

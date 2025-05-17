@@ -36,6 +36,7 @@ public class Entity {
 
     protected String name;
     protected boolean collision = false;
+    protected int type; // 0 = player, 1 = npc, 2 = monster
 
     protected String direction = "down";
 
@@ -48,6 +49,8 @@ public class Entity {
     protected boolean isCollisionOn = false;
 
     protected int actionLockCounter = 0;
+    protected boolean invincible = false;
+    protected int invincibleCounter = 0;
     protected int renderPriority = 1;
 
     protected String[] dialogues = new String[20];
@@ -61,7 +64,7 @@ public class Entity {
         this.gamePanel = gamePanel;
 
         width = gamePanel.getTILE_SIZE();
-        height = gamePanel.getHeight();
+        height = gamePanel.getTILE_SIZE();
     }
 
     public int getWorldX() {
@@ -165,7 +168,17 @@ public class Entity {
         isCollisionOn = false;
         gamePanel.getCollisionChecker().checkTile(this);
         gamePanel.getCollisionChecker().checkObject(this, false);
-        gamePanel.getCollisionChecker().checkPlayer(this);
+        gamePanel.getCollisionChecker().checkEntity(this,gamePanel.getNpc());
+        gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getMonster());
+        boolean contactPlayer = gamePanel.getCollisionChecker().checkPlayer(this);
+
+        if(this.type == 2&& contactPlayer == true) {
+            if(gamePanel.getPlayer().invincible == false ) {
+                //we can give damage
+                gamePanel.getPlayer().life -= 1;
+                gamePanel.getPlayer().invincible = true;
+            }
+        }
 
         // If collision is false, entity can move
         if (!isCollisionOn) {
