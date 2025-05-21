@@ -48,9 +48,9 @@ public class EventHandler {
         }
 
         if (canTouchEvent) {
-            if (hit(47, 26, "up")) {
-                damage(47, 26, gamePanel.getDIALOG_STATE());
-            }
+//            if (hit(40, 35, "any")) {
+//                damage(47, 26, gamePanel.getDIALOG_STATE());
+//            }
             if (hit(59, 40, "any")) {
                 teleport(59, 40, gamePanel.getDIALOG_STATE());
             }

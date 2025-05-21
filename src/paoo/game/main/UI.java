@@ -30,6 +30,9 @@ public class UI {
     private String currentDialogue;
     private int commandNum = 0;
 
+    private int slotCol = 0;
+    private int slotRow = 0;
+
     private boolean isGameFinished = false;
 
     // TODO: Don't forget to add time back
@@ -55,6 +58,14 @@ public class UI {
         return commandNum;
     }
 
+    public int getSlotRow() {
+        return slotRow;
+    }
+
+    public int getSlotCol() {
+        return slotCol;
+    }
+
     public void setCommandNum(int commandNum) {
         this.commandNum = commandNum;
     }
@@ -65,6 +76,14 @@ public class UI {
 
     public void setGameFinished(boolean gameFinished) {
         isGameFinished = gameFinished;
+    }
+
+    public void setSlotCol(int slotCol) {
+        this.slotCol = slotCol;
+    }
+
+    public void setSlotRow(int slotRow) {
+        this.slotRow = slotRow;
     }
 
     public void showMessage(String message) {
@@ -91,6 +110,10 @@ public class UI {
         if (gamePanel.getGameState() == gamePanel.getDIALOG_STATE()) {
             drawPlayerLife();
             drawDialogScreen();
+        }
+        if (gamePanel.getGameState() == gamePanel.getINVENTORY_STATE()) {
+            drawPlayerLife();
+            drawInventory();
         }
 
 
@@ -250,6 +273,71 @@ public class UI {
         }
     }
 
+    public void drawInventory() {
+        // Frame
+        int frameX = gamePanel.getTILE_SIZE() * 9;
+        int frameY = gamePanel.getTILE_SIZE();
+        int frameWidth = gamePanel.getTILE_SIZE() * 6;
+        int frameHeight = gamePanel.getTILE_SIZE() * 5;
+
+        drawSubWindow(frameX, frameY, frameWidth, frameHeight);
+
+        // Slot
+        final int slotXStart = frameX + 20;
+        final int slotYStart = frameY + 20;
+        int slotX = slotXStart;
+        int slotY = slotYStart;
+        int slotSize = gamePanel.getTILE_SIZE() + 3;
+
+        // Draw player's items
+        for (int i = 0; i < gamePanel.getPlayer().getInventory().size(); ++i) {
+            g2.drawImage(gamePanel.getPlayer().getInventory().get(i).getDown2(), slotX, slotY, null);
+            slotX += slotSize;
+
+            if ((i == 4) || (i == 9) || (i == 14)) {
+                slotX = slotXStart;
+                slotY += slotSize;
+            }
+        }
+
+        // Cursor
+        int cursorX = slotXStart + (slotSize * slotCol);
+        int cursorY = slotYStart + (slotSize * slotRow);
+        ;
+        int cursorWidth = gamePanel.getTILE_SIZE();
+        int cursorHeight = gamePanel.getTILE_SIZE();
+
+        // Draw cursor
+        g2.setColor(Color.WHITE);
+        g2.setStroke(new BasicStroke(3));
+        g2.drawRoundRect(cursorX, cursorY, cursorWidth, cursorHeight, 10, 10);
+
+        // Description frame
+        int dFrameX = frameX;
+        int dFrameY = frameY + frameHeight + 10;
+        int dframeWidth = frameWidth;
+        int dframeHeight = gamePanel.getTILE_SIZE() * 3;
+
+        // Draw description text
+        int textX = dFrameX + 20;
+        int textY = dFrameY + gamePanel.getTILE_SIZE();
+        g2.setFont(g2.getFont().deriveFont(15F));
+
+        int itemIndex = getItemIndexLSot();
+        if (itemIndex < gamePanel.getPlayer().getInventory().size()) {
+            drawSubWindow(dFrameX, dFrameY, dframeWidth, dframeHeight);
+
+            for (String line : gamePanel.getPlayer().getInventory().get(itemIndex).getDescription().split("\n")) {
+                g2.drawString(line, textX, textY);
+                textY += 32;
+            }
+        }
+    }
+
+    public int getItemIndexLSot() {
+        return slotCol + (slotRow * 5);
+    }
+
     public void drawSubWindow(int x, int y, int width, int height) {
         // New color
         Color color = new Color(0, 0, 0, 210);
@@ -266,5 +354,11 @@ public class UI {
     public int getXCenteredText(String text) {
         int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         return gamePanel.getSCREEN_WIDTH() / 2 - length / 2;
+    }
+
+    public int getXAlignToRight(String text, int tailX) {
+        int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+
+        return tailX - length;
     }
 }

@@ -60,6 +60,9 @@ public class Entity {
     protected int maxLife;
     protected int life;
 
+    // Item attribute
+    protected String description = "";
+
     public Entity(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 
@@ -127,6 +130,14 @@ public class Entity {
         return renderPriority;
     }
 
+    public BufferedImage getDown2() {
+        return down2;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     public void setRenderPriority(int priority) {
         this.renderPriority = priority;
     }
@@ -168,13 +179,14 @@ public class Entity {
         isCollisionOn = false;
         gamePanel.getCollisionChecker().checkTile(this);
         gamePanel.getCollisionChecker().checkObject(this, false);
-        gamePanel.getCollisionChecker().checkEntity(this,gamePanel.getNpc());
+        gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getNpc());
         gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getMonster());
+
         boolean contactPlayer = gamePanel.getCollisionChecker().checkPlayer(this);
 
-        if(this.type == 2&& contactPlayer == true) {
-            if(gamePanel.getPlayer().invincible == false ) {
-                //we can give damage
+        if (this.type == 2 && contactPlayer) {
+            if (!gamePanel.getPlayer().invincible) {
+                // We can give damage
                 gamePanel.getPlayer().life -= 1;
                 gamePanel.getPlayer().invincible = true;
             }

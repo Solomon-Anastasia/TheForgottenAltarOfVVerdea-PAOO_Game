@@ -60,6 +60,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final int PLAY_STATE = 1;
     private final int PAUSE_STATE = 2;
     private final int DIALOG_STATE = 3;
+    private final int INVENTORY_STATE = 4;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -169,9 +170,21 @@ public class GamePanel extends JPanel implements Runnable {
         return eventHandler;
     }
 
+    public int getINVENTORY_STATE() {
+        return INVENTORY_STATE;
+    }
+
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
+    }
+
+    public void clearEntity(Entity[] obj) {
+        for (int i = 0; i < obj.length; ++i) {
+            if (obj[i] != null) {
+                obj[i] = null;
+            }
+        }
     }
 
     public void update() {
@@ -201,8 +214,24 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
 
+            if (keyHandler.isLevel1()) {
+                if (currentMap != 0) {
+                    clearEntity(npc);
+                    clearEntity(monster);
+                    clearEntity(objects);
+
+                    currentMap = 0;
+                    assetSetter.setObject();
+                    player.setDefaultPosition(45, 26);
+                }
+            }
+
             if (keyHandler.isLevel2()) {
                 if (currentMap != 1) {
+                    clearEntity(npc);
+                    clearEntity(monster);
+                    clearEntity(objects);
+
                     currentMap = 1;
                     assetSetter.setObject();
                     player.setDefaultPosition(30, 30);
@@ -211,6 +240,10 @@ public class GamePanel extends JPanel implements Runnable {
 
             if (keyHandler.isLevel3()) {
                 if (currentMap != 2) {
+                    clearEntity(npc);
+                    clearEntity(monster);
+                    clearEntity(objects);
+
                     currentMap = 2;
                     assetSetter.setObject();
                     player.setDefaultPosition(40, 40);
@@ -258,18 +291,21 @@ public class GamePanel extends JPanel implements Runnable {
             entityList.clear();
             entityList.add(player);
 
+            // Npc
             for (Entity npc : npc) {
                 if (npc != null) {
                     entityList.add(npc);
                 }
             }
 
+            // Monster
             for (Entity monster : monster) {
                 if (monster != null) {
                     entityList.add(monster);
                 }
             }
 
+            // Object
             for (Entity object : objects) {
                 if (object != null) {
                     entityList.add(object);
@@ -291,6 +327,28 @@ public class GamePanel extends JPanel implements Runnable {
 
             ui.draw(graphics2D);
         }
+
+        // Debug
+        if (keyHandler.isShowDebugText()) {
+            graphics2D.setFont(new Font("Arial", Font.PLAIN, 20));
+            graphics2D.setColor(Color.WHITE);
+
+            int x = 10;
+            int y = 500;
+            int lineHeight = 20;
+
+            graphics2D.drawString("WorldX " + player.getWorldX(), x, y);
+            y += lineHeight;
+
+            graphics2D.drawString("WorldY " + player.getWorldY(), x, y);
+            y += lineHeight;
+
+            graphics2D.drawString("Col " + (player.getWorldX() + player.getSolidArea().x) / TILE_SIZE, x, y);
+            y += lineHeight;
+
+            graphics2D.drawString("Row " + (player.getWorldY() + player.getSolidArea().y) / TILE_SIZE, x, y);
+        }
+
         graphics2D.dispose(); // Save some memory
     }
 
@@ -314,7 +372,7 @@ public class GamePanel extends JPanel implements Runnable {
 
             if (delta >= 1) {
                 update();
-                repaint(); // calls paintComponent method
+                repaint(); // Calls paintComponent method
 
                 delta--;
                 drawCount++;

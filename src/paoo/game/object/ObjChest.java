@@ -12,6 +12,7 @@ public class ObjChest extends Entity {
         down1 = setup("/objects/chest");
         collision = true;
         renderPriority = 0;
+        description = "[" + name + "]\nAn old chest!";
 
         // Match collision to the size of image
         setSize(48, 48);

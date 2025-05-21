@@ -6,6 +6,7 @@ import paoo.game.panel.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Player extends Entity {
     KeyHandler keyHandler;
@@ -19,6 +20,9 @@ public class Player extends Entity {
     private int nrCarrots = 0;
 
     private boolean isMoving = false;
+
+    private ArrayList<Entity> inventory = new ArrayList<>();
+    private final int MAX_INVENTORY_SIZE = 20;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         super(gamePanel);
@@ -43,6 +47,7 @@ public class Player extends Entity {
 
         setDefaultValues();
         getPlayerImage();
+        setItem();
     }
 
     public int getSCREEN_X() {
@@ -55,6 +60,10 @@ public class Player extends Entity {
 
     public int getNrCarrots() {
         return nrCarrots;
+    }
+
+    public ArrayList<Entity> getInventory() {
+        return inventory;
     }
 
     public void setDefaultValues() {
@@ -74,6 +83,16 @@ public class Player extends Entity {
     public void setDefaultPosition(int tileX, int tileY) {
         worldX = tileX * gamePanel.getTILE_SIZE();
         worldY = tileY * gamePanel.getTILE_SIZE();
+    }
+
+    public void setItem() {
+        // TODO: Change later
+//        inventory.add(new ObjCarrot(gamePanel));
+//        inventory.add(new ObjCarrot(gamePanel));
+//        inventory.add(new ObjCarrot(gamePanel));
+//        inventory.add(new ObjCarrot(gamePanel));
+//        inventory.add(new ObjCarrot(gamePanel));
+//        inventory.add(new ObjCarrot(gamePanel));
     }
 
     public void update() {
@@ -105,10 +124,8 @@ public class Player extends Entity {
             interactNpc(npcIndex);
 
             // Check monster collision
-
             int monsterIndex = gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getMonster());
             contactMonster(monsterIndex);
-
 
             // Check event
             gamePanel.getEventHandler().checkEvent();
@@ -140,7 +157,7 @@ public class Player extends Entity {
             spriteCounter++;
         }
 
-        if(invincible == true) {
+        if(invincible) {
             invincibleCounter ++;
             if(invincibleCounter > 60) {
                 invincible = false;
@@ -153,28 +170,42 @@ public class Player extends Entity {
     // TODO: Set specific reaction for each object
     public void pickUpObject(int i) {
         if (i != -1) {
-            // TODO: Leave only necessary
             String objectName = gamePanel.getObjects()[i].getName();
+            String text = "";
 
-            // TODO: Add artefact object, etc
-            switch (objectName) {
-                case "Carrot" -> {
-                    ObjCarrot carrot = (ObjCarrot) gamePanel.getObjects()[i];
+            if (inventory.size() != MAX_INVENTORY_SIZE) {
+                switch (objectName) {
+                    case "Carrot" -> {
+                        ObjCarrot carrot = (ObjCarrot) gamePanel.getObjects()[i];
 
-                    if (carrot.isHarvested() && !carrot.isCollected()) {
-                        gamePanel.getUi().showMessage("You harvested a carrot!");
-                        gamePanel.playSE(1);
+                        if (carrot.isHarvested() && !carrot.isCollected()) {
+                            text = "You harvested a carrot!";
+                            gamePanel.playSE(1);
 
-                        nrCarrots++;
-                        carrot.collect(); // Mark this carrot as collected
-                        System.out.println("CARROT NR. " + nrCarrots);
-                    } else if (carrot.isReadyForHarvest()) {
-                        carrot.harvest();
-                    } else {
-                        gamePanel.getUi().showMessage("The carrot is not ready to be harvested yet.");
+                            nrCarrots++;
+                            carrot.collect(); // Mark this carrot as collected
+                            inventory.add(carrot);
+                            System.out.println("CARROT NR. " + nrCarrots);
+                        } else if (carrot.isReadyForHarvest()) {
+                            carrot.harvest();
+                        } else {
+                            text = "The carrot is not ready to be harvested yet.";
+                        }
                     }
                 }
 
+//                inventory.add(gamePanel.getObjects()[i]);
+//                gamePanel.playSE(1);
+//                text = "You harvested a carrot!";
+            }
+            else {
+                text = "You cannot carry anymore!";
+            }
+
+            gamePanel.getUi().showMessage(text);
+
+            // TODO: Add artefact object, etc
+//
 //                case "Artefact" -> {
 //                    n`rArtefacts++;
 //
@@ -205,7 +236,7 @@ public class Player extends Entity {
 ////                        gamePanel.playSE(nr. of win first level);
 //                    }
 //                }
-            }
+//            }
         }
     }
 
@@ -220,8 +251,7 @@ public class Player extends Entity {
 
     public void contactMonster(int i) {
         if(i != -1) {
-
-            if(invincible == false) {
+            if(!invincible) {
                 life -= 1;
                 invincible = true;
             }

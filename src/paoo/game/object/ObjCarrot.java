@@ -45,6 +45,7 @@ public class ObjCarrot extends Entity {
 
         lastUpdateTime = System.currentTimeMillis();
         collision = false;
+        description = "[" + name + "]\nPlain carrot!";
     }
 
     public boolean isHarvested() {

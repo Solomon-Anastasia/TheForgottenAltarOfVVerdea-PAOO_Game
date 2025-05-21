@@ -14,49 +14,77 @@ public class AssetSetter {
     }
 
     public void setObject() {
-        // Chest
-        gamePanel.getObjects()[0] = new ObjChest(gamePanel);
-        gamePanel.getObjects()[0].setWorldX(59 * gamePanel.getTILE_SIZE()); // Column
-        gamePanel.getObjects()[0].setWorldY(39 * gamePanel.getTILE_SIZE()); // Row
+        int i = 0;
 
-        // Carrot
-        gamePanel.getObjects()[1] = new ObjCarrot(gamePanel);
-        gamePanel.getObjects()[1].setWorldX(47 * gamePanel.getTILE_SIZE());
-        gamePanel.getObjects()[1].setWorldY(26 * gamePanel.getTILE_SIZE());
+        // TODO: Add objects for all levels
+        if (gamePanel.getKeyHandler().isLevel1()) {
+            // Chest
+            gamePanel.getObjects()[i] = new ObjChest(gamePanel);
+            gamePanel.getObjects()[i].setWorldX(59 * gamePanel.getTILE_SIZE()); // Column
+            gamePanel.getObjects()[i].setWorldY(39 * gamePanel.getTILE_SIZE()); // Row
+            ++i;
 
-        // TODO: Modify if needed
-        // Seed
-//        gamePanel.getObject()[1] = new ObjSeed(gamePanel);
-//        gamePanel.getObject()[1].setWorldX(46 * gamePanel.getTILE_SIZE());
-//        gamePanel.getObject()[1].setWorldY(26 * gamePanel.getTILE_SIZE());
+            // Carrot
+            gamePanel.getObjects()[i] = new ObjCarrot(gamePanel);
+            gamePanel.getObjects()[i].setWorldX(73 * gamePanel.getTILE_SIZE());
+            gamePanel.getObjects()[i].setWorldY(28 * gamePanel.getTILE_SIZE());
+            ++i;
+
+            gamePanel.getObjects()[i] = new ObjCarrot(gamePanel);
+            gamePanel.getObjects()[i].setWorldX(40 * gamePanel.getTILE_SIZE());
+            gamePanel.getObjects()[i].setWorldY(35 * gamePanel.getTILE_SIZE());
+            ++i;
+
+            gamePanel.getObjects()[i] = new ObjCarrot(gamePanel);
+            gamePanel.getObjects()[i].setWorldX(30 * gamePanel.getTILE_SIZE());
+            gamePanel.getObjects()[i].setWorldY(35 * gamePanel.getTILE_SIZE());
+            ++i;
+
+            gamePanel.getObjects()[i] = new ObjCarrot(gamePanel);
+            gamePanel.getObjects()[i].setWorldX(38 * gamePanel.getTILE_SIZE());
+            gamePanel.getObjects()[i].setWorldY(26 * gamePanel.getTILE_SIZE());
+            ++i;
+        } else if (gamePanel.getKeyHandler().isLevel2()) {
+        }
+        else {
+        }
     }
 
     public void setNpc() {
-        gamePanel.getNpc()[0] = new Grandpa(gamePanel);
-        gamePanel.getNpc()[0].setWorldX(gamePanel.getTILE_SIZE() * 37); // Start column
-        gamePanel.getNpc()[0].setWorldY(gamePanel.getTILE_SIZE() * 25); // Start line
+        if (gamePanel.getKeyHandler().isLevel1()) {
+            gamePanel.getNpc()[0] = new Grandpa(gamePanel);
+            gamePanel.getNpc()[0].setWorldX(gamePanel.getTILE_SIZE() * 37); // Start column
+            gamePanel.getNpc()[0].setWorldY(gamePanel.getTILE_SIZE() * 25); // Start line
+        }
     }
 
     public void setMonster() {
-        gamePanel.getMonster()[0] = new MON_Goblin(gamePanel);
-        gamePanel.getMonster()[0].setWorldX(48 * gamePanel.getTILE_SIZE());
-        gamePanel.getMonster()[0].setWorldY(26 * gamePanel.getTILE_SIZE());
+        if (gamePanel.getKeyHandler().isLevel1()) {
+            int i = 0;
+            gamePanel.getMonster()[i] = new MON_Goblin(gamePanel);
+            gamePanel.getMonster()[i].setWorldX(48 * gamePanel.getTILE_SIZE());
+            gamePanel.getMonster()[i].setWorldY(26 * gamePanel.getTILE_SIZE());
+            ++i;
 
-        gamePanel.getMonster()[1] = new MON_Goblin(gamePanel);
-        gamePanel.getMonster()[1].setWorldX(48 * gamePanel.getTILE_SIZE());
-        gamePanel.getMonster()[1].setWorldY(35 * gamePanel.getTILE_SIZE());
+            gamePanel.getMonster()[i] = new MON_Goblin(gamePanel);
+            gamePanel.getMonster()[i].setWorldX(48 * gamePanel.getTILE_SIZE());
+            gamePanel.getMonster()[i].setWorldY(35 * gamePanel.getTILE_SIZE());
+            ++i;
 
-        gamePanel.getMonster()[2] = new MON_Goblin(gamePanel);
-        gamePanel.getMonster()[2].setWorldX(60 * gamePanel.getTILE_SIZE());
-        gamePanel.getMonster()[2].setWorldY(28 * gamePanel.getTILE_SIZE());
+            gamePanel.getMonster()[i] = new MON_Goblin(gamePanel);
+            gamePanel.getMonster()[i].setWorldX(60 * gamePanel.getTILE_SIZE());
+            gamePanel.getMonster()[i].setWorldY(28 * gamePanel.getTILE_SIZE());
+            ++i;
 
-        gamePanel.getMonster()[3] = new MON_Goblin(gamePanel);
-        gamePanel.getMonster()[3].setWorldX(50 * gamePanel.getTILE_SIZE());
-        gamePanel.getMonster()[3].setWorldY(32 * gamePanel.getTILE_SIZE());
+            gamePanel.getMonster()[i] = new MON_Goblin(gamePanel);
+            gamePanel.getMonster()[i].setWorldX(50 * gamePanel.getTILE_SIZE());
+            gamePanel.getMonster()[i].setWorldY(32 * gamePanel.getTILE_SIZE());
+            ++i;
 
-        gamePanel.getMonster()[4] = new MON_Goblin(gamePanel);
-        gamePanel.getMonster()[4].setWorldX(35 * gamePanel.getTILE_SIZE());
-        gamePanel.getMonster()[4].setWorldY(35 * gamePanel.getTILE_SIZE());
-
+            gamePanel.getMonster()[i] = new MON_Goblin(gamePanel);
+            gamePanel.getMonster()[i].setWorldX(35 * gamePanel.getTILE_SIZE());
+            gamePanel.getMonster()[i].setWorldY(35 * gamePanel.getTILE_SIZE());
+            ++i;
+        }
     }
 }
