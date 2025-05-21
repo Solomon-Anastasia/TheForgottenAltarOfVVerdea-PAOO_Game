@@ -43,7 +43,6 @@ public class Grandpa extends Entity {
         }
     }
 
-    // TODO: Add actual dialogue
     public void setDialogue() {
         dialogues[0] = "Ah, Ryo... you're finally here. This old farm’s\nmissed your spirit.";
         dialogues[1] = "I spotted some carrots growing wild near the\neastern orchard.";

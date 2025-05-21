@@ -68,7 +68,6 @@ public class Player extends Entity {
 
     public void setDefaultValues() {
         // Player position in the map
-        // TODO: Change position based of map
         worldX = gamePanel.getTILE_SIZE() * 45; // Start column
         worldY = gamePanel.getTILE_SIZE() * 26; // Start line
 
@@ -185,6 +184,7 @@ public class Player extends Entity {
                             nrCarrots++;
                             carrot.collect(); // Mark this carrot as collected
                             inventory.add(carrot);
+
                             System.out.println("CARROT NR. " + nrCarrots);
                         } else if (carrot.isReadyForHarvest()) {
                             carrot.harvest();

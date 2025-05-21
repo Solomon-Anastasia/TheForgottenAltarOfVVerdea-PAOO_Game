@@ -28,7 +28,6 @@ public class MON_Goblin extends Entity {
     }
 
     public void getMonsterImage() {
-
         right1 = setup("/monster/goblin_0");
         right2 = setup("/monster/goblin_1");
         right3 = setup("/monster/goblin_2");
@@ -42,7 +41,6 @@ public class MON_Goblin extends Entity {
         left4 = setup("/monster/goblin_11");
         left5 = setup("/monster/goblin_12");
         left6 = setup("/monster/goblin_13");
-
     }
 
     public void setAction() {
