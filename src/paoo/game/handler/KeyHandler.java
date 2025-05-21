@@ -93,6 +93,10 @@ public class KeyHandler implements KeyListener {
         else if (gamePanel.getGameState() == gamePanel.getINVENTORY_STATE()) {
             inventoryState(code);
         }
+        // Game over state
+        else if (gamePanel.getGameState() == gamePanel.getGAME_OVER_STATE()) {
+            gameOverState(code);
+        }
     }
 
     public void titleState(int code) {
@@ -102,6 +106,7 @@ public class KeyHandler implements KeyListener {
             if (gamePanel.getUi().getCommandNum() < 0) {
                 gamePanel.getUi().setCommandNum(2);
             }
+            gamePanel.playSE(2);
         }
         if (code == KeyEvent.VK_S) {
             gamePanel.getUi().setCommandNum(gamePanel.getUi().getCommandNum() + 1);
@@ -109,15 +114,14 @@ public class KeyHandler implements KeyListener {
             if (gamePanel.getUi().getCommandNum() > 2) {
                 gamePanel.getUi().setCommandNum(0);
             }
+            gamePanel.playSE(2);
         }
 
         if (code == KeyEvent.VK_ENTER) {
             switch (gamePanel.getUi().getCommandNum()) {
                 case 0 -> {
                     gamePanel.setGameState(gamePanel.getPLAY_STATE());
-
-                    // TODO: Uncomment after finishing level 1
-//                        gamePanel.playMusic(0);
+                    gamePanel.playMusic(0);
                 }
                 case 1 -> {
                     // TODO: Add load from database
@@ -192,28 +196,64 @@ public class KeyHandler implements KeyListener {
     }
 
     public void inventoryState(int code) {
+
         if (code == KeyEvent.VK_I) {
             gamePanel.setGameState(gamePanel.getPLAY_STATE());
         }
         if (code == KeyEvent.VK_W) {
             if (gamePanel.getUi().getSlotRow() != 0) {
                 gamePanel.getUi().setSlotRow(gamePanel.getUi().getSlotRow() - 1);
-                // TODO: Maybe add sound effect
+                gamePanel.playSE(2);
             }
         }
         if (code == KeyEvent.VK_A) {
             if (gamePanel.getUi().getSlotCol() != 0) {
                 gamePanel.getUi().setSlotCol(gamePanel.getUi().getSlotCol() - 1);
+                gamePanel.playSE(2);
             }
         }
         if (code == KeyEvent.VK_S) {
             if (gamePanel.getUi().getSlotRow() != 3) {
                 gamePanel.getUi().setSlotRow(gamePanel.getUi().getSlotRow() + 1);
+                gamePanel.playSE(2);
             }
         }
         if (code == KeyEvent.VK_D) {
             if (gamePanel.getUi().getSlotCol() != 4) {
                 gamePanel.getUi().setSlotCol(gamePanel.getUi().getSlotCol() + 1);
+                gamePanel.playSE(2);
+            }
+        }
+    }
+
+    public void gameOverState(int code) {
+        if (code == KeyEvent.VK_W) {
+            gamePanel.getUi().setCommandNum(gamePanel.getUi().getCommandNum() - 1);
+
+            if (gamePanel.getUi().getCommandNum() < 0) {
+                gamePanel.getUi().setCommandNum(1);
+            }
+            gamePanel.playSE(2);
+        }
+        if (code == KeyEvent.VK_S) {
+            gamePanel.getUi().setCommandNum(gamePanel.getUi().getCommandNum() + 1);
+
+            if (gamePanel.getUi().getCommandNum() > 1) {
+                gamePanel.getUi().setCommandNum(0);
+            }
+            gamePanel.playSE(2);
+        }
+
+        if (code == KeyEvent.VK_ENTER) {
+            switch (gamePanel.getUi().getCommandNum()) {
+                case 0 -> {
+                    gamePanel.setGameState(gamePanel.getPLAY_STATE());
+                    gamePanel.retry();
+                }
+                case 1 -> {
+                    gamePanel.setGameState(gamePanel.getTITLE_STATE());
+                    gamePanel.restart();
+                }
             }
         }
     }

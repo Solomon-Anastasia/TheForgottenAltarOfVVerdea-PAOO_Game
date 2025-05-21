@@ -115,6 +115,9 @@ public class UI {
             drawPlayerLife();
             drawInventory();
         }
+        if (gamePanel.getGameState() == gamePanel.getGAME_OVER_STATE()) {
+            gameOverScreen();
+        }
 
 
         // TODO: ADD later only necessary
@@ -164,7 +167,6 @@ public class UI {
                 messageOn = false;
             }
         }
-//        }
     }
 
     private BufferedImage loadImage(String path) {
@@ -303,7 +305,7 @@ public class UI {
         // Cursor
         int cursorX = slotXStart + (slotSize * slotCol);
         int cursorY = slotYStart + (slotSize * slotRow);
-        ;
+
         int cursorWidth = gamePanel.getTILE_SIZE();
         int cursorHeight = gamePanel.getTILE_SIZE();
 
@@ -330,6 +332,44 @@ public class UI {
             for (String line : gamePanel.getPlayer().getInventory().get(itemIndex).getDescription().split("\n")) {
                 g2.drawString(line, textX, textY);
                 textY += 32;
+            }
+        }
+    }
+
+    public void gameOverScreen() {
+        g2.setColor(new Color(0, 0, 0, 150));
+        g2.fillRect(0, 0, gamePanel.getSCREEN_WIDTH(), gamePanel.getSCREEN_HEIGHT());
+
+        int x;
+        int y;
+        String text;
+
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 80F));
+
+        // Shadow
+        text = "Game Over!";
+        g2.setColor(Color.BLACK);
+        x = getXCenteredText(text);
+        y = gamePanel.getTILE_SIZE() * 4;
+        g2.drawString(text, x, y);
+
+        // Main text
+        g2.setColor(Color.WHITE);
+        g2.drawString(text, x - 4, y - 4);
+
+        // Retry
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 25F));
+
+        // Menu options
+        String[] options = {"Retry", "Quit",};
+        y += gamePanel.getTILE_SIZE() * 2;
+        for (int i = 0; i < options.length; ++i) {
+            x = getXCenteredText(options[i]);
+            y += gamePanel.getTILE_SIZE();
+
+            g2.drawString(options[i], x, y);
+            if (commandNum == i) {
+                g2.drawString(">", x - gamePanel.getTILE_SIZE() / 2, y);
             }
         }
     }

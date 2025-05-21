@@ -12,6 +12,11 @@ public class Sound {
     public Sound() {
         soundURL[0] = getClass().getResource("/sound/BackgroundMusic1.wav");
         soundURL[1] = getClass().getResource("/sound/carrot.wav");
+        soundURL[2] = getClass().getResource("/sound/cursor.wav");
+        soundURL[3] = getClass().getResource("/sound/gameover.wav");
+        soundURL[4] = getClass().getResource("/sound/speak.wav");
+        soundURL[5] = getClass().getResource("/sound/unlock.wav");
+        soundURL[6] = getClass().getResource("/sound/receivedamage.wav");
     }
 
     public void setFile(int i) {

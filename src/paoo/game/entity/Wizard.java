@@ -52,6 +52,8 @@ public class Wizard extends Entity {
         }
         gamePanel.getUi().setCurrentDialogue(dialogues[dialogueIndex]);
         dialogueIndex++;
+
+        gamePanel.playSE(4);
     }
 
     public void getNpcImage() {

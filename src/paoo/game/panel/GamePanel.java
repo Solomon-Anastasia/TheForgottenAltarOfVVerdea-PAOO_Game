@@ -61,6 +61,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final int PAUSE_STATE = 2;
     private final int DIALOG_STATE = 3;
     private final int INVENTORY_STATE = 4;
+    private final int GAME_OVER_STATE = 6;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -76,6 +77,27 @@ public class GamePanel extends JPanel implements Runnable {
         assetSetter.setMonster();
 
         gameState = TITLE_STATE;
+    }
+
+    public void retry() {
+        playMusic(0);
+        player.setDefaultPositions();
+        player.getInventory().clear();
+        player.restoreLife();
+
+        assetSetter.setNpc();
+        assetSetter.setObject();
+        assetSetter.setMonster();
+    }
+
+    public void restart() {
+        player.setDefaultValues();
+        player.getInventory().clear();
+
+        assetSetter.setNpc();
+        assetSetter.setObject();
+        assetSetter.setMonster();
+        stopMusic();
     }
 
     public void setGameThread(Thread gameThread) {
@@ -172,6 +194,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     public int getINVENTORY_STATE() {
         return INVENTORY_STATE;
+    }
+
+    public int getGAME_OVER_STATE() {
+        return GAME_OVER_STATE;
     }
 
     public void startGameThread() {

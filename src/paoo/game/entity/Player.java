@@ -47,7 +47,7 @@ public class Player extends Entity {
 
         setDefaultValues();
         getPlayerImage();
-        setItem();
+        setItems();
     }
 
     public int getSCREEN_X() {
@@ -84,14 +84,21 @@ public class Player extends Entity {
         worldY = tileY * gamePanel.getTILE_SIZE();
     }
 
-    public void setItem() {
-        // TODO: Change later
-//        inventory.add(new ObjCarrot(gamePanel));
-//        inventory.add(new ObjCarrot(gamePanel));
-//        inventory.add(new ObjCarrot(gamePanel));
-//        inventory.add(new ObjCarrot(gamePanel));
-//        inventory.add(new ObjCarrot(gamePanel));
-//        inventory.add(new ObjCarrot(gamePanel));
+    public void setDefaultPositions() {
+        // Player position in the map
+        worldX = gamePanel.getTILE_SIZE() * 45; // Start column
+        worldY = gamePanel.getTILE_SIZE() * 26; // Start line
+
+        direction = "down";
+    }
+
+    public void restoreLife() {
+        life = maxLife;
+        invincible = false;
+    }
+
+    public void setItems() {
+        inventory.clear();
     }
 
     public void update() {
@@ -156,14 +163,18 @@ public class Player extends Entity {
             spriteCounter++;
         }
 
-        if(invincible) {
-            invincibleCounter ++;
-            if(invincibleCounter > 60) {
+        if (invincible) {
+            invincibleCounter++;
+            if (invincibleCounter > 60) {
                 invincible = false;
                 invincibleCounter = 0;
             }
         }
 
+        if (life <= 0) {
+            gamePanel.setGameState(gamePanel.getGAME_OVER_STATE());
+            gamePanel.playSE(3);
+        }
     }
 
     // TODO: Set specific reaction for each object
@@ -192,51 +203,25 @@ public class Player extends Entity {
                             text = "The carrot is not ready to be harvested yet.";
                         }
                     }
-                }
-
-//                inventory.add(gamePanel.getObjects()[i]);
-//                gamePanel.playSE(1);
-//                text = "You harvested a carrot!";
-            }
-            else {
-                text = "You cannot carry anymore!";
-            }
-
-            gamePanel.getUi().showMessage(text);
-
-            // TODO: Add artefact object, etc
-//
-//                case "Artefact" -> {
-//                    n`rArtefacts++;
-//
-//                    // Object disappear (delete)
-//                    gamePanel.getObject()[i] = null;
-//                }
-//
-//                // TODO: Getting seeds from grandpa, after the dialogue
-//                case "Seed" -> {
-//                    gamePanel.getUi().showMessage("Carrot seed!");
-////                    if (Check dialogue ){
-////                        gamePanel.getObject()[i] = null;
-////                    }
-//                }
-//                case "Portal" -> {
+                    case "Chest" -> {
+                        gamePanel.getUi().showMessage("Chest will open after the task is done!");
+                        if (nrCarrots >= 10) {
+                            // TODO: Add sword and artefact to inventory
+//                          inventory.add(sword and artefact);
+                        }
+                    }
+                    //                case "Portal" -> {
 //                    if (nrArtefacts > 0) {
 //                        // TODO: Move to the next level
 //                        nrArtefacts--;
 //                    }
 //                }
-//                case "Chest" -> {
-//                    // TODO: Add sound for unlocking chest
-////                    gamePanel.playSE(numer of sound);
-//                    gamePanel.getUi().showMessage("Chest will open after the task is done!");
-//                    if (nrCarrots >= 5) {
-//                        gamePanel.getUi().setGameFinished(true);
-//                        gamePanel.stopMusic();
-////                        gamePanel.playSE(nr. of win first level);
-//                    }
-//                }
-//            }
+                }
+            } else {
+                text = "You cannot carry anymore!";
+            }
+
+            gamePanel.getUi().showMessage(text);
         }
     }
 
@@ -250,10 +235,11 @@ public class Player extends Entity {
     }
 
     public void contactMonster(int i) {
-        if(i != -1) {
-            if(!invincible) {
+        if (i != -1) {
+            if (!invincible) {
                 life -= 1;
                 invincible = true;
+                gamePanel.playSE(6);
             }
         }
     }
@@ -281,12 +267,11 @@ public class Player extends Entity {
 
         graphics2D.drawImage(image, SCREEN_X, SCREEN_Y, null);
 
-        if(invincible) {
+        if (invincible) {
             graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
         }
 
         // Reset alpha
-
         graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 
         // Draw solid area for debug purposes
@@ -295,7 +280,8 @@ public class Player extends Entity {
 //        graphics2D.drawRect(getSCREEN_X() + solidArea.x, getSCREEN_Y() + solidArea.y, solidArea.width, solidArea.height);
     }
 
-    protected BufferedImage getBufferedImage(int frame, BufferedImage down1, BufferedImage down2, BufferedImage down3, BufferedImage down4, BufferedImage down5, BufferedImage down6) {
+    protected BufferedImage getBufferedImage(int frame, BufferedImage down1, BufferedImage down2, BufferedImage
+            down3, BufferedImage down4, BufferedImage down5, BufferedImage down6) {
         return switch (frame) {
             case 2 -> down2;
             case 3 -> down3;

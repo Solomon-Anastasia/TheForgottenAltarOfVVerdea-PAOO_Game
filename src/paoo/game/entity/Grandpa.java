@@ -57,6 +57,7 @@ public class Grandpa extends Entity {
 
     public void speak() {
         super.speak();
+        gamePanel.playSE(4);
     }
 
     public void getNpcImage() {
