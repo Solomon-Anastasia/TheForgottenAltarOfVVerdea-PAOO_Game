@@ -18,7 +18,7 @@ public class Wizard extends Entity {
 
     public void setDialogue() {
         if (gamePanel.getPlayer().getNrCarrots() < 10) {
-            // Initial interaction (before collecting 10 carrots)
+            // Initial interaction
             dialogues[0] = "So... you’re Ryo. The land has whispered your\nname for some time now.";
             dialogues[1] = "Your grandfather once stood where you do,\nyoung and stubborn, full of fire.";
             dialogues[2] = "I sense that same flame in you. Good. We’ll\nneed it for what’s to come.";
@@ -29,8 +29,7 @@ public class Wizard extends Entity {
             dialogues[7] = "Only then will I unlock the chest that holds your\nsword — forged in elderfire, bound by ancient wood.";
             dialogues[8] = "Return when you're ready. The island watches.\nAnd time grows short.";
         }
-        // Follow-up interaction (after collecting 10 carrots)
-        // You can load these in a second array, or overwrite the current one dynamically.
+        // Follow-up interaction
         else {
             dialogues[0] = "Ah... I see you’ve returned with the carrots.";
             dialogues[1] = "You’ve shown determination — the kind needed to\nstand against the darkness.";
