@@ -24,6 +24,9 @@ public class Entity {
     protected BufferedImage down1, down2, down3, down4, down5, down6;
     protected BufferedImage left1, left2, left3, left4, left5, left6;
     protected BufferedImage right1, right2, right3, right4, right5, right6;
+    protected BufferedImage attack_right_1, attack_right_2, attack_right_3, attack_right_4,attack_right_5,attack_right_6,attack_right_7, attack_right_8, attack_right_9,attack_right_10;
+    protected BufferedImage attack_left_1, attack_left_2, attack_left_3, attack_left_4,attack_left_5,attack_left_6,attack_left_7, attack_left_8, attack_left_9,attack_left_10;
+
 
     protected BufferedImage upIdle1, upIdle2;
     protected BufferedImage downIdle1, downIdle2;
@@ -45,6 +48,7 @@ public class Entity {
     protected int spriteNumber = 1;
 
     protected Rectangle solidArea = new Rectangle(0, 0, 48, 48);
+    protected Rectangle attackArea = new Rectangle (0, 0, 0, 0);
     protected int solidAreaDefaultX;
     protected int solidAreaDefaultY;
     protected boolean isCollisionOn = false;
@@ -53,6 +57,7 @@ public class Entity {
     protected boolean invincible = false;
     protected int invincibleCounter = 0;
     protected int renderPriority = 1;
+    protected boolean attacking = false;
 
     protected String[] dialogues = new String[20];
     protected int dialogueIndex = 0;
@@ -218,6 +223,14 @@ public class Entity {
             }
             spriteCounter = 0;
         }
+
+        if (invincible) {
+            invincibleCounter++;
+            if (invincibleCounter > 40) {
+                invincible = false;
+                invincibleCounter = 0;
+            }
+        }
     }
 
     public void draw(Graphics2D graphics2D) {
@@ -237,7 +250,14 @@ public class Entity {
                 case "left" -> image = getBufferedImage(spriteNumber, left1, left2, left3, left4);
                 case "right" -> image = getBufferedImage(spriteNumber, right1, right2, right3, right4);
             }
+
+            if (invincible) {
+                graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+            }
+
             graphics2D.drawImage(image, screenX, screenY, width, height, null);
+
+            graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
         }
     }
 

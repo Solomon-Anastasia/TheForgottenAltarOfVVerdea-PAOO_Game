@@ -46,9 +46,13 @@ public class Player extends Entity {
 
         renderPriority = 1;
 
+        attackArea.width = 36;
+        attackArea.height = 36;
+
         setDefaultValues();
         getPlayerImage();
         setItems();
+        getPlayerAttackImage();
     }
 
     public boolean isTeleportReady() {
@@ -121,6 +125,69 @@ public class Player extends Entity {
     public void setItems() {
         inventory.clear();
     }
+
+    public void attacking() {
+        spriteCounter++;
+
+        if (spriteCounter <= 5) {
+            spriteNumber = 1;
+        }
+        if (spriteCounter > 5 && spriteCounter <= 10) {
+            spriteNumber = 2;
+            int currentWorldX = worldX;
+            int currentWorldY = worldY;
+            int solidAreaWidth = solidArea.width;
+            int solidAreaHeight = solidArea.height;
+
+            switch (direction){
+                case "right": worldX += attackArea.width;break;
+                case "left": worldY += attackArea.width;break;
+            }
+
+            solidArea.width = attackArea.width;
+            solidArea.height = attackArea.height;
+
+            int monsterIndex = gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getMonster());
+            damageMonster(monsterIndex);
+
+            worldX = currentWorldX;
+            worldY = currentWorldY;
+            solidArea.width = solidAreaWidth;
+            solidArea.height = solidAreaHeight;
+
+        }
+        if (spriteCounter > 10 && spriteCounter <= 15) {
+            spriteNumber = 3;
+        }
+        if (spriteCounter > 15 && spriteCounter <= 20) {
+            spriteNumber = 4;
+        }
+        if (spriteCounter > 20 && spriteCounter <= 25) {
+            spriteNumber = 5;
+        }
+        if (spriteCounter > 25 && spriteCounter <= 30) {
+            spriteNumber = 6;
+        }
+        if (spriteCounter > 30 && spriteCounter <= 35) {
+            spriteNumber = 7;
+        }
+        if (spriteCounter > 35 && spriteCounter <= 40) {
+            spriteNumber = 8;
+        }
+        if (spriteCounter > 40 && spriteCounter <= 45) {
+            spriteNumber = 9;
+        }
+        if (spriteCounter > 45 && spriteCounter <= 50) {
+            spriteNumber = 10;
+        }
+
+        if (spriteCounter > 50) {
+            spriteNumber = 1;
+            spriteCounter = 0;
+            attacking = false;
+        }
+    }
+
 
     public void pickUpObject(int i) {
         if (i != -1) {
@@ -240,10 +307,14 @@ public class Player extends Entity {
     }
 
     public void interactNpc(int i) {
-        if (i != -1) {
-            if (gamePanel.getKeyHandler().isEnterPressed()) {
+
+        if(gamePanel.getKeyHandler().isEnterPressed() == true){
+            if (i != -1) {
                 gamePanel.setGameState(gamePanel.getDIALOG_STATE());
                 gamePanel.getNpc()[i].speak();
+            }
+            else {
+                attacking = true;
             }
         }
     }
@@ -258,67 +329,88 @@ public class Player extends Entity {
         }
     }
 
+    public void damageMonster(int i) {
+        if(i != -1) {
+
+            if(gamePanel.getMonster()[i].invincible == false) {
+
+                gamePanel.getMonster()[i].life -= 1;
+                gamePanel.getMonster()[i].invincible = true;
+
+                if(gamePanel.getMonster()[i].life <= 0) {
+                    gamePanel.getMonster()[i] = null;
+                }
+            }
+        }
+
+    }
+
     public void update() {
         isMoving = keyHandler.isUpPressed() || keyHandler.isDownPressed() || keyHandler.isRightPressed() || keyHandler.isLeftPressed();
+        if (attacking == true) {
+            attacking();
 
-        if (isMoving) {
-            if (keyHandler.isUpPressed()) {
-                direction = "up";
-            } else if (keyHandler.isDownPressed()) {
-                direction = "down";
-            } else if (keyHandler.isLeftPressed()) {
-                direction = "left";
-            } else if (keyHandler.isRightPressed()) {
-                direction = "right";
-            }
-
-            // Check tile collision
-            isCollisionOn = false;
-            gamePanel.getCollisionChecker().checkTile(this);
-
-            // Check object collision
-            int objectIndex = gamePanel.getCollisionChecker().checkObject(this, true);
-
-            // Based of index, determine payer interaction with it
-            pickUpObject(objectIndex);
-
-            // Check NPC collision
-            int npcIndex = gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getNpc());
-            interactNpc(npcIndex);
-
-            // Check monster collision
-            int monsterIndex = gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getMonster());
-            contactMonster(monsterIndex);
-
-            // Check event
-            gamePanel.getEventHandler().checkEvent();
-            gamePanel.getKeyHandler().setEnterPressed(false);
-
-            // If collision is false, player can move
-            if (!isCollisionOn) {
-                switch (direction) {
-                    case "up" -> worldY -= speed;
-                    case "down" -> worldY += speed;
-                    case "left" -> worldX -= speed;
-                    case "right" -> worldX += speed;
-                }
-            }
-
-            spriteCounter++;
-            if (spriteCounter > 5) {
-                switch (spriteNumber) {
-                    case 1 -> spriteNumber = 2;
-                    case 2 -> spriteNumber = 3;
-                    case 3 -> spriteNumber = 4;
-                    case 4 -> spriteNumber = 5;
-                    case 5 -> spriteNumber = 6;
-                    case 6 -> spriteNumber = 1;
-                }
-                spriteCounter = 0;
-            }
         } else {
-            spriteCounter++;
+            if (isMoving) {
+                if (keyHandler.isUpPressed()) {
+                    direction = "up";
+                } else if (keyHandler.isDownPressed()) {
+                    direction = "down";
+                } else if (keyHandler.isLeftPressed()) {
+                    direction = "left";
+                } else if (keyHandler.isRightPressed()) {
+                    direction = "right";
+                }
+
+                // Check tile collision
+                isCollisionOn = false;
+                gamePanel.getCollisionChecker().checkTile(this);
+
+                // Check object collision
+                int objectIndex = gamePanel.getCollisionChecker().checkObject(this, true);
+
+                // Based of index, determine payer interaction with it
+                pickUpObject(objectIndex);
+
+                // Check NPC collision
+                int npcIndex = gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getNpc());
+                interactNpc(npcIndex);
+
+                // Check monster collision
+                int monsterIndex = gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getMonster());
+                contactMonster(monsterIndex);
+
+                // Check event
+                gamePanel.getEventHandler().checkEvent();
+                gamePanel.getKeyHandler().setEnterPressed(false);
+
+                // If collision is false, player can move
+                if (!isCollisionOn) {
+                    switch (direction) {
+                        case "up" -> worldY -= speed;
+                        case "down" -> worldY += speed;
+                        case "left" -> worldX -= speed;
+                        case "right" -> worldX += speed;
+                    }
+                }
+
+                spriteCounter++;
+                if (spriteCounter > 5) {
+                    switch (spriteNumber) {
+                        case 1 -> spriteNumber = 2;
+                        case 2 -> spriteNumber = 3;
+                        case 3 -> spriteNumber = 4;
+                        case 4 -> spriteNumber = 5;
+                        case 5 -> spriteNumber = 6;
+                        case 6 -> spriteNumber = 1;
+                    }
+                    spriteCounter = 0;
+                }
+            } else {
+                spriteCounter++;
+            }
         }
+
 
         if (invincible) {
             invincibleCounter++;
@@ -336,13 +428,49 @@ public class Player extends Entity {
 
     public void draw(Graphics2D graphics2D) {
         BufferedImage image = null;
+        int tempScreenX = getSCREEN_X();
+        int tempScreenY = getSCREEN_Y();
 
         if (isMoving) {
             switch (direction) {
                 case "up" -> image = getBufferedImage(spriteNumber, up1, up2, up3, up4, up5, up6);
                 case "down" -> image = getBufferedImage(spriteNumber, down1, down2, down3, down4, down5, down6);
-                case "left" -> image = getBufferedImage(spriteNumber, left1, left2, left3, left4, left5, left6);
-                case "right" -> image = getBufferedImage(spriteNumber, right1, right2, right3, right4, right5, right6);
+                case "left" -> {
+                    if(attacking == false) {
+                        image = getBufferedImage(spriteNumber, left1, left2, left3, left4, left5, left6);
+                    }
+                    if(attacking == true) {
+                        //tempScreenY = getSCREEN_Y() - gamePanel.getTILE_SIZE();
+                        if(spriteNumber == 1) {image = attack_left_1;}
+                        if(spriteNumber == 2) {image = attack_left_2;}
+                        if(spriteNumber == 3) {image = attack_left_3;}
+                        if(spriteNumber == 4) {image = attack_left_4;}
+                        if(spriteNumber == 5) {image = attack_left_5;}
+                        if(spriteNumber == 6) {image = attack_left_6;}
+                        if(spriteNumber == 7) {image = attack_left_7;}
+                        if(spriteNumber == 8) {image = attack_left_8;}
+                        if(spriteNumber == 9) {image = attack_left_9;}
+                        if(spriteNumber == 10) {image = attack_left_10;}
+                    }
+                }
+                case "right" -> {
+                    if(attacking == false) {
+                        image = getBufferedImage(spriteNumber, right1, right2, right3, right4, right5, right6);
+                    }
+                    if(attacking == true) {
+                        // tempScreenX = getSCREEN_X() - gamePanel.getTILE_SIZE();
+                        if(spriteNumber == 1) {image = attack_right_1;}
+                        if(spriteNumber == 2) {image = attack_right_2;}
+                        if(spriteNumber == 3) {image = attack_right_3;}
+                        if(spriteNumber == 4) {image = attack_right_4;}
+                        if(spriteNumber == 5) {image = attack_right_5;}
+                        if(spriteNumber == 6) {image = attack_right_6;}
+                        if(spriteNumber == 7) {image = attack_right_7;}
+                        if(spriteNumber == 8) {image = attack_right_8;}
+                        if(spriteNumber == 9) {image = attack_right_9;}
+                        if(spriteNumber == 10) {image = attack_right_10;}
+                    }
+                }
             }
         } else {
             int idleFrame = (spriteCounter / 25) % 2 + 1; // Cycle every ~25 ticks
@@ -355,10 +483,10 @@ public class Player extends Entity {
             }
         }
 
-        graphics2D.drawImage(image, SCREEN_X, SCREEN_Y, null);
+        graphics2D.drawImage(image, tempScreenX, tempScreenY, null);
 
         if (invincible) {
-            graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
+            graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
         }
 
         // Reset alpha
@@ -427,5 +555,29 @@ public class Player extends Entity {
 
         rightIdle1 = setup("/player/player_rightIdle_1");
         rightIdle2 = setup("/player/player_rightIdle_2");
+    }
+
+    public void getPlayerAttackImage(){
+        attack_right_1 = setup("/player/player_attack_1");
+        attack_right_2 = setup("/player/player_attack_2");
+        attack_right_3 = setup("/player/player_attack_3");
+        attack_right_4 = setup("/player/player_attack_4");
+        attack_right_5 = setup("/player/player_attack_5");
+        attack_right_6 = setup("/player/player_attack_6");
+        attack_right_7 = setup("/player/player_attack_7");
+        attack_right_8 = setup("/player/player_attack_8");
+        attack_right_9 = setup("/player/player_attack_9");
+        attack_right_10 = setup("/player/player_attack_10");
+
+        attack_left_1 = setup("/player/player_attack_11");
+        attack_left_2 = setup("/player/player_attack_12");
+        attack_left_3 = setup("/player/player_attack_13");
+        attack_left_4 = setup("/player/player_attack_14");
+        attack_left_5 = setup("/player/player_attack_15");
+        attack_left_6 = setup("/player/player_attack_16");
+        attack_left_7 = setup("/player/player_attack_17");
+        attack_left_8 = setup("/player/player_attack_18");
+        attack_left_9 = setup("/player/player_attack_19");
+        attack_left_10 = setup("/player/player_attack_20");
     }
 }
