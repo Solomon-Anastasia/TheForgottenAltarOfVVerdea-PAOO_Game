@@ -257,7 +257,6 @@ public class Entity {
     }
 
     public void interact() {
-
     }
 
     protected BufferedImage getBufferedImage(int frame, BufferedImage frame1, BufferedImage frame2, BufferedImage frame3, BufferedImage frame4) {

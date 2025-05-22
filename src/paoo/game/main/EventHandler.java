@@ -48,12 +48,13 @@ public class EventHandler {
         }
 
         if (canTouchEvent) {
+            // TODO: maybe delete
 //            if (hit(40, 35, "any")) {
 //                damage(47, 26, gamePanel.getDIALOG_STATE());
 //            }
-            if (hit(59, 40, "any")) {
-                teleport(59, 40, gamePanel.getDIALOG_STATE());
-            }
+//            if (hit(59, 40, "any")) {
+//                teleport(1, 59, 40);
+//            }
         }
     }
 
@@ -98,11 +99,18 @@ public class EventHandler {
         canTouchEvent = false;
     }
 
-    public void teleport(int col, int row, int gameState) {
-        gamePanel.setGameState(gameState);
-        gamePanel.getUi().setCurrentDialogue("Teleport!");
+    public void teleport(int map, int col, int row) {
+//        gamePanel.setGameState(gameState);
+//        gamePanel.getUi().setCurrentDialogue("Teleport!");
+//
+//        gamePanel.getPlayer().setWorldX(gamePanel.getTILE_SIZE() * 50);
+//        gamePanel.getPlayer().setWorldY(gamePanel.getTILE_SIZE() * 30);
 
-        gamePanel.getPlayer().setWorldX(gamePanel.getTILE_SIZE() * 50);
-        gamePanel.getPlayer().setWorldY(gamePanel.getTILE_SIZE() * 30);
+//        gamePanel.setCurrentMap(map);
+//        gamePanel.getPlayer().setWorldX(gamePanel.getTILE_SIZE() * col);
+//        gamePanel.getPlayer().setWorldY(gamePanel.getTILE_SIZE() * row);
+//
+//        previousEventX = gamePanel.getPlayer().getWorldX();
+//        previousEventY = gamePanel.getPlayer().getWorldY();
     }
 }

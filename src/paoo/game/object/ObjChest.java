@@ -55,7 +55,7 @@ public class ObjChest extends Entity {
                             .append("!");
 
                     gamePanel.getPlayer().addItemToInventory(loot1);
-                    gamePanel.getPlayer().addItemToInventory(loot1);
+                    gamePanel.getPlayer().addItemToInventory(loot2);
 
                     down1 = image2;
                     opened = true;

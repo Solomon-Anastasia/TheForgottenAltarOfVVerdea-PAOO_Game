@@ -65,6 +65,18 @@ public class KeyHandler implements KeyListener {
         isEnterPressed = enterPressed;
     }
 
+    public void setLevel1(boolean level1) {
+        isLevel1 = level1;
+    }
+
+    public void setLevel2(boolean level2) {
+        isLevel2 = level2;
+    }
+
+    public void setLevel3(boolean level3) {
+        isLevel3 = level3;
+    }
+
     @Override
     public void keyTyped(KeyEvent e) { // Won't be used
     }
@@ -152,24 +164,25 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_ENTER) {
             isEnterPressed = true;
         }
-        if (code == KeyEvent.VK_1) {
-            isLevel1 = true;
-
-            isLevel2 = false;
-            isLevel3 = false;
-        }
-        if (code == KeyEvent.VK_2) {
-            isLevel2 = true;
-
-            isLevel1 = false;
-            isLevel3 = false;
-        }
-        if (code == KeyEvent.VK_3) {
-            isLevel3 = true;
-
-            isLevel1 = false;
-            isLevel2 = false;
-        }
+        // TODO: delete
+//        if (code == KeyEvent.VK_1) {
+//            isLevel1 = true;
+//
+//            isLevel2 = false;
+//            isLevel3 = false;
+//        }
+//        if (code == KeyEvent.VK_2) {
+//            isLevel2 = true;
+//
+//            isLevel1 = false;
+//            isLevel3 = false;
+//        }
+//        if (code == KeyEvent.VK_3) {
+//            isLevel3 = true;
+//
+//            isLevel1 = false;
+//            isLevel2 = false;
+//        }
         if (code == KeyEvent.VK_I) {
             gamePanel.setGameState(gamePanel.getINVENTORY_STATE());
         }
@@ -191,6 +204,11 @@ public class KeyHandler implements KeyListener {
 
     public void dialogueState(int code) {
         if (code == KeyEvent.VK_ENTER) {
+            if (gamePanel.getPlayer().isTeleportReady()) {
+                gamePanel.getPlayer().teleportToNextLevel();
+                gamePanel.getPlayer().setTeleportReady(false);
+            }
+
             gamePanel.setGameState(gamePanel.getPLAY_STATE());
         }
     }

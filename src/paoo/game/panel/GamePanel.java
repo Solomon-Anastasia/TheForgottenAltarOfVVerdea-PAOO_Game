@@ -108,6 +108,10 @@ public class GamePanel extends JPanel implements Runnable {
         this.gameState = gameState;
     }
 
+    public void setCurrentMap(int currentMap) {
+        this.currentMap = currentMap;
+    }
+
     public Entity[] getObjects() {
         return objects;
     }
@@ -184,6 +188,10 @@ public class GamePanel extends JPanel implements Runnable {
         return monster;
     }
 
+    public AssetSetter getAssetSetter() {
+        return assetSetter;
+    }
+
     public KeyHandler getKeyHandler() {
         return keyHandler;
     }
@@ -248,6 +256,8 @@ public class GamePanel extends JPanel implements Runnable {
 
                     currentMap = 0;
                     assetSetter.setObject();
+                    assetSetter.setNpc();
+                    assetSetter.setMonster();
                     player.setDefaultPosition(45, 26);
                 }
             }
@@ -260,6 +270,8 @@ public class GamePanel extends JPanel implements Runnable {
 
                     currentMap = 1;
                     assetSetter.setObject();
+                    assetSetter.setNpc();
+                    assetSetter.setMonster();
                     player.setDefaultPosition(30, 30);
                 }
             }
@@ -272,6 +284,8 @@ public class GamePanel extends JPanel implements Runnable {
 
                     currentMap = 2;
                     assetSetter.setObject();
+                    assetSetter.setNpc();
+                    assetSetter.setMonster();
                     player.setDefaultPosition(40, 40);
                 }
             }

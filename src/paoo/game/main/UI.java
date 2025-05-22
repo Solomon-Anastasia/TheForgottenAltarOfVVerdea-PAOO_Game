@@ -35,9 +35,6 @@ public class UI {
     private int slotCol = 0;
     private int slotRow = 0;
 
-    private boolean isGameFinished = false;
-
-    // TODO: Don't forget to add time back
     private double playTime;
     private DecimalFormat decimalFormat = new DecimalFormat("#0.00");
 
@@ -46,8 +43,6 @@ public class UI {
 
         arial20 = new Font("Arial", Font.BOLD, 20);
         arial25 = new Font("Arial", Font.BOLD, 25);
-
-        // carrot = new ObjCarrot(gamePanel);
 
         // Create HUD object
         Entity heart = new ObjHeart(gamePanel);
@@ -74,10 +69,6 @@ public class UI {
 
     public void setCurrentDialogue(String currentDialogue) {
         this.currentDialogue = currentDialogue;
-    }
-
-    public void setGameFinished(boolean gameFinished) {
-        isGameFinished = gameFinished;
     }
 
     public void setSlotCol(int slotCol) {
@@ -121,38 +112,6 @@ public class UI {
             gameOverScreen();
         }
 
-
-        // TODO: ADD later only necessary
-//        if (isGameFinished) {
-//            String text = "Level 1 finished!";
-//            int textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-//            int x;
-//            int y;
-//
-//            x = gamePanel.getSCREEN_WIDTH() / 2 - textLength / 2;
-//            y = gamePanel.getSCREEN_HEIGHT() / 2  - (gamePanel.getTILE_SIZE() * 3);
-//            g2.drawString(text, x, y);
-//
-//            text = "Your time is " + decimalFormat.format(playTime) + "!";
-//            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-//            x = gamePanel.getSCREEN_WIDTH() / 2 - textLength / 2;
-//            y = gamePanel.getSCREEN_HEIGHT() / 2  + (gamePanel.getTILE_SIZE() * 4);
-//            g2.drawString(text, x, y);
-//
-//            g2.setFont(arial25);
-//            g2.setColor(Color.BLACK);
-//            text = "Congratulation!";
-//            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-//            x = gamePanel.getSCREEN_WIDTH() / 2 - textLength / 2;
-//            y = gamePanel.getSCREEN_HEIGHT() / 2  + (gamePanel.getTILE_SIZE() * 2);
-//            g2.drawString(text, x, y);
-//
-//            // Stop game
-//            gamePanel.setGameThread(null);
-//        } else {
-//            g2.drawImage(carrot.getImage(), gamePanel.getTILE_SIZE() / 2, gamePanel.getTILE_SIZE() / 2, carrot.getHeight() * 2, carrot.getWidth() * 2, null);
-//            g2.drawString("x" + gamePanel.getPlayer().getNrCarrots(), 60, 35);
-//
         // Message
         if (messageOn) {
             g2.setFont(g2.getFont().deriveFont(20F));
@@ -301,7 +260,7 @@ public class UI {
 
             // Display amount
             if (playerInventory.get(i).getAmount() > 1) {
-                g2.setFont(g2.getFont().deriveFont(10F));
+                g2.setFont(g2.getFont().deriveFont(15F));
 
                 int amountX;
                 int amountY;

@@ -15,7 +15,6 @@ public class Player extends Entity {
     private final int SCREEN_X;
     private final int SCREEN_Y;
 
-    // TODO: Change it after artefact is added, etc
     private int nrArtefacts = 0;
     private int nrCarrots = 0;
 
@@ -23,6 +22,8 @@ public class Player extends Entity {
 
     private ArrayList<Entity> inventory = new ArrayList<>();
     private final int MAX_INVENTORY_SIZE = 20;
+
+    private boolean teleportReady = false;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         super(gamePanel);
@@ -50,6 +51,10 @@ public class Player extends Entity {
         setItems();
     }
 
+    public boolean isTeleportReady() {
+        return teleportReady;
+    }
+
     public int getSCREEN_X() {
         return SCREEN_X;
     }
@@ -60,6 +65,10 @@ public class Player extends Entity {
 
     public int getNrCarrots() {
         return nrCarrots;
+    }
+
+    public int getNrArtefacts() {
+        return nrArtefacts;
     }
 
     public ArrayList<Entity> getInventory() {
@@ -96,6 +105,10 @@ public class Player extends Entity {
         direction = "down";
     }
 
+    public void setTeleportReady(boolean teleportReady) {
+        this.teleportReady = teleportReady;
+    }
+
     public void addInventory(Entity entity) {
         this.inventory.add(entity);
     }
@@ -109,7 +122,6 @@ public class Player extends Entity {
         inventory.clear();
     }
 
-    // TODO: Set specific reaction for each object
     public void pickUpObject(int i) {
         if (i != -1) {
             String objectName = gamePanel.getObjects()[i].getName();
@@ -144,20 +156,36 @@ public class Player extends Entity {
                         if (keyHandler.isEnterPressed()) {
                             // TODO: For the sword, make attackCanceled = true
                             gamePanel.getObjects()[i].interact();
+                            nrArtefacts++;
                         }
                     }
-                    //                case "Portal" -> {
-//                    if (nrArtefacts > 0) {
-//                        // TODO: Move to the next level
-//                        nrArtefacts--;
-//                    }
-//                }
+                    case "Portal" -> {
+                        if (keyHandler.isEnterPressed()) {
+                            gamePanel.getObjects()[i].interact();
+                        }
+                    }
                 }
             } else {
                 gamePanel.getUi().showMessage("You cannot carry anymore!");
             }
         }
     }
+
+    public void teleportToNextLevel() {
+        gamePanel.playSE(5);
+
+        // Change the level
+        if (gamePanel.getKeyHandler().isLevel1()) {
+            gamePanel.getKeyHandler().setLevel2(true);
+            gamePanel.getKeyHandler().setLevel1(false);
+        } else if (gamePanel.getKeyHandler().isLevel2()) {
+            gamePanel.getKeyHandler().setLevel3(true);
+            gamePanel.getKeyHandler().setLevel2(false);
+        }
+
+        gamePanel.setGameState(gamePanel.getPLAY_STATE());
+    }
+
 
     public int searchItemInInventory(String itemName) {
         int itemIndex = -1;
