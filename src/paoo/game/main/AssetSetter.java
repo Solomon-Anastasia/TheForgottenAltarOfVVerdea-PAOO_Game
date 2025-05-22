@@ -22,7 +22,8 @@ public class AssetSetter {
             i = 0;
 
             // Chest
-            gamePanel.getObjects()[i] = new ObjChest(gamePanel);
+            // TODO: Change to sword and artefact
+            gamePanel.getObjects()[i] = new ObjChest(gamePanel, new ObjCarrot(gamePanel), new ObjCarrot(gamePanel));
             gamePanel.getObjects()[i].setWorldX(59 * gamePanel.getTILE_SIZE()); // Column
             gamePanel.getObjects()[i].setWorldY(39 * gamePanel.getTILE_SIZE()); // Row
             ++i;

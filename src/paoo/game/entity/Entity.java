@@ -37,6 +37,7 @@ public class Entity {
     protected String name;
     protected boolean collision = false;
     protected int type; // 0 = player, 1 = npc, 2 = monster
+    protected final int TYPE_CONSUMABLE = 7;
 
     protected String direction = "down";
 
@@ -62,6 +63,8 @@ public class Entity {
 
     // Item attribute
     protected String description = "";
+    protected boolean stackable = false;
+    protected int amount = 0;
 
     public Entity(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -136,6 +139,10 @@ public class Entity {
 
     public String getDescription() {
         return description;
+    }
+
+    public int getAmount() {
+        return amount;
     }
 
     public void setRenderPriority(int priority) {
@@ -247,6 +254,10 @@ public class Entity {
             case "left" -> direction = "right";
             case "right" -> direction = "left";
         }
+    }
+
+    public void interact() {
+
     }
 
     protected BufferedImage getBufferedImage(int frame, BufferedImage frame1, BufferedImage frame2, BufferedImage frame3, BufferedImage frame4) {

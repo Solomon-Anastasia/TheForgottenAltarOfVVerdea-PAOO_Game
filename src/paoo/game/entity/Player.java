@@ -66,6 +66,10 @@ public class Player extends Entity {
         return inventory;
     }
 
+    public int getMAX_INVENTORY_SIZE() {
+        return MAX_INVENTORY_SIZE;
+    }
+
     public void setDefaultValues() {
         // Player position in the map
         worldX = gamePanel.getTILE_SIZE() * 45; // Start column
@@ -92,6 +96,10 @@ public class Player extends Entity {
         direction = "down";
     }
 
+    public void addInventory(Entity entity) {
+        this.inventory.add(entity);
+    }
+
     public void restoreLife() {
         life = maxLife;
         invincible = false;
@@ -99,6 +107,127 @@ public class Player extends Entity {
 
     public void setItems() {
         inventory.clear();
+    }
+
+    // TODO: Set specific reaction for each object
+    public void pickUpObject(int i) {
+        if (i != -1) {
+            String objectName = gamePanel.getObjects()[i].getName();
+
+            if (inventory.size() != MAX_INVENTORY_SIZE) {
+                switch (objectName) {
+                    case "Carrot" -> {
+                        ObjCarrot carrot = (ObjCarrot) gamePanel.getObjects()[i];
+
+                        if (canObtainItem(carrot)) {
+                            if (carrot.isHarvested() && !carrot.isCollected()) {
+
+                                gamePanel.getUi().showMessage("You harvested a carrot!");
+                                gamePanel.playSE(1);
+
+                                nrCarrots++;
+                                carrot.collect(); // Mark this carrot as collected
+
+                                addItemToInventory(carrot);
+
+                                System.out.println("CARROT NR. " + nrCarrots);
+                            } else if (carrot.isReadyForHarvest()) {
+                                carrot.harvest();
+                            } else {
+                                gamePanel.getUi().showMessage("The carrot is not ready to be harvested yet!");
+                            }
+                        } else {
+                            gamePanel.getUi().showMessage("You cannot harvest anymore!");
+                        }
+                    }
+                    case "Chest" -> {
+                        if (keyHandler.isEnterPressed()) {
+                            // TODO: For the sword, make attackCanceled = true
+                            gamePanel.getObjects()[i].interact();
+                        }
+                    }
+                    //                case "Portal" -> {
+//                    if (nrArtefacts > 0) {
+//                        // TODO: Move to the next level
+//                        nrArtefacts--;
+//                    }
+//                }
+                }
+            } else {
+                gamePanel.getUi().showMessage("You cannot carry anymore!");
+            }
+        }
+    }
+
+    public int searchItemInInventory(String itemName) {
+        int itemIndex = -1;
+
+        for (int i = 0; i < inventory.size(); ++i) {
+            if (inventory.get(i).name.equals(itemName)) {
+                itemIndex = i;
+                break;
+            }
+        }
+
+        return itemIndex;
+    }
+
+    public boolean canObtainItem(Entity item) {
+        // Check if stackable
+        if (item.stackable) {
+            int index = searchItemInInventory(item.getName());
+
+            // If item exists in inventory, it can be stacked
+            if (index != -1) {
+                return true;
+            }
+        }
+
+        // For both stackable new items and non-stackable items,
+        // check if there's room in inventory
+        return inventory.size() < MAX_INVENTORY_SIZE;
+    }
+
+    // This method actually adds the item to inventory
+    public void addItemToInventory(Entity item) {
+        if (item.stackable) {
+            int index = searchItemInInventory(item.getName());
+
+            // If item exists, increment amount
+            if (index != -1) {
+                inventory.get(index).amount++;
+                System.out.println("DEBUG: Incremented " + item.getName() + " amount to " + inventory.get(index).amount);
+            }
+            // Otherwise add new item
+            else if (inventory.size() < MAX_INVENTORY_SIZE) {
+                item.amount = 1; // Set initial amount
+                inventory.add(item);
+                System.out.println("DEBUG: Added new " + item.getName() + " with amount 1");
+            }
+        }
+        // Non-stackable items
+        else if (inventory.size() < MAX_INVENTORY_SIZE) {
+            inventory.add(item);
+        }
+    }
+
+    public void interactNpc(int i) {
+        if (i != -1) {
+            if (gamePanel.getKeyHandler().isEnterPressed()) {
+                gamePanel.setGameState(gamePanel.getDIALOG_STATE());
+                gamePanel.getNpc()[i].speak();
+            }
+        }
+    }
+
+    public void contactMonster(int i) {
+        if (i != -1) {
+            if (!invincible) {
+                life -= 1;
+                invincible = true;
+                gamePanel.playSE(6);
+            }
+        }
     }
 
     public void update() {
@@ -177,73 +306,6 @@ public class Player extends Entity {
         }
     }
 
-    // TODO: Set specific reaction for each object
-    public void pickUpObject(int i) {
-        if (i != -1) {
-            String objectName = gamePanel.getObjects()[i].getName();
-            String text = "";
-
-            if (inventory.size() != MAX_INVENTORY_SIZE) {
-                switch (objectName) {
-                    case "Carrot" -> {
-                        ObjCarrot carrot = (ObjCarrot) gamePanel.getObjects()[i];
-
-                        if (carrot.isHarvested() && !carrot.isCollected()) {
-                            text = "You harvested a carrot!";
-                            gamePanel.playSE(1);
-
-                            nrCarrots++;
-                            carrot.collect(); // Mark this carrot as collected
-                            inventory.add(carrot);
-
-                            System.out.println("CARROT NR. " + nrCarrots);
-                        } else if (carrot.isReadyForHarvest()) {
-                            carrot.harvest();
-                        } else {
-                            text = "The carrot is not ready to be harvested yet.";
-                        }
-                    }
-                    case "Chest" -> {
-                        gamePanel.getUi().showMessage("Chest will open after the task is done!");
-                        if (nrCarrots >= 10) {
-                            // TODO: Add sword and artefact to inventory
-//                          inventory.add(sword and artefact);
-                        }
-                    }
-                    //                case "Portal" -> {
-//                    if (nrArtefacts > 0) {
-//                        // TODO: Move to the next level
-//                        nrArtefacts--;
-//                    }
-//                }
-                }
-            } else {
-                text = "You cannot carry anymore!";
-            }
-
-            gamePanel.getUi().showMessage(text);
-        }
-    }
-
-    public void interactNpc(int i) {
-        if (i != -1) {
-            if (gamePanel.getKeyHandler().isEnterPressed()) {
-                gamePanel.setGameState(gamePanel.getDIALOG_STATE());
-                gamePanel.getNpc()[i].speak();
-            }
-        }
-    }
-
-    public void contactMonster(int i) {
-        if (i != -1) {
-            if (!invincible) {
-                life -= 1;
-                invincible = true;
-                gamePanel.playSE(6);
-            }
-        }
-    }
-
     public void draw(Graphics2D graphics2D) {
         BufferedImage image = null;
 
@@ -280,8 +342,11 @@ public class Player extends Entity {
 //        graphics2D.drawRect(getSCREEN_X() + solidArea.x, getSCREEN_Y() + solidArea.y, solidArea.width, solidArea.height);
     }
 
-    protected BufferedImage getBufferedImage(int frame, BufferedImage down1, BufferedImage down2, BufferedImage
-            down3, BufferedImage down4, BufferedImage down5, BufferedImage down6) {
+    protected BufferedImage getBufferedImage(
+            int frame, BufferedImage down1, BufferedImage down2,
+            BufferedImage down3, BufferedImage down4,
+            BufferedImage down5, BufferedImage down6
+    ) {
         return switch (frame) {
             case 2 -> down2;
             case 3 -> down3;

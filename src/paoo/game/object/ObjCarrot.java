@@ -20,32 +20,29 @@ public class ObjCarrot extends Entity {
 
     public ObjCarrot(GamePanel gamePanel) {
         super(gamePanel);
+
         this.name = "Carrot";
+        direction = "down";
 
-        try {
-            stages = new BufferedImage[5];
+        stages = new BufferedImage[5];
+        stages[0] = setup("/objects/carrot_01");
+        stages[1] = setup("/objects/carrot_02");
+        stages[2] = setup("/objects/carrot_03");
+        stages[3] = setup("/objects/carrot_04");
+        stages[4] = setup("/objects/carrot_05");
+        harvestedImage = setup("/objects/soil_03");
 
-            stages[0] = setup("/objects/carrot_01");
-            stages[1] = setup("/objects/carrot_02");
-            stages[2] = setup("/objects/carrot_03");
-            stages[3] = setup("/objects/carrot_04");
-            stages[4] = setup("/objects/carrot_05");
+        down1 = stages[0];
+        down2 = stages[4];
 
-            harvestedImage = setup("/objects/soil_03");
-
-            down1 = stages[0];
-            down2 = stages[4];
-            direction = "down";
-            renderPriority = 0;
-
-            setSize(16, 16);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
+        renderPriority = 0;
         lastUpdateTime = System.currentTimeMillis();
         collision = false;
         description = "[" + name + "]\nPlain carrot!";
+        type = TYPE_CONSUMABLE;
+        stackable = true;
+
+        setSize(16, 16);
     }
 
     public boolean isHarvested() {

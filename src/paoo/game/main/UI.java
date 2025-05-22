@@ -9,6 +9,8 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class UI {
@@ -36,8 +38,8 @@ public class UI {
     private boolean isGameFinished = false;
 
     // TODO: Don't forget to add time back
-//    private double playTime;
-//    private DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+    private double playTime;
+    private DecimalFormat decimalFormat = new DecimalFormat("#0.00");
 
     public UI(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -91,7 +93,6 @@ public class UI {
         messageOn = true;
     }
 
-    // TODO: Display nr. of carrots player currently have
     public void draw(Graphics2D g2) {
         this.g2 = g2;
         g2.setFont(arial20);
@@ -102,6 +103,7 @@ public class UI {
         }
         if (gamePanel.getGameState() == gamePanel.getPLAY_STATE()) {
             drawPlayerLife();
+            drawTimer();
         }
         if (gamePanel.getGameState() == gamePanel.getPAUSE_STATE()) {
             drawPlayerLife();
@@ -151,18 +153,13 @@ public class UI {
 //            g2.drawImage(carrot.getImage(), gamePanel.getTILE_SIZE() / 2, gamePanel.getTILE_SIZE() / 2, carrot.getHeight() * 2, carrot.getWidth() * 2, null);
 //            g2.drawString("x" + gamePanel.getPlayer().getNrCarrots(), 60, 35);
 //
-//            // Timer (seconds)
-//            playTime += (double) 1 / 60;
-//            g2.drawString("Time: " + decimalFormat.format(playTime), gamePanel.getTILE_SIZE() * 13, gamePanel.getTILE_SIZE());
-//
         // Message
         if (messageOn) {
-            // TODO: Pick place for message
             g2.setFont(g2.getFont().deriveFont(20F));
             g2.drawString(message, gamePanel.getTILE_SIZE() * 5, gamePanel.getTILE_SIZE() * 5);
 
             messageCounter++;
-            if (messageCounter > 120) {
+            if (messageCounter > 30) {
                 messageCounter = 0;
                 messageOn = false;
             }
@@ -214,6 +211,12 @@ public class UI {
                 g2.drawString(">", x - gamePanel.getTILE_SIZE() / 2, y);
             }
         }
+    }
+
+    public void drawTimer() {
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 25F));
+        playTime += (double) 1 / 60;
+        g2.drawString("Time: " + decimalFormat.format(playTime), gamePanel.getTILE_SIZE() * 13, gamePanel.getTILE_SIZE());
     }
 
     public void drawPauseScreen() {
@@ -292,10 +295,31 @@ public class UI {
         int slotSize = gamePanel.getTILE_SIZE() + 3;
 
         // Draw player's items
-        for (int i = 0; i < gamePanel.getPlayer().getInventory().size(); ++i) {
-            g2.drawImage(gamePanel.getPlayer().getInventory().get(i).getDown2(), slotX, slotY, null);
-            slotX += slotSize;
+        ArrayList<Entity> playerInventory = gamePanel.getPlayer().getInventory();
+        for (int i = 0; i < playerInventory.size(); ++i) {
+            g2.drawImage(playerInventory.get(i).getDown2(), slotX, slotY, null);
 
+            // Display amount
+            if (playerInventory.get(i).getAmount() > 1) {
+                g2.setFont(g2.getFont().deriveFont(10F));
+
+                int amountX;
+                int amountY;
+
+                String s = "" + playerInventory.get(i).getAmount();
+                amountX = getXAlignToRightText(s, slotX + 44);
+                amountY = slotY + gamePanel.getTILE_SIZE();
+
+                // Shadow
+                g2.setColor(new Color(60, 60, 60));
+                g2.drawString(s, amountX, amountY);
+
+                // Number
+                g2.setColor(Color.WHITE);
+                g2.drawString(s, amountX - 3, amountY - 3);
+            }
+
+            slotX += slotSize;
             if ((i == 4) || (i == 9) || (i == 14)) {
                 slotX = slotXStart;
                 slotY += slotSize;
@@ -396,7 +420,7 @@ public class UI {
         return gamePanel.getSCREEN_WIDTH() / 2 - length / 2;
     }
 
-    public int getXAlignToRight(String text, int tailX) {
+    public int getXAlignToRightText(String text, int tailX) {
         int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
 
         return tailX - length;
