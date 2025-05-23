@@ -1,8 +1,10 @@
 package paoo.game.main;
 
+import paoo.game.database.DbManager;
 import paoo.game.panel.GamePanel;
 
 import javax.swing.*;
+import java.sql.SQLException;
 
 public class Main {
 
@@ -20,6 +22,14 @@ public class Main {
         window.setTitle("The forgotten Altar of Verdea");
         window.setLocationRelativeTo(null);
         window.setVisible(true);
+
+        // Create db table
+        DbManager dbManager = new DbManager();
+        try {
+            dbManager.createPlayerTable();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
 
         gamePanel.setupGame();
         gamePanel.startGameThread();

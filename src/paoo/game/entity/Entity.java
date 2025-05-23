@@ -185,6 +185,10 @@ public class Entity {
         this.worldX = worldX;
     }
 
+    public void setMaxLife(int maxLife) {
+        this.maxLife = maxLife;
+    }
+
     public void setWorldY(int worldY) {
         this.worldY = worldY;
     }
@@ -196,6 +200,10 @@ public class Entity {
     public void setSize(int width, int height) {
         this.width = width;
         this.height = height;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     public void setSolidArea(int xOffset, int yOffset, int width, int height) {

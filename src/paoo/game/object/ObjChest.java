@@ -37,7 +37,8 @@ public class ObjChest extends Entity {
         }
 
         int level = gamePanel.getKeyHandler().getCurrentLevel();
-        if (level == 1 && gamePanel.getPlayer().getNrCarrots() < 10) {
+        int index = gamePanel.getPlayer().searchItemInInventory("Carrot");
+        if (level == 1 && gamePanel.getPlayer().getInventory().get(index).getAmount() < 10) {
             gamePanel.getUi().setCurrentDialogue("You need 10 carrots!");
             return;
         }
@@ -82,9 +83,12 @@ public class ObjChest extends Entity {
         } else {
             down1 = image2;
             opened = true;
-            gamePanel.stopMusic();
-            gamePanel.playSE(8);
-            gamePanel.setGameState(gamePanel.getGAME_END_STATE());
+
+            if (level == 3 && gamePanel.getPlayer().searchItemInInventory("Diamond") != 1) {
+                gamePanel.stopMusic();
+                gamePanel.playSE(8);
+                gamePanel.setGameState(gamePanel.getGAME_END_STATE());
+            }
         }
 
         gamePanel.getUi().setCurrentDialogue(obtainedItems.toString().trim());

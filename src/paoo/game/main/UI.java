@@ -1,5 +1,6 @@
 package paoo.game.main;
 
+import paoo.game.database.SaveLoad;
 import paoo.game.entity.Entity;
 import paoo.game.object.ObjCarrot;
 import paoo.game.object.ObjHeart;
@@ -56,6 +57,10 @@ public class UI {
         return commandNum;
     }
 
+    public double getPlayTime() {
+        return playTime;
+    }
+
     public int getSlotRow() {
         return slotRow;
     }
@@ -66,6 +71,10 @@ public class UI {
 
     public void setCommandNum(int commandNum) {
         this.commandNum = commandNum;
+    }
+
+    public void setPlayTime(double playTime) {
+        this.playTime = playTime;
     }
 
     public void setCurrentDialogue(String currentDialogue) {
@@ -445,8 +454,13 @@ public class UI {
         g2.setColor(Color.WHITE);
         g2.drawString(text, x, y);
 
-        // Options menu (e.g., "Return to Title", "Exit")
-        String[] options = {"Back to title screen"};
+        // Display play time
+        text = String.format("Your playing time is %.2f seconds", playTime);
+        x = getXCenteredText(text);
+        y += gamePanel.getTILE_SIZE();
+        g2.drawString(text, x, y);
+
+        String[] options = {"Back to title screen", "Quit"};
         y += gamePanel.getTILE_SIZE() * 2;
         for (int i = 0; i < options.length; ++i) {
             x = getXCenteredText(options[i]);
@@ -477,11 +491,13 @@ public class UI {
             case 1: options_fullScreenNotification(frameX, frameY);break;
             case 2: option_control(frameX, frameY);break;
             case 3: options_endGameConfirmation(frameX, frameY); break;
+            case 4: options_savedGame(frameX, frameY);
         }
 
         gamePanel.getKeyHandler().setEnterPressed(false);
 
     }
+
     public void options_top(int frameX, int frameY) {
         int textX;
         int textY;
@@ -496,7 +512,7 @@ public class UI {
         textX = frameX + gamePanel.getTILE_SIZE();
         textY += gamePanel.getTILE_SIZE() * 2;
         g2.drawString("Full Screen", textX, textY);
-        if (getCommandNum() == 0) { // folosește getter-ul corect
+        if (getCommandNum() == 0) {
             g2.drawString(">", textX - 25, textY);
             if(gamePanel.getKeyHandler().isEnterPressed() == true) {
                 if(gamePanel.getFullScreenOn() == false) {
@@ -545,10 +561,24 @@ public class UI {
             }
         }
 
-        // Back
-        textY += gamePanel.getTILE_SIZE() * 2;
-        g2.drawString("Back", textX, textY);
+        // Save game
+        textY += gamePanel.getTILE_SIZE();
+        g2.drawString("Save Game", textX, textY);
         if (getCommandNum() == 5) {
+            g2.drawString(">", textX - 25, textY);
+            if(gamePanel.getKeyHandler().isEnterPressed()) {
+                SaveLoad saveLoad = new SaveLoad(gamePanel);
+                saveLoad.save();
+                subState = 4;
+
+                commandNum = 0;
+            }
+        }
+
+        // Back
+        textY += gamePanel.getTILE_SIZE();
+        g2.drawString("Back", textX, textY);
+        if (getCommandNum() == 6) {
             g2.drawString(">", textX - 25, textY);
             if(gamePanel.getKeyHandler().isEnterPressed() == true) {
                 gamePanel.setGameState(gamePanel.getPLAY_STATE());
@@ -605,6 +635,29 @@ public class UI {
         }
     }
 
+    public void options_savedGame(int frameX, int frameY) {
+        int textX = frameX + gamePanel.getTILE_SIZE();
+        int textY = frameY + gamePanel.getTILE_SIZE() * 3;
+
+        currentDialogue = "Data saved successfully!";
+
+        for(String line: currentDialogue.split("\n")) {
+            g2.drawString(line, textX, textY);
+            textY+= 40;
+        }
+
+        // Back
+        textY = frameY + gamePanel.getTILE_SIZE() * 9;
+        g2.drawString("Back" ,textX, textY);
+        if(getCommandNum() == 0) {
+            g2.drawString(">", textX - 25, textY);
+            if(gamePanel.getKeyHandler().isEnterPressed()) {
+                commandNum = 5;
+                subState = 0;
+            }
+        }
+    }
+
     public void option_control(int frameX, int frameY) {
 
         int textX;
@@ -649,6 +702,7 @@ public class UI {
     }
 
     public void options_endGameConfirmation(int frameX, int frameY) {
+        gamePanel.stopMusic();
         int textX = frameX + gamePanel.getTILE_SIZE();
         int textY = frameY + gamePanel.getTILE_SIZE();
 
@@ -688,7 +742,6 @@ public class UI {
         }
 
     }
-
 
     public int getItemIndexLSot() {
         return slotCol + (slotRow * 5);

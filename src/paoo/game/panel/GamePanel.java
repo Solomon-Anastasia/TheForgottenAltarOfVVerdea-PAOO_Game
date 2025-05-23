@@ -1,5 +1,6 @@
 package paoo.game.panel;
 
+import paoo.game.database.SaveLoad;
 import paoo.game.entity.Entity;
 import paoo.game.entity.Player;
 import paoo.game.handler.KeyHandler;
@@ -26,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable {
     // For full screen
 
     int screenWidth2 = SCREEN_WIDTH;
-    int screenHeight2 =  SCREEN_HEIGHT;
+    int screenHeight2 = SCREEN_HEIGHT;
     BufferedImage tempScreen;
     Graphics2D g2;
     private boolean fullScreenOn = false;
@@ -37,6 +38,9 @@ public class GamePanel extends JPanel implements Runnable {
     private final int MAX_WORLD_ROW = 90;
     private final int MAX_MAP = 3;
     private int currentMap = 0;
+
+    // Database
+    private SaveLoad saveLoad = new SaveLoad(this);
 
     // FPS
     private final int FPS = 60;
@@ -89,8 +93,8 @@ public class GamePanel extends JPanel implements Runnable {
 
         gameState = TITLE_STATE;
 
-        tempScreen = new BufferedImage(getSCREEN_WIDTH(),getSCREEN_HEIGHT(), BufferedImage.TYPE_INT_RGB);
-        g2 = (Graphics2D)tempScreen.getGraphics();
+        tempScreen = new BufferedImage(getSCREEN_WIDTH(), getSCREEN_HEIGHT(), BufferedImage.TYPE_INT_RGB);
+        g2 = (Graphics2D) tempScreen.getGraphics();
 
         //setFullScreen();
     }
@@ -241,17 +245,29 @@ public class GamePanel extends JPanel implements Runnable {
         return GAME_OVER_STATE;
     }
 
-    public int getOptionsState() {return optionsState;}
+    public int getOptionsState() {
+        return optionsState;
+    }
 
-    public boolean getFullScreenOn(){return fullScreenOn;}
+    public boolean getFullScreenOn() {
+        return fullScreenOn;
+    }
 
-    public void setFullScreenOn(boolean setFullScreenOn){this.fullScreenOn = fullScreenOn;}
+    public void setFullScreenOn(boolean setFullScreenOn) {
+        this.fullScreenOn = fullScreenOn;
+    }
 
-    public Sound getMusic(){return music;}
+    public Sound getMusic() {
+        return music;
+    }
 
-    public Sound getSoundEffect(){return soundEffect;}
+    public Sound getSoundEffect() {
+        return soundEffect;
+    }
 
-    public void setMusic(Sound music) {this.music = music;}
+    public void setMusic(Sound music) {
+        this.music = music;
+    }
 
     public void startGameThread() {
         gameThread = new Thread(this);
@@ -335,11 +351,6 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
         }
-
-        // TODO: Do the pause
-        if (gameState == PAUSE_STATE) {
-
-        }
     }
 
     public void drawToScreen() {
@@ -367,7 +378,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void drawToTempScreen() {
 
         long drawStart = 0;
-        if(keyHandler.isShowDebugText() == true) {
+        if (keyHandler.isShowDebugText() == true) {
             drawStart = System.nanoTime();
         }
 
@@ -442,7 +453,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    /*@Override
+    @Override
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
 
@@ -519,7 +530,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         graphics2D.dispose(); // Save some memory
-    }*/
+    }
 
     @Override
     public void run() {
@@ -541,10 +552,10 @@ public class GamePanel extends JPanel implements Runnable {
 
             if (delta >= 1) {
                 update();
-               // repaint(); // Calls paintComponent method
+                 repaint(); // Calls paintComponent method
                 // TODO: Uncomment or delete
-                drawToTempScreen(); // Draw everything to the buffered image
-                drawToScreen(); // Draw the buffered image to the screen
+//                drawToTempScreen(); // Draw everything to the buffered image
+//                drawToScreen(); // Draw the buffered image to the screen
 
                 delta--;
                 drawCount++;

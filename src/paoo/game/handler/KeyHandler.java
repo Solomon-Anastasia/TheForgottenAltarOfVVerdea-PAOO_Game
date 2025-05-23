@@ -1,5 +1,6 @@
 package paoo.game.handler;
 
+import paoo.game.database.SaveLoad;
 import paoo.game.panel.GamePanel;
 
 import java.awt.event.KeyEvent;
@@ -127,11 +128,13 @@ public class KeyHandler implements KeyListener {
                     gamePanel.playMusic(0);
                 }
                 case 1 -> {
-                    // TODO: Add load from database
+                    gamePanel.setGameState(gamePanel.getPLAY_STATE());
+                    gamePanel.playMusic(0);
+
+                    SaveLoad saveLoad = new SaveLoad(gamePanel);
+                    saveLoad.load();
                 }
-                case 2 -> {
-                    System.exit(0);
-                }
+                case 2 -> System.exit(0);
             }
         }
     }
@@ -268,10 +271,32 @@ public class KeyHandler implements KeyListener {
     }
 
     public void gameEndState(int code) {
+        if (code == KeyEvent.VK_W) {
+            gamePanel.getUi().setCommandNum(gamePanel.getUi().getCommandNum() - 1);
+
+            if (gamePanel.getUi().getCommandNum() < 0) {
+                gamePanel.getUi().setCommandNum(1);
+            }
+            gamePanel.playSE(2);
+        }
+        if (code == KeyEvent.VK_S) {
+            gamePanel.getUi().setCommandNum(gamePanel.getUi().getCommandNum() + 1);
+
+            if (gamePanel.getUi().getCommandNum() > 1) {
+                gamePanel.getUi().setCommandNum(0);
+            }
+            gamePanel.playSE(2);
+        }
+
         if (code == KeyEvent.VK_ENTER) {
-            if (gamePanel.getUi().getCommandNum() == 0) {
-                gamePanel.setGameState(gamePanel.getTITLE_STATE());
-                gamePanel.restart();
+            switch (gamePanel.getUi().getCommandNum()) {
+                case 0 -> {
+                    gamePanel.setGameState(gamePanel.getTITLE_STATE());
+                    gamePanel.restart();
+                }
+                case 1 -> {
+                    System.exit(0);
+                }
             }
         }
     }
@@ -288,8 +313,8 @@ public class KeyHandler implements KeyListener {
 
         int maxCommandNum = 0;
         switch(gamePanel.getUi().getSubState()) {
-            case 0: maxCommandNum = 5;break;
-            case 3: maxCommandNum = 1;break;
+            case 0: maxCommandNum = 6;break;
+            case 4: maxCommandNum = 1;break;
         }
 
         if(code == KeyEvent.VK_W) {
@@ -334,7 +359,6 @@ public class KeyHandler implements KeyListener {
                     gamePanel.getSoundEffect().setVolumeScale(gamePanel.getSoundEffect().getVolumeScale() + 1);
                     gamePanel.playSE(5);
                 }
-
             }
         }
     }
