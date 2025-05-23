@@ -24,8 +24,10 @@ public class Entity {
     protected BufferedImage down1, down2, down3, down4, down5, down6;
     protected BufferedImage left1, left2, left3, left4, left5, left6;
     protected BufferedImage right1, right2, right3, right4, right5, right6;
-    protected BufferedImage attack_right_1, attack_right_2, attack_right_3, attack_right_4,attack_right_5,attack_right_6,attack_right_7, attack_right_8, attack_right_9,attack_right_10;
-    protected BufferedImage attack_left_1, attack_left_2, attack_left_3, attack_left_4,attack_left_5,attack_left_6,attack_left_7, attack_left_8, attack_left_9,attack_left_10;
+    protected BufferedImage attack_right_1, attack_right_2, attack_right_3, attack_right_4;
+    protected BufferedImage attack_left_1, attack_left_2, attack_left_3, attack_left_4;
+    protected BufferedImage attack_down_1, attack_down_2, attack_down_3, attack_down_4;
+    protected BufferedImage attack_up_1, attack_up_2, attack_up_3, attack_up_4;
 
     protected BufferedImage upIdle1, upIdle2;
     protected BufferedImage downIdle1, downIdle2;
