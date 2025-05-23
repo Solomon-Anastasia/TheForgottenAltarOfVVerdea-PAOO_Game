@@ -164,25 +164,6 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_ENTER) {
             isEnterPressed = true;
         }
-        // TODO: delete
-//        if (code == KeyEvent.VK_1) {
-//            isLevel1 = true;
-//
-//            isLevel2 = false;
-//            isLevel3 = false;
-//        }
-//        if (code == KeyEvent.VK_2) {
-//            isLevel2 = true;
-//
-//            isLevel1 = false;
-//            isLevel3 = false;
-//        }
-//        if (code == KeyEvent.VK_3) {
-//            isLevel3 = true;
-//
-//            isLevel1 = false;
-//            isLevel2 = false;
-//        }
         if (code == KeyEvent.VK_I) {
             gamePanel.setGameState(gamePanel.getINVENTORY_STATE());
         }
@@ -190,6 +171,26 @@ public class KeyHandler implements KeyListener {
         // Debug
         if (code == KeyEvent.VK_T) {
             showDebugText = !showDebugText;
+        }
+        if (showDebugText) {
+            if (code == KeyEvent.VK_1) {
+                isLevel1 = true;
+
+                isLevel2 = false;
+                isLevel3 = false;
+            }
+            if (code == KeyEvent.VK_2) {
+                isLevel2 = true;
+
+                isLevel1 = false;
+                isLevel3 = false;
+            }
+            if (code == KeyEvent.VK_3) {
+                isLevel3 = true;
+
+                isLevel1 = false;
+                isLevel2 = false;
+            }
         }
         if (code == KeyEvent.VK_R) {
             gamePanel.getTileManager().loadMap(new String[]{"/maps/Map1.txt", "/maps/Map1_Objects.txt"}, 0);

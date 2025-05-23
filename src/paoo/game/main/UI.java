@@ -94,6 +94,7 @@ public class UI {
         }
         if (gamePanel.getGameState() == gamePanel.getPLAY_STATE()) {
             drawPlayerLife();
+            drawMonsterLife();
             drawTimer();
         }
         if (gamePanel.getGameState() == gamePanel.getPAUSE_STATE()) {
@@ -173,6 +174,7 @@ public class UI {
     }
 
     public void drawTimer() {
+        g2.setColor(Color.WHITE);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 25F));
         playTime += (double) 1 / 60;
         g2.drawString("Time: " + decimalFormat.format(playTime), gamePanel.getTILE_SIZE() * 13, gamePanel.getTILE_SIZE());
@@ -234,6 +236,47 @@ public class UI {
 
             ++i;
             x += gamePanel.getTILE_SIZE() + 5;
+        }
+    }
+
+    public void drawMonsterLife() {
+        for (int i = 0; i < gamePanel.getMonster().length; ++i) {
+            Entity monster = gamePanel.getMonster()[i];
+
+            if (monster != null && monster.inCamera()) {
+                if (monster.isHpBarOn() && !monster.isBoss()) {
+                    double onScale = (double) gamePanel.getTILE_SIZE() / monster.getMaxLife();
+                    double hpBarValue = onScale * monster.getLife();
+
+                    g2.setColor(new Color(35, 35, 35));
+                    g2.fillRect(monster.getScreenX() - 1, monster.getScreenY() - 16, gamePanel.getTILE_SIZE() + 2, 12);
+
+                    g2.setColor(new Color(255, 0, 30));
+                    g2.fillRect(monster.getScreenX(), monster.getScreenY() - 15, (int) hpBarValue, 10);
+
+                    monster.setHpBarCounter(monster.getHpBarCounter() + 1);
+                    if (monster.getHpBarCounter() > 600) {
+                        monster.setHpBarCounter(0);
+                        monster.setHpBarOn(false);
+                    }
+                } else if (monster.isBoss()) {
+                    double onScale = (double) gamePanel.getTILE_SIZE() * 8 / monster.getMaxLife();
+                    double hpBarValue = onScale * monster.getLife();
+
+                    int x = gamePanel.getSCREEN_WIDTH() / 2 - gamePanel.getTILE_SIZE() * 4;
+                    int y = gamePanel.getTILE_SIZE() * 10;
+
+                    g2.setColor(new Color(35, 35, 35));
+                    g2.fillRect(x - 1, y - 1, gamePanel.getTILE_SIZE() * 8 + 2, 22);
+
+                    g2.setColor(new Color(255, 0, 30));
+                    g2.fillRect(x, y, (int) hpBarValue, 20);
+
+                    g2.setFont(g2.getFont().deriveFont(Font.BOLD, 24F));
+                    g2.setColor(Color.WHITE);
+                    g2.drawString(monster.getName(), x + 4, y - 10);
+                }
+            }
         }
     }
 

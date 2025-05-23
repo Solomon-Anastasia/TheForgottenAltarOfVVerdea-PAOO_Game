@@ -12,10 +12,11 @@ public class MON_Goblin extends Entity {
         type = 2;
         name = "Goblin";
         speed = 2;
-        maxLife = 3;
+        maxLife = 2;
         life = maxLife;
+        hpBarOn = true;
 
-        solidArea.x = 3;
+        solidArea.x = 5;
         solidArea.y = 18;
         solidArea.width = 16;
         solidArea.height = 16;

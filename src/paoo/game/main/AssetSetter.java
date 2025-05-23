@@ -2,6 +2,7 @@ package paoo.game.main;
 
 import paoo.game.entity.Grandpa;
 import paoo.game.entity.Wizard;
+import paoo.game.monster.MON_Boss;
 import paoo.game.monster.MON_Goblin;
 import paoo.game.object.*;
 import paoo.game.panel.GamePanel;
@@ -174,6 +175,16 @@ public class AssetSetter {
             gamePanel.getMonster()[i] = new MON_Goblin(gamePanel);
             gamePanel.getMonster()[i].setWorldX(50 * gamePanel.getTILE_SIZE());
             gamePanel.getMonster()[i].setWorldY(17 * gamePanel.getTILE_SIZE());
+            ++i;
+        } else {
+//            gamePanel.getMonster()[i] = new MON_Goblin(gamePanel);
+//            gamePanel.getMonster()[i].setWorldX(40 * gamePanel.getTILE_SIZE());
+//            gamePanel.getMonster()[i].setWorldY(40 * gamePanel.getTILE_SIZE());
+//            ++i;
+
+            gamePanel.getMonster()[i] = new MON_Boss(gamePanel);
+            gamePanel.getMonster()[i].setWorldX(40 * gamePanel.getTILE_SIZE());
+            gamePanel.getMonster()[i].setWorldY(40 * gamePanel.getTILE_SIZE());
             ++i;
         }
     }

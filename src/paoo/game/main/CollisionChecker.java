@@ -181,7 +181,6 @@ public class CollisionChecker {
     }
 
     public boolean checkPlayer(Entity entity) {
-
         boolean contactPlayer = false;
 
         // Get entity's solid area position
@@ -220,5 +219,4 @@ public class CollisionChecker {
 
         return contactPlayer;
     }
-
 }
