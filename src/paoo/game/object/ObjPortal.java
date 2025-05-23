@@ -13,19 +13,27 @@ public class ObjPortal extends Entity {
         renderPriority = 0;
 
         down1 = setup("/objects/portal");
-        description = "A mysterious portal swirling with light...";
+        down2 = setup("/objects/portal");
+        image1 = down1;
+        description = "[" + name + "]\nA mysterious portal swirling with light...";
     }
 
     @Override
     public void interact() {
+        gamePanel.getPlayer().setAttackCanceled(true);
+
         if (gamePanel.getPlayer().searchItemInInventory("Pendant") != -1) {
-            gamePanel.getUi().setCurrentDialogue("You feel the pendant vibrating...\nPress Enter to teleport.");
+            if (!gamePanel.getPlayer().isTeleportReady()) {
+                gamePanel.getUi().setCurrentDialogue("As you approach, the pendant glows faintly...\nThe portal responds to its presence.\nPress Enter to teleport.");
+                gamePanel.getPlayer().setTeleportReady(true);
+            } else {
+                gamePanel.getUi().setCurrentDialogue("The portal pulses with energy...\nPress Enter to proceed.");
+            }
             gamePanel.setGameState(gamePanel.getDIALOG_STATE());
-            gamePanel.getPlayer().setTeleportReady(true);
+
         } else {
-            gamePanel.getUi().setCurrentDialogue("Complete the challenge first!");
+            gamePanel.getUi().setCurrentDialogue("The portal remains dormant.\nA powerful artifact might awaken it...");
             gamePanel.setGameState(gamePanel.getDIALOG_STATE());
         }
     }
-
 }

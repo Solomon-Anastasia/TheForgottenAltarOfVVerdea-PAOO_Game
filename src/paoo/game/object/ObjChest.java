@@ -3,12 +3,13 @@ package paoo.game.object;
 import paoo.game.entity.Entity;
 import paoo.game.panel.GamePanel;
 
+import java.util.List;
+
 public class ObjChest extends Entity {
-    private final Entity loot1;
-    private final Entity loot2;
+    private final List<Entity> loots;
     private boolean opened = false;
 
-    public ObjChest(GamePanel gamePanel, Entity loot1, Entity loot2) {
+    public ObjChest(GamePanel gamePanel, List<Entity> loots) {
         super(gamePanel);
 
         down1 = setup("/objects/chest1");
@@ -16,8 +17,7 @@ public class ObjChest extends Entity {
         image1 = down1;
         image2 = down2;
 
-        this.loot1 = loot1;
-        this.loot2 = loot2;
+        this.loots = loots;
 
         name = "Chest";
         collision = true;
@@ -27,6 +27,8 @@ public class ObjChest extends Entity {
     }
 
     public void interact() {
+        gamePanel.getPlayer().setAttackCanceled(true);
+
         gamePanel.setGameState(gamePanel.getDIALOG_STATE());
 
         if (opened) {
@@ -53,26 +55,35 @@ public class ObjChest extends Entity {
             return;
         }
 
+        if (level == 3 && goblinsExist) {
+            gamePanel.getUi().setCurrentDialogue("Defeat the boss!");
+            return;
+        }
+
         gamePanel.playSE(5);
 
-        boolean canTake1 = gamePanel.getPlayer().canObtainItem(loot1);
-        boolean canTake2 = gamePanel.getPlayer().canObtainItem(loot2);
+        StringBuilder obtainedItems = new StringBuilder("You open the chest and find:\n");
+        boolean atLeastOneObtained = false;
 
-        StringBuilder sb = new StringBuilder("You open the chest and find a ")
-                .append(loot1.getName()).append(" and ").append(loot2.getName()).append("!");
+        for (Entity loot : loots) {
+            boolean canTake = gamePanel.getPlayer().canObtainItem(loot);
 
-        if (!canTake1 && !canTake2) {
-            sb.append("\n... But you cannot carry any more!");
+            if (canTake) {
+                gamePanel.getPlayer().addItemToInventory(loot);
+                obtainedItems.append("- ").append(loot.getName()).append("\n");
+                atLeastOneObtained = true;
+            } else {
+                obtainedItems.append("- ").append(loot.getName()).append(" (Can't carry)\n");
+            }
+        }
+
+        if (!atLeastOneObtained) {
+            obtainedItems = new StringBuilder("You open the chest...\nBut you can't carry any of the items!");
         } else {
-            sb.append("\nYou obtained the ")
-                    .append(loot1.getName()).append(" and ")
-                    .append(loot2.getName()).append("!");
-            if (canTake1) gamePanel.getPlayer().addItemToInventory(loot1);
-            if (canTake2) gamePanel.getPlayer().addItemToInventory(loot2);
             down1 = image2;
             opened = true;
         }
 
-        gamePanel.getUi().setCurrentDialogue(sb.toString());
+        gamePanel.getUi().setCurrentDialogue(obtainedItems.toString().trim());
     }
 }

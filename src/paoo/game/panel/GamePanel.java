@@ -312,7 +312,7 @@ public class GamePanel extends JPanel implements Runnable {
                     assetSetter.setObject();
                     assetSetter.setNpc();
                     assetSetter.setMonster();
-                    player.setDefaultPosition(40, 40);
+                    player.setDefaultPosition(44, 65);
                 }
             }
         }

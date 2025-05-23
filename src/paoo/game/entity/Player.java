@@ -113,7 +113,7 @@ public class Player extends Entity {
         } else if (gamePanel.getKeyHandler().getCurrentLevel() == 2) {
             setDefaultPosition(30, 30);
         } else {
-            setDefaultPosition(40, 40);
+            setDefaultPosition(44, 65);
         }
 
         direction = "down";
@@ -216,14 +216,7 @@ public class Player extends Entity {
                             gamePanel.getUi().showMessage("You cannot harvest anymore!");
                         }
                     }
-                    case "Chest" -> {
-                        if (keyHandler.isEnterPressed()) {
-                            // TODO: For the sword, make attackCanceled = true
-                            gamePanel.getObjects()[i].interact();
-                            nrArtefacts++;
-                        }
-                    }
-                    case "Portal" -> {
+                    case "Chest", "Portal", "Cave" -> {
                         if (keyHandler.isEnterPressed()) {
                             gamePanel.getObjects()[i].interact();
                         }
@@ -298,13 +291,22 @@ public class Player extends Entity {
         }
     }
 
+    //    public void interactNpc(int i) {
+//        if (gamePanel.getKeyHandler().isEnterPressed()) {
+//            if (i != -1) {
+//                gamePanel.setGameState(gamePanel.getDIALOG_STATE());
+//                gamePanel.getNpc()[i].speak();
+//            } else {
+//                attacking = true;
+//            }
+//        }
+//    }
     public void interactNpc(int i) {
         if (gamePanel.getKeyHandler().isEnterPressed()) {
             if (i != -1) {
+                attackCanceled = true;
                 gamePanel.setGameState(gamePanel.getDIALOG_STATE());
                 gamePanel.getNpc()[i].speak();
-            } else {
-                attacking = true;
             }
         }
     }
@@ -335,13 +337,6 @@ public class Player extends Entity {
 
     public void update() {
         isMoving = keyHandler.isUpPressed() || keyHandler.isDownPressed() || keyHandler.isRightPressed() || keyHandler.isLeftPressed();
-
-        if (gamePanel.getGameState() == gamePanel.getDIALOG_STATE()) {
-            attacking = false;
-            attackCanceled = true;
-        } else {
-            attackCanceled = false;
-        }
 
         if (attacking) {
             attacking();
@@ -377,6 +372,14 @@ public class Player extends Entity {
 
                 // Check event
                 gamePanel.getEventHandler().checkEvent();
+
+
+                if (keyHandler.isEnterPressed() && !attackCanceled) {
+                    attacking = true;
+                    spriteCounter = 0;
+                }
+                attackCanceled = false;
+
                 gamePanel.getKeyHandler().setEnterPressed(false);
 
                 // If collision is false, player can move

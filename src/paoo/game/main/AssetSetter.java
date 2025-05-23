@@ -7,6 +7,8 @@ import paoo.game.monster.MON_Goblin;
 import paoo.game.object.*;
 import paoo.game.panel.GamePanel;
 
+import java.util.List;
+
 public class AssetSetter {
     private GamePanel gamePanel;
 
@@ -19,7 +21,7 @@ public class AssetSetter {
 
         if (gamePanel.getKeyHandler().getCurrentLevel() == 1) {
             // Chest
-            gamePanel.getObjects()[i] = new ObjChest(gamePanel,  new ObjSword(gamePanel), new ObjPendant(gamePanel));
+            gamePanel.getObjects()[i] = new ObjChest(gamePanel, List.of(new ObjSword(gamePanel), new ObjPendant(gamePanel)));
             gamePanel.getObjects()[i].setWorldX(59 * gamePanel.getTILE_SIZE()); // Column
             gamePanel.getObjects()[i].setWorldY(39 * gamePanel.getTILE_SIZE()); // Row
             ++i;
@@ -80,12 +82,20 @@ public class AssetSetter {
             gamePanel.getObjects()[i].setWorldY(15 * gamePanel.getTILE_SIZE());
             ++i;
         } else if (gamePanel.getKeyHandler().getCurrentLevel() == 2) {
-            gamePanel.getObjects()[i] = new ObjChest(gamePanel, new ObjPickaxe(gamePanel), new ObjCup(gamePanel));
-            gamePanel.getObjects()[i].setWorldX(38 * gamePanel.getTILE_SIZE()); // Column
-            gamePanel.getObjects()[i].setWorldY(34 * gamePanel.getTILE_SIZE()); // Row
+            gamePanel.getObjects()[i] = new ObjChest(gamePanel, List.of(new ObjPickaxe(gamePanel), new ObjCup(gamePanel)));
+            gamePanel.getObjects()[i].setWorldX(35 * gamePanel.getTILE_SIZE()); // Column
+            gamePanel.getObjects()[i].setWorldY(27 * gamePanel.getTILE_SIZE()); // Row
             ++i;
-        }
-        else {
+
+            gamePanel.getObjects()[i] = new ObjCave(gamePanel);
+            gamePanel.getObjects()[i].setWorldX(55 * gamePanel.getTILE_SIZE()); // Column
+            gamePanel.getObjects()[i].setWorldY(6 * gamePanel.getTILE_SIZE()); // Row
+            ++i;
+        } else {
+            gamePanel.getObjects()[i] = new ObjChest(gamePanel, List.of(new ObjDiamond(gamePanel)));
+            gamePanel.getObjects()[i].setWorldX(46 * gamePanel.getTILE_SIZE()); // Column
+            gamePanel.getObjects()[i].setWorldY(24 * gamePanel.getTILE_SIZE()); // Row
+            ++i;
         }
     }
 

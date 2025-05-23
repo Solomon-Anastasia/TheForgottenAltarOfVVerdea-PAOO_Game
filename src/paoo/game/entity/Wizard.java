@@ -39,17 +39,39 @@ public class Wizard extends Entity {
                 dialogues[4] = "And take this — the first of three sacred artifacts.\nWith all three, the altar can be restored.";
                 dialogues[5] = "Guard it well. Each piece carries a fragment of the\nisland’s forgotten magic.";
                 dialogues[6] = "Now go, Ryo. The path ahead is long, but you\ndo not walk it alone.";
+                dialogues[7] = null;
+                dialogues[8] = null;
             }
         } else if (gamePanel.getKeyHandler().getCurrentLevel() == 2) {
-            dialogues[0] = "You’ve returned — and not empty-handed.\nThe island feels your steps more firmly now.";
-            dialogues[1] = "But courage is not grown in gardens alone.\nAhead lies a forest once sacred, now spoiled.";
-            dialogues[2] = "Goblins swarm its paths like thorns on vines.\nThey sense the altar’s fragments drawing near.";
-            dialogues[3] = "You must face them. All of them. Only then\nwill the path to the mine open.";
-            dialogues[4] = "Beware the trees — they whisper warnings.\nSome say the goblins laugh before they strike.";
-            dialogues[5] = "There are relics hidden in the shadows:\na pickaxe forged for stone, and an artefact of light.";
-            dialogues[6] = "The pickaxe I hold in trust. Prove your strength,\nand I shall grant it to you.";
-            dialogues[7] = "Seek the artifact hidden deep within the woods.\nIt will call to your spirit — listen closely.";
-            dialogues[8] = "Go now, Ryo. Let the forest remember what\nit means to tremble before a hero.";
+            boolean goblinsExist = false;
+            for (Entity monster : gamePanel.getMonster()) {
+                if (monster != null) {
+                    goblinsExist = true;
+                    break;
+                }
+            }
+
+            if (goblinsExist) {
+                dialogues[0] = "You’ve returned — and not empty-handed.\nThe island feels your steps more firmly now.";
+                dialogues[1] = "But courage is not grown in gardens alone.\nAhead lies a forest once sacred, now spoiled.";
+                dialogues[2] = "Goblins swarm its paths like thorns on vines.\nThey sense the altar’s fragments drawing near.";
+                dialogues[3] = "You must face them. All of them. Only then\nwill the path to the mine open.";
+                dialogues[4] = "Beware the trees — they whisper warnings.\nSome say the goblins laugh before they strike.";
+                dialogues[5] = "There are relics hidden in the shadows:\na pickaxe forged for stone, and an artefact of light.";
+                dialogues[6] = "The pickaxe I hold in trust. Prove your strength,\nand I shall grant it to you.";
+                dialogues[7] = "Seek the artifact hidden deep within the woods.\nIt will call to your spirit — listen closely.";
+                dialogues[8] = "Go now, Ryo. Let the forest remember what\nit means to tremble before a hero.";
+            } else {
+                dialogues[0] = "The goblins are gone — their shrieks silenced.";
+                dialogues[1] = "In the cave beyond the glade, their lord awaits.";
+                dialogues[2] = "He is cunning and cruel, bound to the altar’s\nshadow.";
+                dialogues[3] = "Defeat him, and the village will finally breathe free.";
+                dialogues[4] = "This is your final trial, Ryo. Go — end this darkness.";
+                dialogues[5] = null;
+                dialogues[6] = null;
+                dialogues[7] = null;
+                dialogues[8] = null;
+            }
         }
     }
 
