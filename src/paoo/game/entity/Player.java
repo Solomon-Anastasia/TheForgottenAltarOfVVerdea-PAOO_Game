@@ -485,7 +485,7 @@ public class Player extends Entity {
                         image = getBufferedImage(spriteNumber, right1, right2, right3, right4, right5, right6);
                     }
                     if (attacking) {
-                        // tempScreenX = getSCREEN_X() - gamePanel.getTILE_SIZE();
+                         //tempScreenX = getSCREEN_X() - gamePanel.getTILE_SIZE();
                         if (spriteNumber == 1) {
                             image = attack_right_1;
                         }

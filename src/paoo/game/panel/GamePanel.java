@@ -29,6 +29,7 @@ public class GamePanel extends JPanel implements Runnable {
     int screenHeight2 =  SCREEN_HEIGHT;
     BufferedImage tempScreen;
     Graphics2D g2;
+    private boolean fullScreenOn = false;
 
     // World settings
     // TODO: Change based of final map1
@@ -71,6 +72,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final int INVENTORY_STATE = 4;
     private final int GAME_OVER_STATE = 6;
     private final int GAME_END_STATE = 7;
+    private final int optionsState = 5;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -87,10 +89,9 @@ public class GamePanel extends JPanel implements Runnable {
 
         gameState = TITLE_STATE;
 
-        tempScreen = new BufferedImage(getSCREEN_WIDTH(),getSCREEN_HEIGHT(), BufferedImage.TYPE_INT_ARGB);
+        tempScreen = new BufferedImage(getSCREEN_WIDTH(),getSCREEN_HEIGHT(), BufferedImage.TYPE_INT_RGB);
         g2 = (Graphics2D)tempScreen.getGraphics();
 
-        // TODO: Uncomment
         //setFullScreen();
     }
 
@@ -240,6 +241,18 @@ public class GamePanel extends JPanel implements Runnable {
         return GAME_OVER_STATE;
     }
 
+    public int getOptionsState() {return optionsState;}
+
+    public boolean getFullScreenOn(){return fullScreenOn;}
+
+    public void setFullScreenOn(boolean setFullScreenOn){this.fullScreenOn = fullScreenOn;}
+
+    public Sound getMusic(){return music;}
+
+    public Sound getSoundEffect(){return soundEffect;}
+
+    public void setMusic(Sound music) {this.music = music;}
+
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
@@ -351,7 +364,6 @@ public class GamePanel extends JPanel implements Runnable {
         soundEffect.play();
     }
 
-    // TODO: Decide what to do with this
     public void drawToTempScreen() {
 
         long drawStart = 0;
@@ -430,7 +442,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    @Override
+    /*@Override
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
 
@@ -507,7 +519,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         graphics2D.dispose(); // Save some memory
-    }
+    }*/
 
     @Override
     public void run() {
@@ -529,10 +541,10 @@ public class GamePanel extends JPanel implements Runnable {
 
             if (delta >= 1) {
                 update();
-                repaint(); // Calls paintComponent method
+               // repaint(); // Calls paintComponent method
                 // TODO: Uncomment or delete
-//                drawToTempScreen(); // Draw everything to the buffered image
-//                drawToScreen(); // Draw the buffered image to the screen
+                drawToTempScreen(); // Draw everything to the buffered image
+                drawToScreen(); // Draw the buffered image to the screen
 
                 delta--;
                 drawCount++;

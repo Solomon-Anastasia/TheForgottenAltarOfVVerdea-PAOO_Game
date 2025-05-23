@@ -95,6 +95,11 @@ public class KeyHandler implements KeyListener {
         else if (gamePanel.getGameState() == gamePanel.getGAME_END_STATE()) {
             gameEndState(code);
         }
+
+        // Options state
+        else if (gamePanel.getGameState() == gamePanel.getOptionsState()) {
+            optionsState(code);
+        }
     }
 
     public void titleState(int code) {
@@ -154,6 +159,10 @@ public class KeyHandler implements KeyListener {
             gamePanel.setGameState(gamePanel.getINVENTORY_STATE());
         }
 
+        if (code == KeyEvent.VK_ESCAPE) {
+            gamePanel.setGameState(gamePanel.getOptionsState());
+        }
+
         // Debug
         if (code == KeyEvent.VK_T) {
             showDebugText = !showDebugText;
@@ -188,6 +197,10 @@ public class KeyHandler implements KeyListener {
             }
 
             gamePanel.setGameState(gamePanel.getPLAY_STATE());
+        }
+
+        if (code == KeyEvent.VK_ESCAPE) {
+            gamePanel.setGameState(gamePanel.getOptionsState());
         }
     }
 
@@ -259,6 +272,69 @@ public class KeyHandler implements KeyListener {
             if (gamePanel.getUi().getCommandNum() == 0) {
                 gamePanel.setGameState(gamePanel.getTITLE_STATE());
                 gamePanel.restart();
+            }
+        }
+    }
+
+    public void optionsState(int code) {
+
+        if(code == KeyEvent.VK_ESCAPE) {
+            gamePanel.setGameState(gamePanel.getPLAY_STATE());
+        }
+
+        if(code == KeyEvent.VK_ENTER) {
+            isEnterPressed = true;
+        }
+
+        int maxCommandNum = 0;
+        switch(gamePanel.getUi().getSubState()) {
+            case 0: maxCommandNum = 5;break;
+            case 3: maxCommandNum = 1;break;
+        }
+
+        if(code == KeyEvent.VK_W) {
+            gamePanel.getUi().setCommandNum(gamePanel.getUi().getCommandNum() - 1);
+            gamePanel.playSE(5);
+            if(gamePanel.getUi().getCommandNum() < 0) {
+                gamePanel.getUi().setCommandNum(maxCommandNum);
+            }
+        }
+
+        if(code == KeyEvent.VK_S) {
+            gamePanel.getUi().setCommandNum(gamePanel.getUi().getCommandNum() + 1);
+            gamePanel.playSE(5);
+            if(gamePanel.getUi().getCommandNum() > maxCommandNum) {
+                gamePanel.getUi().setCommandNum(0);
+            }
+        }
+
+        if(code == KeyEvent.VK_A) {
+            if(gamePanel.getUi().getSubState() == 0) {
+                if (gamePanel.getUi().getCommandNum() == 1 && gamePanel.getMusic().getVolumeScale() > 0) {
+                    gamePanel.getMusic().setVolumeScale(gamePanel.getMusic().getVolumeScale() - 1);
+                    gamePanel.getMusic().checkVolume();
+                    gamePanel.playSE(5);
+                }
+                if (gamePanel.getUi().getCommandNum() == 2 && gamePanel.getSoundEffect().getVolumeScale() > 0) {
+                    gamePanel.getSoundEffect().setVolumeScale(gamePanel.getSoundEffect().getVolumeScale() - 1);
+                    gamePanel.playSE(5);
+                }
+            }
+
+        }
+
+        if(code == KeyEvent.VK_D) {
+            if (gamePanel.getUi().getSubState() == 0) {
+                if (gamePanel.getUi().getCommandNum() == 1 && gamePanel.getMusic().getVolumeScale() < 5) {
+                    gamePanel.getMusic().setVolumeScale(gamePanel.getMusic().getVolumeScale() + 1);
+                    gamePanel.getMusic().checkVolume();
+                    gamePanel.playSE(5);
+                }
+                if (gamePanel.getUi().getCommandNum() == 2 && gamePanel.getSoundEffect().getVolumeScale() < 5) {
+                    gamePanel.getSoundEffect().setVolumeScale(gamePanel.getSoundEffect().getVolumeScale() + 1);
+                    gamePanel.playSE(5);
+                }
+
             }
         }
     }
