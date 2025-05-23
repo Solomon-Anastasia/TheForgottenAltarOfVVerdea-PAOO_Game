@@ -91,28 +91,24 @@ public class GamePanel extends JPanel implements Runnable {
 
         // TODO: Uncomment
         //setFullScreen();
-
     }
 
     public void setFullScreen() {
-
         // Get local screen device
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
         gd.setFullScreenWindow(Main.window);
 
         // Get full screen width and height
-
         screenWidth2 = Main.window.getWidth();
         screenHeight2 = Main.window.getHeight();
-
     }
 
     public void retry() {
         stopMusic();
         playMusic(0);
+
         player.setDefaultPositions();
-        player.getInventory().clear();
         player.restoreLife();
 
         assetSetter.setNpc();
@@ -122,7 +118,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void restart() {
         stopMusic();
-        playMusic(0);
         player.setDefaultValues();
         player.getInventory().clear();
 
@@ -279,7 +274,7 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
 
-            if (keyHandler.isLevel1()) {
+            if (keyHandler.getCurrentLevel() == 1) {
                 if (currentMap != 0) {
                     clearEntity(npc);
                     clearEntity(monster);
@@ -293,7 +288,7 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
 
-            if (keyHandler.isLevel2()) {
+            if (keyHandler.getCurrentLevel() == 2) {
                 if (currentMap != 1) {
                     clearEntity(npc);
                     clearEntity(monster);
@@ -307,7 +302,7 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
 
-            if (keyHandler.isLevel3()) {
+            if (keyHandler.getCurrentLevel() == 3) {
                 if (currentMap != 2) {
                     clearEntity(npc);
                     clearEntity(monster);

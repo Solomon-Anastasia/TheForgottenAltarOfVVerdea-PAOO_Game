@@ -93,16 +93,18 @@ public class UI {
             drawTitleScreen();
         }
         if (gamePanel.getGameState() == gamePanel.getPLAY_STATE()) {
-            drawPlayerLife();
             drawMonsterLife();
+            drawPlayerLife();
             drawTimer();
         }
         if (gamePanel.getGameState() == gamePanel.getPAUSE_STATE()) {
+            drawMonsterLife();
             drawPlayerLife();
             drawPauseScreen();
         }
         if (gamePanel.getGameState() == gamePanel.getDIALOG_STATE()) {
             drawPlayerLife();
+            drawMonsterLife();
             drawDialogScreen();
         }
         if (gamePanel.getGameState() == gamePanel.getINVENTORY_STATE()) {
@@ -182,6 +184,7 @@ public class UI {
 
     public void drawPauseScreen() {
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+        g2.setColor(Color.WHITE);
 
         String text = "PAUSED";
         int x = getXCenteredText(text);

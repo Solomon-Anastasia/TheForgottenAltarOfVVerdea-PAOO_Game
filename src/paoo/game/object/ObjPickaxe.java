@@ -5,18 +5,18 @@ import paoo.game.panel.GamePanel;
 
 import java.awt.*;
 
-public class ObjPendant extends Entity {
-    public ObjPendant(GamePanel gamePanel) {
+public class ObjPickaxe extends Entity {
+    public ObjPickaxe(GamePanel gamePanel) {
         super(gamePanel);
 
-        name = "Pendant";
-        description = "[" + name + "]\nAn ancient charm said to protect\nits bearer.";
+        name = "Pickaxe";
+        description = "[" + name + "]\nA sturdy tool used to break\nrocks and mine valuable ores.";
         collision = true;
         renderPriority = 0;
         type = TYPE_CONSUMABLE;
         stackable = false;
 
-        down2 = setup("/objects/pendant");
+        down2 = setup("/objects/pickaxe");
     }
 
     public void draw(Graphics2D graphics2D) {

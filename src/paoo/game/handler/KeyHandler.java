@@ -14,9 +14,7 @@ public class KeyHandler implements KeyListener {
     private boolean isRightPressed;
     private boolean isEnterPressed = false;
 
-    private boolean isLevel1 = true;
-    private boolean isLevel2 = false;
-    private boolean isLevel3 = false;
+    private int currentLevel = 1;
 
     // Debug
     private boolean showDebugText = false;
@@ -45,18 +43,6 @@ public class KeyHandler implements KeyListener {
         return isEnterPressed;
     }
 
-    public boolean isLevel1() {
-        return isLevel1;
-    }
-
-    public boolean isLevel2() {
-        return isLevel2;
-    }
-
-    public boolean isLevel3() {
-        return isLevel3;
-    }
-
     public boolean isShowDebugText() {
         return showDebugText;
     }
@@ -65,16 +51,12 @@ public class KeyHandler implements KeyListener {
         isEnterPressed = enterPressed;
     }
 
-    public void setLevel1(boolean level1) {
-        isLevel1 = level1;
+    public int getCurrentLevel() {
+        return currentLevel;
     }
 
-    public void setLevel2(boolean level2) {
-        isLevel2 = level2;
-    }
-
-    public void setLevel3(boolean level3) {
-        isLevel3 = level3;
+    public void setCurrentLevel(int level) {
+        this.currentLevel = level;
     }
 
     @Override
@@ -174,22 +156,13 @@ public class KeyHandler implements KeyListener {
         }
         if (showDebugText) {
             if (code == KeyEvent.VK_1) {
-                isLevel1 = true;
-
-                isLevel2 = false;
-                isLevel3 = false;
+                currentLevel = 1;
             }
             if (code == KeyEvent.VK_2) {
-                isLevel2 = true;
-
-                isLevel1 = false;
-                isLevel3 = false;
+                currentLevel = 2;
             }
             if (code == KeyEvent.VK_3) {
-                isLevel3 = true;
-
-                isLevel1 = false;
-                isLevel2 = false;
+                currentLevel = 3;
             }
         }
         if (code == KeyEvent.VK_R) {
@@ -292,13 +265,6 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_D) {
             isRightPressed = false;
-        }
-        if (code == KeyEvent.VK_2) {
-            isLevel2 = false;
-        }
-
-        if (code == KeyEvent.VK_3) {
-            isLevel3 = false;
         }
     }
 }

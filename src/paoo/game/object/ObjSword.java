@@ -5,18 +5,18 @@ import paoo.game.panel.GamePanel;
 
 import java.awt.*;
 
-public class ObjPendant extends Entity {
-    public ObjPendant(GamePanel gamePanel) {
+public class ObjSword extends Entity {
+    public ObjSword(GamePanel gamePanel) {
         super(gamePanel);
 
-        name = "Pendant";
-        description = "[" + name + "]\nAn ancient charm said to protect\nits bearer.";
+        name = "Sword";
+        description = "[" + name + "]\nA sharp blade forged to cut\nthrough enemies with ease.";
         collision = true;
         renderPriority = 0;
         type = TYPE_CONSUMABLE;
         stackable = false;
 
-        down2 = setup("/objects/pendant");
+        down2 = setup("/objects/sword");
     }
 
     public void draw(Graphics2D graphics2D) {

@@ -17,7 +17,7 @@ public class Wizard extends Entity {
     }
 
     public void setDialogue() {
-        if (gamePanel.getKeyHandler().isLevel1()) {
+        if (gamePanel.getKeyHandler().getCurrentLevel() == 1) {
             if (gamePanel.getPlayer().getNrCarrots() < 10) {
                 // Initial interaction
                 dialogues[0] = "So... you’re Ryo. The land has whispered your\nname for some time now.";
@@ -40,7 +40,7 @@ public class Wizard extends Entity {
                 dialogues[5] = "Guard it well. Each piece carries a fragment of the\nisland’s forgotten magic.";
                 dialogues[6] = "Now go, Ryo. The path ahead is long, but you\ndo not walk it alone.";
             }
-        } else if (gamePanel.getKeyHandler().isLevel2()) {
+        } else if (gamePanel.getKeyHandler().getCurrentLevel() == 2) {
             dialogues[0] = "You’ve returned — and not empty-handed.\nThe island feels your steps more firmly now.";
             dialogues[1] = "But courage is not grown in gardens alone.\nAhead lies a forest once sacred, now spoiled.";
             dialogues[2] = "Goblins swarm its paths like thorns on vines.\nThey sense the altar’s fragments drawing near.";
