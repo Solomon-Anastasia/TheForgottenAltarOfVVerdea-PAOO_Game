@@ -82,6 +82,9 @@ public class ObjChest extends Entity {
         } else {
             down1 = image2;
             opened = true;
+            gamePanel.stopMusic();
+            gamePanel.playSE(8);
+            gamePanel.setGameState(gamePanel.getGAME_END_STATE());
         }
 
         gamePanel.getUi().setCurrentDialogue(obtainedItems.toString().trim());

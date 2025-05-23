@@ -70,6 +70,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final int DIALOG_STATE = 3;
     private final int INVENTORY_STATE = 4;
     private final int GAME_OVER_STATE = 6;
+    private final int GAME_END_STATE = 7;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -119,6 +120,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void restart() {
         stopMusic();
         player.setDefaultValues();
+        keyHandler.setCurrentLevel(1);
         player.getInventory().clear();
 
         assetSetter.setNpc();
@@ -196,6 +198,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     public int getMAX_MAP() {
         return MAX_MAP;
+    }
+
+    public int getGAME_END_STATE() {
+        return GAME_END_STATE;
     }
 
     public int getDIALOG_STATE() {

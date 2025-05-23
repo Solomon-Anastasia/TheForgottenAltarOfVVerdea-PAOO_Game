@@ -291,16 +291,6 @@ public class Player extends Entity {
         }
     }
 
-    //    public void interactNpc(int i) {
-//        if (gamePanel.getKeyHandler().isEnterPressed()) {
-//            if (i != -1) {
-//                gamePanel.setGameState(gamePanel.getDIALOG_STATE());
-//                gamePanel.getNpc()[i].speak();
-//            } else {
-//                attacking = true;
-//            }
-//        }
-//    }
     public void interactNpc(int i) {
         if (gamePanel.getKeyHandler().isEnterPressed()) {
             if (i != -1) {

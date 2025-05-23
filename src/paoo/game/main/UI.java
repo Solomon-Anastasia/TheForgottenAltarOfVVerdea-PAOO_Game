@@ -114,6 +114,9 @@ public class UI {
         if (gamePanel.getGameState() == gamePanel.getGAME_OVER_STATE()) {
             gameOverScreen();
         }
+        if (gamePanel.getGameState() == gamePanel.getGAME_END_STATE()) {
+            gameEndScreen();
+        }
 
         // Message
         if (messageOn) {
@@ -390,7 +393,7 @@ public class UI {
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 25F));
 
         // Menu options
-        String[] options = {"Retry", "Quit",};
+        String[] options = {"Retry", "Quit"};
         y += gamePanel.getTILE_SIZE() * 2;
         for (int i = 0; i < options.length; ++i) {
             x = getXCenteredText(options[i]);
@@ -402,6 +405,49 @@ public class UI {
             }
         }
     }
+
+    public void gameEndScreen() {
+        // Semi-transparent dark background overlay
+        g2.setColor(new Color(0, 0, 0, 150));
+        g2.fillRect(0, 0, gamePanel.getSCREEN_WIDTH(), gamePanel.getSCREEN_HEIGHT());
+
+        int x;
+        int y;
+        String text;
+
+        // Large "Game Completed!" title with shadow
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 80F));
+        text = "Game Completed!";
+        g2.setColor(Color.BLACK);
+        x = getXCenteredText(text);
+        y = gamePanel.getTILE_SIZE() * 4;
+        g2.drawString(text, x, y);
+
+        g2.setColor(Color.WHITE);
+        g2.drawString(text, x - 4, y - 4);
+
+        // Congratulatory message smaller font
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 30F));
+        text = "The altar is back glowing!";
+        x = getXCenteredText(text);
+        y += gamePanel.getTILE_SIZE() * 2;
+        g2.setColor(Color.WHITE);
+        g2.drawString(text, x, y);
+
+        // Options menu (e.g., "Return to Title", "Exit")
+        String[] options = {"Back to title screen"};
+        y += gamePanel.getTILE_SIZE() * 2;
+        for (int i = 0; i < options.length; ++i) {
+            x = getXCenteredText(options[i]);
+            y += gamePanel.getTILE_SIZE();
+
+            g2.drawString(options[i], x, y);
+            if (commandNum == i) {
+                g2.drawString(">", x - gamePanel.getTILE_SIZE() / 2, y);
+            }
+        }
+    }
+
 
     public int getItemIndexLSot() {
         return slotCol + (slotRow * 5);

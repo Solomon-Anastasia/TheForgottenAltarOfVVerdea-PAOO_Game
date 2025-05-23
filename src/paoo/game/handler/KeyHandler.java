@@ -91,6 +91,10 @@ public class KeyHandler implements KeyListener {
         else if (gamePanel.getGameState() == gamePanel.getGAME_OVER_STATE()) {
             gameOverState(code);
         }
+        // Game end state
+        else if (gamePanel.getGameState() == gamePanel.getGAME_END_STATE()) {
+            gameEndState(code);
+        }
     }
 
     public void titleState(int code) {
@@ -246,6 +250,15 @@ public class KeyHandler implements KeyListener {
                     gamePanel.setGameState(gamePanel.getTITLE_STATE());
                     gamePanel.restart();
                 }
+            }
+        }
+    }
+
+    public void gameEndState(int code) {
+        if (code == KeyEvent.VK_ENTER) {
+            if (gamePanel.getUi().getCommandNum() == 0) {
+                gamePanel.setGameState(gamePanel.getTITLE_STATE());
+                gamePanel.restart();
             }
         }
     }
