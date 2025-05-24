@@ -313,8 +313,8 @@ public class KeyHandler implements KeyListener {
 
         int maxCommandNum = 0;
         switch(gamePanel.getUi().getSubState()) {
-            case 0: maxCommandNum = 5;break;
-            case 4: maxCommandNum = 1;break;
+            case 0: maxCommandNum = 5; break;
+            case 2, 4: maxCommandNum = 1; break;
         }
 
         if(code == KeyEvent.VK_W) {
@@ -335,12 +335,12 @@ public class KeyHandler implements KeyListener {
 
         if(code == KeyEvent.VK_A) {
             if(gamePanel.getUi().getSubState() == 0) {
-                if (gamePanel.getUi().getCommandNum() == 1 && gamePanel.getMusic().getVolumeScale() > 0) {
+                if (gamePanel.getUi().getCommandNum() == 0 && gamePanel.getMusic().getVolumeScale() > 0) {
                     gamePanel.getMusic().setVolumeScale(gamePanel.getMusic().getVolumeScale() - 1);
                     gamePanel.getMusic().checkVolume();
                     gamePanel.playSE(5);
                 }
-                if (gamePanel.getUi().getCommandNum() == 2 && gamePanel.getSoundEffect().getVolumeScale() > 0) {
+                if (gamePanel.getUi().getCommandNum() == 1 && gamePanel.getSoundEffect().getVolumeScale() > 0) {
                     gamePanel.getSoundEffect().setVolumeScale(gamePanel.getSoundEffect().getVolumeScale() - 1);
                     gamePanel.playSE(5);
                 }
@@ -350,12 +350,12 @@ public class KeyHandler implements KeyListener {
 
         if(code == KeyEvent.VK_D) {
             if (gamePanel.getUi().getSubState() == 0) {
-                if (gamePanel.getUi().getCommandNum() == 1 && gamePanel.getMusic().getVolumeScale() < 5) {
+                if (gamePanel.getUi().getCommandNum() == 0 && gamePanel.getMusic().getVolumeScale() < 5) {
                     gamePanel.getMusic().setVolumeScale(gamePanel.getMusic().getVolumeScale() + 1);
                     gamePanel.getMusic().checkVolume();
                     gamePanel.playSE(5);
                 }
-                if (gamePanel.getUi().getCommandNum() == 2 && gamePanel.getSoundEffect().getVolumeScale() < 5) {
+                if (gamePanel.getUi().getCommandNum() == 1 && gamePanel.getSoundEffect().getVolumeScale() < 5) {
                     gamePanel.getSoundEffect().setVolumeScale(gamePanel.getSoundEffect().getVolumeScale() + 1);
                     gamePanel.playSE(5);
                 }
