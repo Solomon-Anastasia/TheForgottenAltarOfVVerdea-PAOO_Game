@@ -488,7 +488,7 @@ public class UI {
 
         switch(subState) {
             case 0: options_top(frameX, frameY);break;
-            case 1: options_fullScreenNotification(frameX, frameY);break;
+            //case 1: options_fullScreenNotification(frameX, frameY);break;
             case 2: option_control(frameX, frameY);break;
             case 3: options_endGameConfirmation(frameX, frameY); break;
             case 4: options_savedGame(frameX, frameY);
@@ -510,8 +510,8 @@ public class UI {
 
         // Full screen on/off
         textX = frameX + gamePanel.getTILE_SIZE();
-        textY += gamePanel.getTILE_SIZE() * 2;
-        g2.drawString("Full Screen", textX, textY);
+        textY += gamePanel.getTILE_SIZE() ;
+        /*g2.drawString("Full Screen", textX, textY);
         if (getCommandNum() == 0) {
             g2.drawString(">", textX - 25, textY);
             if(gamePanel.getKeyHandler().isEnterPressed() == true) {
@@ -523,7 +523,7 @@ public class UI {
                 }
                 subState = 1;
             }
-        }
+        }*/
 
         // Music
         textY += gamePanel.getTILE_SIZE();
@@ -590,15 +590,15 @@ public class UI {
 
         textX = frameX + (int) (gamePanel.getTILE_SIZE() * 5);
         textY = frameY + gamePanel.getTILE_SIZE() * 2 + 24;
-        g2.setStroke(new BasicStroke(3));
+        /*g2.setStroke(new BasicStroke(3));
         g2.drawRect(textX, textY, 24, 24);
         if(gamePanel.getFullScreenOn() == true) {
             g2.fillRect(textX, textY, 24, 24);
-        }
+        }*/
 
         // Music volume
 
-        textY += gamePanel.getTILE_SIZE();
+        textY += gamePanel.getTILE_SIZE() / 5;
         g2.drawRect(textX, textY, 120, 24); // 120 /5 = 24
         int volumeWidth = 24 * gamePanel.getMusic().getVolumeScale();
         g2.fillRect(textX, textY, volumeWidth, 24);
@@ -612,7 +612,7 @@ public class UI {
 
     }
 
-    public void options_fullScreenNotification(int frameX, int frameY) {
+   /* public void options_fullScreenNotification(int frameX, int frameY) {
         int textX = frameX + gamePanel.getTILE_SIZE();
         int textY = frameY + gamePanel.getTILE_SIZE() * 3;
 
@@ -633,7 +633,7 @@ public class UI {
                 subState = 0;
             }
         }
-    }
+    }*/
 
     public void options_savedGame(int frameX, int frameY) {
         int textX = frameX + gamePanel.getTILE_SIZE();
@@ -731,10 +731,10 @@ public class UI {
 
         text = "No";
         textX = getXCenteredText(text);
-        textY += gamePanel.getTILE_SIZE();
+        textY += gamePanel.getTILE_SIZE() ;
         g2.drawString(text, textX, textY);
         if(commandNum == 1) {
-            g2.drawString(">", textX - 25, textY);
+            g2.drawString(">", textX, textY);
             if(gamePanel.getKeyHandler().isEnterPressed() == true) {
                 subState = 0;
                 commandNum = 4;

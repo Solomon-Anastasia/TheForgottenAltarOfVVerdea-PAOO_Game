@@ -313,7 +313,7 @@ public class KeyHandler implements KeyListener {
 
         int maxCommandNum = 0;
         switch(gamePanel.getUi().getSubState()) {
-            case 0: maxCommandNum = 6;break;
+            case 0: maxCommandNum = 5;break;
             case 4: maxCommandNum = 1;break;
         }
 
