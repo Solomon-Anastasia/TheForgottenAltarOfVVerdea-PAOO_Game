@@ -2,7 +2,6 @@ package paoo.game.main;
 
 import paoo.game.database.SaveLoad;
 import paoo.game.entity.Entity;
-import paoo.game.object.ObjCarrot;
 import paoo.game.object.ObjHeart;
 import paoo.game.panel.GamePanel;
 
@@ -23,9 +22,6 @@ public class UI {
     private BufferedImage heart_blank;
 
     private Font arial20;
-    private Font arial25;
-
-    private ObjCarrot carrot;
 
     private boolean messageOn = false;
     private String message = "";
@@ -44,7 +40,6 @@ public class UI {
         this.gamePanel = gamePanel;
 
         arial20 = new Font("Arial", Font.BOLD, 20);
-        arial25 = new Font("Arial", Font.BOLD, 25);
 
         // Create HUD object
         Entity heart = new ObjHeart(gamePanel);
@@ -91,10 +86,6 @@ public class UI {
 
     public int getSubState() {
         return subState;
-    }
-
-    public void setSubState(int subState) {
-        this.subState = subState;
     }
 
     public void showMessage(String message) {
@@ -476,12 +467,10 @@ public class UI {
     }
 
     public void drawOptionScreen() {
-
         g2.setColor(Color.white);
         g2.setFont(g2.getFont().deriveFont(20F));
 
         //Sub window
-
         int frameX = gamePanel.getTILE_SIZE() * 6;
         int frameY = gamePanel.getTILE_SIZE();
         int frameWidth = gamePanel.getTILE_SIZE() * 8;
@@ -489,17 +478,10 @@ public class UI {
         drawSubWindow(frameX, frameY, frameWidth, frameHeight);
 
         switch (subState) {
-            case 0:
-                options_top(frameX, frameY);
-                break;
-            case 1:
-                option_control(frameX, frameY);
-                break;
-            case 2:
-                options_endGameConfirmation(frameX, frameY);
-                break;
-            case 3:
-                options_savedGame(frameX, frameY);
+            case 0 -> options_top(frameX, frameY);
+            case 1 -> option_control(frameX, frameY);
+            case 2 -> options_endGameConfirmation(frameX, frameY);
+            case 3 -> options_savedGame(frameX, frameY);
         }
 
         gamePanel.getKeyHandler().setEnterPressed(false);
@@ -581,15 +563,14 @@ public class UI {
 
         textX = frameX + (int) (gamePanel.getTILE_SIZE() * 5);
         textY = frameY + gamePanel.getTILE_SIZE() * 2 + 24;
-        // Music volume
 
+        // Music volume
         textY += gamePanel.getTILE_SIZE() / 5;
-        g2.drawRect(textX, textY, 120, 24); // 120 /5 = 24
+        g2.drawRect(textX, textY, 120, 24); // 120 / 5 = 24
         int volumeWidth = 24 * gamePanel.getMusic().getVolumeScale();
         g2.fillRect(textX, textY, volumeWidth, 24);
 
         // Sound effect
-
         textY += gamePanel.getTILE_SIZE();
         g2.drawRect(textX, textY, 120, 24);
         volumeWidth = 24 * gamePanel.getSoundEffect().getVolumeScale();
@@ -621,18 +602,11 @@ public class UI {
     }
 
     public void option_control(int frameX, int frameY) {
-
         int textX;
         int textY;
 
         // Title
-
-        String text = "Control";
-        textX = getXCenteredText(text);
         textY = frameY + gamePanel.getTILE_SIZE();
-
-        //g2.drawString(text, textX, textY);
-
         textX = frameX + gamePanel.getTILE_SIZE();
         textY += gamePanel.getTILE_SIZE();
 
@@ -643,7 +617,6 @@ public class UI {
         g2.drawString("Pause", textX, textY);
         textY += gamePanel.getTILE_SIZE();
         g2.drawString("Options", textX, textY);
-        textY += gamePanel.getTILE_SIZE();
 
         textX = frameX + gamePanel.getTILE_SIZE() * 4;
         textY = frameY + gamePanel.getTILE_SIZE() * 2;
@@ -654,21 +627,18 @@ public class UI {
         g2.drawString("P", textX, textY);
         textY += gamePanel.getTILE_SIZE();
         g2.drawString("ESC", textX, textY);
-        textY += gamePanel.getTILE_SIZE();
 
         // Back
-
         textX = frameX + gamePanel.getTILE_SIZE();
         textY = frameY + gamePanel.getTILE_SIZE();
         g2.drawString("Back", textX, textY);
         if (commandNum == 0) {
             g2.drawString(">", textX - 25, textY);
-            if (gamePanel.getKeyHandler().isEnterPressed() == true) {
+            if (gamePanel.getKeyHandler().isEnterPressed()) {
                 subState = 0;
                 commandNum = 2;
             }
         }
-
     }
 
     public void options_endGameConfirmation(int frameX, int frameY) {

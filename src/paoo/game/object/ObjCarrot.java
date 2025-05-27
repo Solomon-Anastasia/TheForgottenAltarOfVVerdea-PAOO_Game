@@ -12,9 +12,7 @@ public class ObjCarrot extends Entity {
     private long lastUpdateTime;
 
     // Waiting tipe for each stage
-    // TODO: Uncomment
-//    private static final long[] COOLDOWN_TIMES = {10_000, 10_000, 10_000, 10_000};
-    private static final long[] COOLDOWN_TIMES = {1_000, 1_000, 1_000, 1_000};
+    private static final long[] COOLDOWN_TIMES = {2_000, 2_000, 2_000, 2_000};
     private boolean isHarvested = false;
     private boolean isCollected = false;
 

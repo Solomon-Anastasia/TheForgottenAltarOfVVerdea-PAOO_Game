@@ -16,7 +16,6 @@ public class MON_Boss extends Entity {
         type = 2;
         name = MONSTER_NAME;
         speed = 2;
-        // TODO: Maybe put bigger max life
         maxLife = 5;
         boss = true;
         hpBarOn = true;
@@ -174,5 +173,4 @@ public class MON_Boss extends Entity {
             graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
         }
     }
-
 }

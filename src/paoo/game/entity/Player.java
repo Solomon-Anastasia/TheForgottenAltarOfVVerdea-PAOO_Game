@@ -15,7 +15,6 @@ public class Player extends Entity {
     private final int SCREEN_X;
     private final int SCREEN_Y;
 
-    private int nrArtefacts = 0;
     private int nrCarrots = 0;
 
     private boolean isMoving = false;
@@ -72,16 +71,8 @@ public class Player extends Entity {
         return nrCarrots;
     }
 
-    public int getNrArtefacts() {
-        return nrArtefacts;
-    }
-
     public ArrayList<Entity> getInventory() {
         return inventory;
-    }
-
-    public boolean isAttackCanceled() {
-        return attackCanceled;
     }
 
     public void setAttackCanceled(boolean attackCanceled) {
@@ -360,10 +351,6 @@ public class Player extends Entity {
                 int monsterIndex = gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getMonster());
                 contactMonster(monsterIndex);
 
-                // Check event
-                gamePanel.getEventHandler().checkEvent();
-
-
                 if (keyHandler.isEnterPressed() && !attackCanceled) {
                     attacking = true;
                     spriteCounter = 0;
@@ -485,7 +472,7 @@ public class Player extends Entity {
                         image = getBufferedImage(spriteNumber, right1, right2, right3, right4, right5, right6);
                     }
                     if (attacking) {
-                         //tempScreenX = getSCREEN_X() - gamePanel.getTILE_SIZE();
+                        //tempScreenX = getSCREEN_X() - gamePanel.getTILE_SIZE();
                         if (spriteNumber == 1) {
                             image = attack_right_1;
                         }
@@ -522,9 +509,8 @@ public class Player extends Entity {
         graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 
         // Draw solid area for debug purposes
-        // TODO: Remove after game completion
-//        graphics2D.setColor(Color.RED);
-//        graphics2D.drawRect(getSCREEN_X() + solidArea.x, getSCREEN_Y() + solidArea.y, solidArea.width, solidArea.height);
+        // graphics2D.setColor(Color.RED);
+        // graphics2D.drawRect(getSCREEN_X() + solidArea.x, getSCREEN_Y() + solidArea.y, solidArea.width, solidArea.height);
     }
 
     protected BufferedImage getBufferedImage(

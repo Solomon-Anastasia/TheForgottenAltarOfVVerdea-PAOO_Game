@@ -4,9 +4,7 @@ import paoo.game.entity.Entity;
 import paoo.game.object.*;
 import paoo.game.panel.GamePanel;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class SaveLoad {
     private GamePanel gamePanel;
@@ -30,9 +28,35 @@ public class SaveLoad {
         return obj;
     }
 
-
     public void save() {
         DbManager dbManager = new DbManager();
+        DataStorage dataStorage = getDataStorage();
+
+        StringBuilder inventoryBuilder = new StringBuilder();
+        for (int i = 0; i < dataStorage.getItemNames().size(); i++) {
+            inventoryBuilder
+                    .append(dataStorage.getItemNames().get(i))
+                    .append(":")
+                    .append(dataStorage.getItemAmounts().get(i));
+
+            if (i < dataStorage.getItemNames().size() - 1) {
+                inventoryBuilder.append(","); // separator between items
+            }
+        }
+
+        String inventoryString = inventoryBuilder.toString(); // "Sword:1,Potion:5,Key:2"
+        dbManager.saveData(
+                dataStorage.getLevel(),
+                dataStorage.getMaxLife(),
+                dataStorage.getLife(),
+                dataStorage.getTime(),
+                inventoryString
+        );
+
+        dbManager.closeConnection();
+    }
+
+    private DataStorage getDataStorage() {
         DataStorage dataStorage = new DataStorage();
 
         // Players stats
@@ -40,7 +64,6 @@ public class SaveLoad {
         dataStorage.setMaxLife(gamePanel.getPlayer().getMaxLife());
         dataStorage.setLife(gamePanel.getPlayer().getLife());
         dataStorage.setTime(gamePanel.getUi().getPlayTime());
-
 
         // Player inventory
         // Combine item names and amounts into a single string
@@ -54,32 +77,7 @@ public class SaveLoad {
 
         dataStorage.setItemNames(itemNames);
         dataStorage.setItemAmounts(itemAmounts);
-
-        StringBuilder inventoryBuilder = new StringBuilder();
-        for (int i = 0; i < dataStorage.getItemNames().size(); i++) {
-            inventoryBuilder
-                    .append(dataStorage.getItemNames().get(i))
-                    .append(":")
-                    .append(dataStorage.getItemAmounts().get(i)); // amount
-
-            if (i < dataStorage.getItemNames().size() - 1) {
-                inventoryBuilder.append(","); // separator between items
-            }
-        }
-
-        String inventoryString = inventoryBuilder.toString(); // "Sword:1,Potion:5,Key:2"
-
-
-        dbManager.saveData(
-                dataStorage.getLevel(),
-                dataStorage.getMaxLife(),
-                dataStorage.getLife(),
-                dataStorage.getTime(),
-                inventoryString
-        );
-
-        // Write do database
-        dbManager.closeConnection();
+        return dataStorage;
     }
 
     public void load() {

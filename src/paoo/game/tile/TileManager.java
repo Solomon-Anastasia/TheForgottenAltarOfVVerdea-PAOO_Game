@@ -229,7 +229,6 @@ public class TileManager {
         setup(109, "secondlayer3/tile_109", true);
         setup(110, "secondlayer3/tile_110", true);
         setup(111, "secondlayer3/tile_111", true);
-
     }
 
     // CAMERA

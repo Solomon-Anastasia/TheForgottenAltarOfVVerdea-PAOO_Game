@@ -18,8 +18,10 @@ public class MON_Goblin extends Entity {
 
         solidArea.x = 5;
         solidArea.y = 18;
+
         solidArea.width = 16;
         solidArea.height = 16;
+
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
 

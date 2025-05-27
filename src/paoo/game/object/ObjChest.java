@@ -28,7 +28,6 @@ public class ObjChest extends Entity {
 
     public void interact() {
         gamePanel.getPlayer().setAttackCanceled(true);
-
         gamePanel.setGameState(gamePanel.getDIALOG_STATE());
 
         if (opened) {

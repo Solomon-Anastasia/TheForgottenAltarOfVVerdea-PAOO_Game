@@ -28,7 +28,6 @@ public class DbManager {
                     ItemName TEXT
                 );
                 """;
-
         stmt.execute(sqlCreateTable);
     }
 
@@ -61,8 +60,8 @@ public class DbManager {
 
         // Get latest saved data
         String selectPlayer = """
-                SELECT * FROM Player ORDER BY ID DESC LIMIT 1;
-            """;
+                    SELECT * FROM Player ORDER BY ID DESC LIMIT 1;
+                """;
 
         try {
             rs = stmt.executeQuery(selectPlayer);
@@ -72,7 +71,7 @@ public class DbManager {
                 int maxLife = rs.getInt("Max_life");
                 int life = rs.getInt("Life");
                 double time = rs.getDouble("Time");
-                String itemName = rs.getString("ItemName"); // Changed from "itemName" to "ItemName"
+                String itemName = rs.getString("ItemName");
 
                 DataStorage data = new DataStorage();
                 data.setLevel(level);

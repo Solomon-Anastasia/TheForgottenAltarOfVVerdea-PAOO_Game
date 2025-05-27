@@ -3,12 +3,12 @@ package paoo.game.entity;
 import paoo.game.panel.GamePanel;
 
 public class Wizard extends Entity {
+
     public Wizard(GamePanel gamePanel) {
         super(gamePanel);
 
         direction = "right";
         speed = 0;
-
         height = 48 + 17;
         width = 48 + 17;
 

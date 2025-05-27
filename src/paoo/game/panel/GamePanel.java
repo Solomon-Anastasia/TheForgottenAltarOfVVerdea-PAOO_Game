@@ -1,6 +1,5 @@
 package paoo.game.panel;
 
-import paoo.game.database.SaveLoad;
 import paoo.game.entity.Entity;
 import paoo.game.entity.Player;
 import paoo.game.handler.KeyHandler;
@@ -24,23 +23,14 @@ public class GamePanel extends JPanel implements Runnable {
     private final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COLUMN; // 960 pixels
     private final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW; // 576 pixels
 
-    // For full screen
-
-    int screenWidth2 = SCREEN_WIDTH;
-    int screenHeight2 = SCREEN_HEIGHT;
     BufferedImage tempScreen;
     Graphics2D g2;
-    private boolean fullScreenOn = false;
 
     // World settings
-    // TODO: Change based of final map1
     private final int MAX_WORLD_COLUMN = 96;
     private final int MAX_WORLD_ROW = 90;
     private final int MAX_MAP = 3;
     private int currentMap = 0;
-
-    // Database
-    private SaveLoad saveLoad = new SaveLoad(this);
 
     // FPS
     private final int FPS = 60;
@@ -48,7 +38,6 @@ public class GamePanel extends JPanel implements Runnable {
     // System
     private TileManager tileManager = new TileManager(this);
     private KeyHandler keyHandler = new KeyHandler(this);
-    private EventHandler eventHandler = new EventHandler(this);
 
     private Sound music = new Sound();
     private Sound soundEffect = new Sound();
@@ -64,7 +53,6 @@ public class GamePanel extends JPanel implements Runnable {
     private Entity[] objects = new Entity[20];
     private Entity[] npc = new Entity[10];
     private Entity[] monster = new Entity[20];
-
     private ArrayList<Entity> entityList = new ArrayList<>();
 
     // Game state
@@ -95,19 +83,6 @@ public class GamePanel extends JPanel implements Runnable {
 
         tempScreen = new BufferedImage(getSCREEN_WIDTH(), getSCREEN_HEIGHT(), BufferedImage.TYPE_INT_RGB);
         g2 = (Graphics2D) tempScreen.getGraphics();
-
-        //setFullScreen();
-    }
-
-    public void setFullScreen() {
-        // Get local screen device
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice gd = ge.getDefaultScreenDevice();
-        gd.setFullScreenWindow(Main.window);
-
-        // Get full screen width and height
-        screenWidth2 = Main.window.getWidth();
-        screenHeight2 = Main.window.getHeight();
     }
 
     public void retry() {
@@ -133,16 +108,8 @@ public class GamePanel extends JPanel implements Runnable {
         assetSetter.setMonster();
     }
 
-    public void setGameThread(Thread gameThread) {
-        this.gameThread = gameThread;
-    }
-
     public void setGameState(int gameState) {
         this.gameState = gameState;
-    }
-
-    public void setCurrentMap(int currentMap) {
-        this.currentMap = currentMap;
     }
 
     public Entity[] getObjects() {
@@ -225,16 +192,8 @@ public class GamePanel extends JPanel implements Runnable {
         return monster;
     }
 
-    public AssetSetter getAssetSetter() {
-        return assetSetter;
-    }
-
     public KeyHandler getKeyHandler() {
         return keyHandler;
-    }
-
-    public EventHandler getEventHandler() {
-        return eventHandler;
     }
 
     public int getINVENTORY_STATE() {
@@ -249,24 +208,12 @@ public class GamePanel extends JPanel implements Runnable {
         return optionsState;
     }
 
-    public boolean getFullScreenOn() {
-        return fullScreenOn;
-    }
-
-    public void setFullScreenOn(boolean setFullScreenOn) {
-        this.fullScreenOn = fullScreenOn;
-    }
-
     public Sound getMusic() {
         return music;
     }
 
     public Sound getSoundEffect() {
         return soundEffect;
-    }
-
-    public void setMusic(Sound music) {
-        this.music = music;
     }
 
     public void startGameThread() {
@@ -294,6 +241,7 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
 
+            // Monsters
             for (Entity entity : monster) {
                 if (entity != null) {
                     entity.update();
@@ -353,12 +301,6 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    public void drawToScreen() {
-        Graphics g = getGraphics();
-        g.drawImage(tempScreen, 0, 0, screenWidth2, screenHeight2, null);
-        g.dispose();
-    }
-
     public void playMusic(int i) {
         music.setFile(i);
         music.play();
@@ -373,84 +315,6 @@ public class GamePanel extends JPanel implements Runnable {
     public void playSE(int i) {
         soundEffect.setFile(i);
         soundEffect.play();
-    }
-
-    public void drawToTempScreen() {
-
-        long drawStart = 0;
-        if (keyHandler.isShowDebugText() == true) {
-            drawStart = System.nanoTime();
-        }
-
-        // Title screen
-        if (gameState == TITLE_STATE) {
-            ui.draw(g2);
-        }
-        // Others
-        else {
-            // Tile
-            tileManager.draw(g2);
-
-            entityList.clear();
-            entityList.add(player);
-
-            // Npc
-            for (Entity npc : npc) {
-                if (npc != null) {
-                    entityList.add(npc);
-                }
-            }
-
-            // Monster
-            for (Entity monster : monster) {
-                if (monster != null) {
-                    entityList.add(monster);
-                }
-            }
-
-            // Object
-            for (Entity object : objects) {
-                if (object != null) {
-                    entityList.add(object);
-                }
-            }
-
-            // Sort by priority first, then by Y position for entities with same priority
-            entityList.sort((e1, e2) -> {
-                if (e1.getRenderPriority() != e2.getRenderPriority()) {
-                    return Integer.compare(e1.getRenderPriority(), e2.getRenderPriority());
-                }
-                return Integer.compare(e1.getWorldY(), e2.getWorldY());
-            });
-
-            // Draw entities
-            for (Entity entity : entityList) {
-                entity.draw(g2);
-            }
-
-            ui.draw(g2);
-        }
-
-        // Debug
-        if (keyHandler.isShowDebugText()) {
-            g2.setFont(new Font("Arial", Font.PLAIN, 20));
-            g2.setColor(Color.WHITE);
-
-            int x = 10;
-            int y = 500;
-            int lineHeight = 20;
-
-            g2.drawString("WorldX " + player.getWorldX(), x, y);
-            y += lineHeight;
-
-            g2.drawString("WorldY " + player.getWorldY(), x, y);
-            y += lineHeight;
-
-            g2.drawString("Col " + (player.getWorldX() + player.getSolidArea().x) / TILE_SIZE, x, y);
-            y += lineHeight;
-
-            g2.drawString("Row " + (player.getWorldY() + player.getSolidArea().y) / TILE_SIZE, x, y);
-        }
     }
 
     @Override
@@ -552,10 +416,7 @@ public class GamePanel extends JPanel implements Runnable {
 
             if (delta >= 1) {
                 update();
-                 repaint(); // Calls paintComponent method
-                // TODO: Uncomment or delete
-//                drawToTempScreen(); // Draw everything to the buffered image
-//                drawToScreen(); // Draw the buffered image to the screen
+                repaint(); // Calls paintComponent method
 
                 delta--;
                 drawCount++;

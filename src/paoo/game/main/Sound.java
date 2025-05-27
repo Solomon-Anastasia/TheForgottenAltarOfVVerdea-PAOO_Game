@@ -13,8 +13,13 @@ public class Sound {
     private int volumeScale = 3;
     private float volume;
 
-    public int getVolumeScale() {return volumeScale;}
-    public void setVolumeScale(int volumeScale) {this.volumeScale = volumeScale;}
+    public int getVolumeScale() {
+        return volumeScale;
+    }
+
+    public void setVolumeScale(int volumeScale) {
+        this.volumeScale = volumeScale;
+    }
 
     public Sound() {
         soundURL[0] = getClass().getResource("/sound/BackgroundMusic1.wav");
@@ -53,14 +58,13 @@ public class Sound {
     }
 
     public void checkVolume() {
-
-        switch(volumeScale) {
-            case 0: volume = -80f;break;
-            case 1: volume = -20f; break;
-            case 2: volume = -12f;break;
-            case 3: volume = -5f;break;
-            case 4:volume = 1f; break;
-            case 5: volume = 6f;break;
+        switch (volumeScale) {
+            case 0 -> volume = -80f;
+            case 1 -> volume = -20f;
+            case 2 -> volume = -12f;
+            case 3 -> volume = -5f;
+            case 4 -> volume = 1f;
+            case 5 -> volume = 6f;
         }
 
         fc.setValue(volume);

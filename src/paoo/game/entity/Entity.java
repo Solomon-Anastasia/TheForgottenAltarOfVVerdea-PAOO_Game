@@ -45,7 +45,6 @@ public class Entity {
     protected final int TYPE_CONSUMABLE = 7;
 
     protected String direction = "down";
-
     protected int spriteCounter = 0;
     protected int shotAvailableCounter = 0;
     protected int hpBarCounter = 0;
@@ -204,12 +203,6 @@ public class Entity {
 
     public void setAmount(int amount) {
         this.amount = amount;
-    }
-
-    public void setSolidArea(int xOffset, int yOffset, int width, int height) {
-        this.solidArea = new Rectangle(xOffset, yOffset, width, height);
-        this.solidAreaDefaultX = xOffset;
-        this.solidAreaDefaultY = yOffset;
     }
 
     public void setAction() {
@@ -430,17 +423,10 @@ public class Entity {
     }
 
     public boolean inCamera() {
-        boolean inCamera = false;
-
-        if (worldX + gamePanel.getTILE_SIZE() > gamePanel.getPlayer().getWorldX() - gamePanel.getPlayer().getSCREEN_X()
+        return worldX + gamePanel.getTILE_SIZE() > gamePanel.getPlayer().getWorldX() - gamePanel.getPlayer().getSCREEN_X()
                 && worldX - gamePanel.getTILE_SIZE() < gamePanel.getPlayer().getWorldX() + gamePanel.getPlayer().getSCREEN_X()
                 && worldY + gamePanel.getTILE_SIZE() > gamePanel.getPlayer().getWorldY() - gamePanel.getPlayer().getSCREEN_Y()
-                && worldY - gamePanel.getTILE_SIZE() < gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getSCREEN_Y()
-        ) {
-            inCamera =true;
-        }
-
-        return inCamera;
+                && worldY - gamePanel.getTILE_SIZE() < gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getSCREEN_Y();
     }
 
     public void draw(Graphics2D graphics2D) {

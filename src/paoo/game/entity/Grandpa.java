@@ -11,7 +11,6 @@ public class Grandpa extends Entity {
 
         direction = "down";
         speed = 1;
-
         height = 48 + 17;
         width = 32 + 17;
 
