@@ -76,7 +76,9 @@ public class SaveLoad {
                 dataStorage.getMaxLife(),
                 dataStorage.getLife(),
                 dataStorage.getTime(),
-                inventoryString
+                inventoryString,
+                dataStorage.getxPosition(),
+                dataStorage.getyPosition()
         );
 
         dbManager.closeConnection();
@@ -95,6 +97,8 @@ public class SaveLoad {
         dataStorage.setMaxLife(gamePanel.getPlayer().getMaxLife());
         dataStorage.setLife(gamePanel.getPlayer().getLife());
         dataStorage.setTime(gamePanel.getUi().getPlayTime());
+        dataStorage.setxPosition(gamePanel.getPlayer().getWorldX());
+        dataStorage.setyPosition(gamePanel.getPlayer().getWorldY());
 
         // Save inventory
         ArrayList<String> itemNames = new ArrayList<>();
@@ -123,6 +127,10 @@ public class SaveLoad {
             gamePanel.getPlayer().setMaxLife(dataStorage.getMaxLife());
             gamePanel.getPlayer().setLife(dataStorage.getLife());
             gamePanel.getUi().setPlayTime(dataStorage.getTime());
+            gamePanel.getPlayer().setWorldX(dataStorage.getxPosition());
+            gamePanel.getPlayer().setWorldY(dataStorage.getyPosition());
+
+            gamePanel.setLoadedFromSave(true);
 
             // Restore inventory
             gamePanel.getPlayer().getInventory().clear();

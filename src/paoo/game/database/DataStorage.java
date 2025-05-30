@@ -33,6 +33,16 @@ public class DataStorage implements Serializable {
     private double time;
 
     /**
+     * The player's x position.
+     */
+    private int xPosition;
+
+    /**
+     * The player's y position.
+     */
+    private int yPosition;
+
+    /**
      * The list of item names in the player's inventory.
      */
     private ArrayList<String> itemNames = new ArrayList<>();
@@ -150,4 +160,41 @@ public class DataStorage implements Serializable {
     public void setItemAmounts(ArrayList<Integer> itemAmounts) {
         this.itemAmounts = itemAmounts;
     }
+
+    /**
+     * Returns the player's X coordinate on the map.
+     *
+     * @return the X position of the player
+     */
+    public int getxPosition() {
+        return xPosition;
+    }
+
+    /**
+     * Sets the player's X coordinate on the map.
+     *
+     * @param xPosition the X position to set
+     */
+    public void setxPosition(int xPosition) {
+        this.xPosition = xPosition;
+    }
+
+    /**
+     * Returns the player's Y coordinate on the map.
+     *
+     * @return the Y position of the player
+     */
+    public int getyPosition() {
+        return yPosition;
+    }
+
+    /**
+     * Sets the player's Y coordinate on the map.
+     *
+     * @param yPosition the Y position to set
+     */
+    public void setyPosition(int yPosition) {
+        this.yPosition = yPosition;
+    }
+
 }

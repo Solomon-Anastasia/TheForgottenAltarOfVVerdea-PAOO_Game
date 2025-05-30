@@ -46,12 +46,14 @@ public class DbManager {
     public void createPlayerTable() throws SQLException {
         String sqlCreateTable = """
                 CREATE TABLE IF NOT EXISTS Player(
-                    ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                    Level INTEGER,
-                    Max_life INTEGER,
-                    Life INTEGER,
-                    Time DOUBLE,
-                    ItemName TEXT
+                    ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                    Level INTEGER NOT NULL,
+                    Max_life INTEGER NOT NULL,
+                    Life INTEGER NOT NULL,
+                    Time DOUBLE NOT NULL,
+                    Item_Name TEXT NOT NULL,
+                    X_Position INTEGER NOT NULL,
+                    Y_Position INTEGER NOT NULL
                 );
                 """;
         stmt.execute(sqlCreateTable);
@@ -66,10 +68,10 @@ public class DbManager {
      * @param time     the game time
      * @param itemName the serialized inventory string (e.g., "Potion:2,Sword:1")
      */
-    public void saveData(int level, int maxLife, int life, double time, String itemName) {
+    public void saveData(int level, int maxLife, int life, double time, String itemName, int xPosition, int yPosition) {
         String sqlInsert = """
-                INSERT INTO Player (Level, Max_life, Life, Time, ItemName) VALUES
-                    (?, ?, ?, ?, ?);
+                INSERT INTO Player (Level, Max_life, Life, Time, Item_Name, X_Position, Y_Position) VALUES
+                    (?, ?, ?, ?, ?, ?, ?);
                 """;
 
         try {
@@ -80,6 +82,8 @@ public class DbManager {
             pstmt.setInt(3, life);
             pstmt.setDouble(4, time);
             pstmt.setString(5, itemName);
+            pstmt.setInt(6, xPosition);
+            pstmt.setInt(7, yPosition);
 
             pstmt.executeUpdate();
             pstmt.close();
@@ -109,13 +113,17 @@ public class DbManager {
                 int maxLife = rs.getInt("Max_life");
                 int life = rs.getInt("Life");
                 double time = rs.getDouble("Time");
-                String itemName = rs.getString("ItemName");
+                String itemName = rs.getString("Item_Name");
+                int xPosition = rs.getInt("X_Position");
+                int yPosition = rs.getInt("Y_Position");
 
                 DataStorage data = new DataStorage();
                 data.setLevel(level);
                 data.setMaxLife(maxLife);
                 data.setLife(life);
                 data.setTime(time);
+                data.setxPosition(xPosition);
+                data.setyPosition(yPosition);
 
                 // Parse inventory string into item names and amounts
                 if (itemName != null && !itemName.isEmpty()) {

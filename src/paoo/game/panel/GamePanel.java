@@ -186,6 +186,11 @@ public class GamePanel extends JPanel implements Runnable {
     private final int optionsState = 5;
 
     /**
+     * Check if the current state of the game is loaded from database
+     */
+    private boolean loadedFromSave = false;
+
+    /**
      * Constructs a new GamePanel with default settings.
      * Initializes the panel dimensions, background color, and input handling.
      */
@@ -253,7 +258,6 @@ public class GamePanel extends JPanel implements Runnable {
         this.gameState = gameState;
     }
 
-    // Getter methods with documentation
     /**
      * Gets the array of interactive objects.
      *
@@ -489,6 +493,13 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     /**
+     * Sets the current form of the game (from bd or not)
+     */
+    public void setLoadedFromSave(boolean loadedFromSave) {
+        this.loadedFromSave = loadedFromSave;
+    }
+
+    /**
      * Starts the main game thread.
      * This begins the game loop for updates and rendering.
      */
@@ -561,7 +572,12 @@ public class GamePanel extends JPanel implements Runnable {
                     assetSetter.setObject();
                     assetSetter.setNpc();
                     assetSetter.setMonster();
-                    player.setDefaultPosition(45, 26);
+
+                    if (!loadedFromSave) {
+                        player.setDefaultPosition(45, 26);
+                    } else {
+                        loadedFromSave = false;
+                    }
                 }
             }
 
@@ -575,7 +591,12 @@ public class GamePanel extends JPanel implements Runnable {
                     assetSetter.setObject();
                     assetSetter.setNpc();
                     assetSetter.setMonster();
-                    player.setDefaultPosition(30, 30);
+
+                    if (!loadedFromSave) {
+                        player.setDefaultPosition(30, 30);
+                    } else {
+                        loadedFromSave = false;
+                    }
                 }
             }
 
@@ -589,7 +610,12 @@ public class GamePanel extends JPanel implements Runnable {
                     assetSetter.setObject();
                     assetSetter.setNpc();
                     assetSetter.setMonster();
-                    player.setDefaultPosition(44, 65);
+
+                    if (!loadedFromSave) {
+                        player.setDefaultPosition(44, 65);
+                    } else {
+                        loadedFromSave = false;
+                    }
                 }
             }
         }
