@@ -6,64 +6,157 @@ import paoo.game.panel.GamePanel;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * Handles keyboard input for the game, managing different input behaviors based on the current game state.
+ * This class implements KeyListener to capture and process keyboard events for movement, menu navigation,
+ * and game state transitions.
+ */
 public class KeyHandler implements KeyListener {
+    /**
+     * Reference to the main game panel
+     */
     private GamePanel gamePanel;
 
+    /**
+     * Flag indicating if the UP key (W) is currently pressed
+     */
     private boolean isUpPressed;
+
+    /**
+     * Flag indicating if the DOWN key (S) is currently pressed
+     */
     private boolean isDownPressed;
+
+    /**
+     * Flag indicating if the LEFT key (A) is currently pressed
+     */
     private boolean isLeftPressed;
+
+    /**
+     * Flag indicating if the RIGHT key (D) is currently pressed
+     */
     private boolean isRightPressed;
+
+    /**
+     * Flag indicating if the ENTER key is currently pressed
+     */
     private boolean isEnterPressed = false;
 
+    /**
+     * Current level for debug purposes
+     */
     private int currentLevel = 1;
 
-    // Debug
+    /**
+     * Debug flag to show/hide debug text information
+     */
     private boolean showDebugText = false;
 
+    /**
+     * Constructs a new KeyHandler with a reference to the game panel.
+     *
+     * @param gamePanel the main game panel that this handler will interact with
+     */
     public KeyHandler(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
 
+    /**
+     * Returns whether the UP key is currently pressed.
+     *
+     * @return true if UP key is pressed, false otherwise
+     */
     public boolean isUpPressed() {
         return isUpPressed;
     }
 
+    /**
+     * Returns whether the DOWN key is currently pressed.
+     *
+     * @return true if DOWN key is pressed, false otherwise
+     */
     public boolean isDownPressed() {
         return isDownPressed;
     }
 
+    /**
+     * Returns whether the LEFT key is currently pressed.
+     *
+     * @return true if LEFT key is pressed, false otherwise
+     */
     public boolean isLeftPressed() {
         return isLeftPressed;
     }
 
+    /**
+     * Returns whether the RIGHT key is currently pressed.
+     *
+     * @return true if RIGHT key is pressed, false otherwise
+     */
     public boolean isRightPressed() {
         return isRightPressed;
     }
 
+    /**
+     * Returns whether the ENTER key is currently pressed.
+     *
+     * @return true if ENTER key is pressed, false otherwise
+     */
     public boolean isEnterPressed() {
         return isEnterPressed;
     }
 
+    /**
+     * Returns whether debug text should be displayed.
+     *
+     * @return true if debug text should be shown, false otherwise
+     */
     public boolean isShowDebugText() {
         return showDebugText;
     }
 
+    /**
+     * Sets the ENTER key pressed state.
+     *
+     * @param enterPressed true to set ENTER as pressed, false otherwise
+     */
     public void setEnterPressed(boolean enterPressed) {
         isEnterPressed = enterPressed;
     }
 
+    /**
+     * Gets the current level (used for debug purposes).
+     *
+     * @return the current level number
+     */
     public int getCurrentLevel() {
         return currentLevel;
     }
 
+    /**
+     * Sets the current level (used for debug purposes).
+     *
+     * @param level the level number to set
+     */
     public void setCurrentLevel(int level) {
         this.currentLevel = level;
     }
 
+    /**
+     * Handles key typed events. Currently not implemented.
+     *
+     * @param e the key event
+     */
     @Override
     public void keyTyped(KeyEvent e) { // Won't be used
     }
 
+    /**
+     * Handles key pressed events by delegating to appropriate state-specific methods
+     * based on the current game state.
+     *
+     * @param e the key event containing information about the pressed key
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
@@ -97,13 +190,18 @@ public class KeyHandler implements KeyListener {
         else if (gamePanel.getGameState() == gamePanel.getGAME_END_STATE()) {
             gameEndState(code);
         }
-
         // Options state
         else if (gamePanel.getGameState() == gamePanel.getOptionsState()) {
             optionsState(code);
         }
     }
 
+    /**
+     * Handles key input when the game is in the title screen state.
+     * Manages menu navigation (W/S keys) and menu selection (ENTER key).
+     *
+     * @param code the key code of the pressed key
+     */
     public void titleState(int code) {
         if (code == KeyEvent.VK_W) {
             gamePanel.getUi().setCommandNum(gamePanel.getUi().getCommandNum() - 1);
@@ -140,6 +238,13 @@ public class KeyHandler implements KeyListener {
         }
     }
 
+    /**
+     * Handles key input during active gameplay.
+     * Manages player movement (WASD), game pause (P), inventory access (I),
+     * interaction (ENTER), options menu (ESCAPE), and debug features (T, 1-3, R).
+     *
+     * @param code the key code of the pressed key
+     */
     public void playState(int code) {
         if (code == KeyEvent.VK_W) {
             isUpPressed = true;
@@ -187,12 +292,25 @@ public class KeyHandler implements KeyListener {
         }
     }
 
+    /**
+     * Handles key input when the game is paused.
+     * Only responds to the P key to unpause the game.
+     *
+     * @param code the key code of the pressed key
+     */
     public void pauseState(int code) {
         if (code == KeyEvent.VK_P) {
             gamePanel.setGameState(gamePanel.getPLAY_STATE());
         }
     }
 
+    /**
+     * Handles key input during dialogue sequences.
+     * ENTER key advances dialogue and handles teleportation if ready.
+     * ESCAPE key opens the options menu.
+     *
+     * @param code the key code of the pressed key
+     */
     public void dialogueState(int code) {
         if (code == KeyEvent.VK_ENTER) {
             if (gamePanel.getPlayer().isTeleportReady()) {
@@ -208,6 +326,12 @@ public class KeyHandler implements KeyListener {
         }
     }
 
+    /**
+     * Handles key input when the inventory is open.
+     * WASD keys navigate through inventory slots, I key closes inventory.
+     *
+     * @param code the key code of the pressed key
+     */
     public void inventoryState(int code) {
         if (code == KeyEvent.VK_I) {
             gamePanel.setGameState(gamePanel.getPLAY_STATE());
@@ -238,6 +362,12 @@ public class KeyHandler implements KeyListener {
         }
     }
 
+    /**
+     * Handles key input when the game over screen is displayed.
+     * W/S keys navigate menu options, ENTER key selects option (retry or return to title).
+     *
+     * @param code the key code of the pressed key
+     */
     public void gameOverState(int code) {
         if (code == KeyEvent.VK_W) {
             gamePanel.getUi().setCommandNum(gamePanel.getUi().getCommandNum() - 1);
@@ -270,6 +400,12 @@ public class KeyHandler implements KeyListener {
         }
     }
 
+    /**
+     * Handles key input when the game end screen is displayed.
+     * W/S keys navigate menu options, ENTER key selects option (return to title or exit).
+     *
+     * @param code the key code of the pressed key
+     */
     public void gameEndState(int code) {
         if (code == KeyEvent.VK_W) {
             gamePanel.getUi().setCommandNum(gamePanel.getUi().getCommandNum() - 1);
@@ -299,6 +435,13 @@ public class KeyHandler implements KeyListener {
         }
     }
 
+    /**
+     * Handles key input when the options menu is open.
+     * Manages navigation through options submenus, volume adjustments (A/D keys),
+     * and menu selection. ESCAPE key returns to gameplay.
+     *
+     * @param code the key code of the pressed key
+     */
     public void optionsState(int code) {
         if (code == KeyEvent.VK_ESCAPE) {
             gamePanel.setGameState(gamePanel.getPLAY_STATE());
@@ -361,6 +504,12 @@ public class KeyHandler implements KeyListener {
         }
     }
 
+    /**
+     * Handles key released events to reset movement flags when keys are released.
+     * Only handles movement keys (WASD).
+     *
+     * @param e the key event containing information about the released key
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();

@@ -5,10 +5,35 @@ import paoo.game.panel.GamePanel;
 
 import java.util.List;
 
+/**
+ * Represents an interactive chest object in the game that can contain loot items.
+ * The chest has different opening requirements based on the current game level
+ * and displays different sprites when opened/closed.
+ *
+ * <p>Opening requirements by level:
+ * <ul>
+ * <li>Level 1: Player must have at least 10 carrots in inventory</li>
+ * <li>Level 2: All goblins must be defeated</li>
+ * <li>Level 3: Boss must be defeated (no goblins remaining)</li>
+ * </ul>
+ */
 public class ObjChest extends Entity {
+    /**
+     * List of items that can be obtained from this chest
+     */
     private final List<Entity> loots;
+
+    /**
+     * Flag indicating whether the chest has been opened
+     */
     private boolean opened = false;
 
+    /**
+     * Constructs a new chest object with the specified loot items.
+     *
+     * @param gamePanel the main game panel instance
+     * @param loots     the list of items that can be obtained from this chest
+     */
     public ObjChest(GamePanel gamePanel, List<Entity> loots) {
         super(gamePanel);
 
@@ -26,6 +51,28 @@ public class ObjChest extends Entity {
         setSize(48, 48);
     }
 
+    /**
+     * Handles the interaction with the chest when the player activates it.
+     * Checks level-specific requirements before allowing the chest to be opened.
+     *
+     * <p>The method performs the following actions:
+     * <ul>
+     * <li>Cancels any ongoing player attacks</li>
+     * <li>Switches to dialog state</li>
+     * <li>Checks if chest is already opened</li>
+     * <li>Validates level-specific opening requirements</li>
+     * <li>Distributes loot items to player inventory if requirements are met</li>
+     * <li>Updates chest sprite to opened state</li>
+     * <li>Triggers game end condition if diamond is obtained on level 3</li>
+     * </ul>
+     *
+     * <p>Level-specific requirements:
+     * <ul>
+     * <li>Level 1: Requires 10 carrots in inventory</li>
+     * <li>Level 2: All goblins must be defeated</li>
+     * <li>Level 3: Boss must be defeated (triggers game end if diamond obtained)</li>
+     * </ul>
+     */
     public void interact() {
         gamePanel.getPlayer().setAttackCanceled(true);
         gamePanel.setGameState(gamePanel.getDIALOG_STATE());

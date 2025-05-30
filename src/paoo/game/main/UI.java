@@ -13,29 +13,98 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Handles all user interface rendering and management for the game.
+ * This class is responsible for drawing various game screens including title screen,
+ * game HUD, menus, dialog boxes, and managing user interface state.
+ */
 public class UI {
+    /**
+     * Reference to the main game panel
+     */
     private GamePanel gamePanel;
+
+    /**
+     * Graphics2D object for rendering
+     */
     private Graphics2D g2;
 
+    /**
+     * Image for full heart (2 health points)
+     */
     private BufferedImage heart_full;
+
+    /**
+     * Image for half heart (1 health point)
+     */
     private BufferedImage heart_half;
+
+    /**
+     * Image for empty heart (0 health points)
+     */
     private BufferedImage heart_blank;
 
+    /**
+     * Font used for UI text
+     */
     private Font arial20;
 
+    /**
+     * Flag indicating if a message should be displayed
+     */
     private boolean messageOn = false;
+
+    /**
+     * Current message text to display
+     */
     private String message = "";
+
+    /**
+     * Counter for message display duration
+     */
     private int messageCounter = 0;
+
+    /**
+     * Current dialogue text being displayed
+     */
     private String currentDialogue;
+
+    /**
+     * Current selected command/menu option
+     */
     private int commandNum = 0;
 
+    /**
+     * Current column position in inventory grid
+     */
     private int slotCol = 0;
+
+    /**
+     * Current row position in inventory grid
+     */
     private int slotRow = 0;
+
+    /**
+     * Current sub-state for menus (used in options menu)
+     */
     private int subState = 0;
 
+    /**
+     * Total play time in seconds
+     */
     private double playTime;
+
+    /**
+     * Formatter for displaying play time with 2 decimal places
+     */
     private DecimalFormat decimalFormat = new DecimalFormat("#0.00");
 
+    /**
+     * Constructs a new UI instance.
+     * Initializes fonts, loads heart images, and sets up the UI system.
+     *
+     * @param gamePanel The main game panel this UI belongs to
+     */
     public UI(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 
@@ -48,51 +117,113 @@ public class UI {
         heart_blank = heart.getImage3();
     }
 
+    /**
+     * Gets the current command number (selected menu option).
+     *
+     * @return The current command number
+     */
     public int getCommandNum() {
         return commandNum;
     }
 
+    /**
+     * Gets the current play time in seconds.
+     *
+     * @return The current play time
+     */
     public double getPlayTime() {
         return playTime;
     }
 
+    /**
+     * Gets the current inventory slot row.
+     *
+     * @return The current slot row
+     */
     public int getSlotRow() {
         return slotRow;
     }
 
+    /**
+     * Gets the current inventory slot column.
+     *
+     * @return The current slot column
+     */
     public int getSlotCol() {
         return slotCol;
     }
 
+    /**
+     * Sets the current command number (selected menu option).
+     *
+     * @param commandNum The command number to set
+     */
     public void setCommandNum(int commandNum) {
         this.commandNum = commandNum;
     }
 
+    /**
+     * Sets the current play time.
+     *
+     * @param playTime The play time to set in seconds
+     */
     public void setPlayTime(double playTime) {
         this.playTime = playTime;
     }
 
+    /**
+     * Sets the current dialogue text to be displayed.
+     *
+     * @param currentDialogue The dialogue text to display
+     */
     public void setCurrentDialogue(String currentDialogue) {
         this.currentDialogue = currentDialogue;
     }
 
+    /**
+     * Sets the current inventory slot column.
+     *
+     * @param slotCol The slot column to set
+     */
     public void setSlotCol(int slotCol) {
         this.slotCol = slotCol;
     }
 
+    /**
+     * Sets the current inventory slot row.
+     *
+     * @param slotRow The slot row to set
+     */
     public void setSlotRow(int slotRow) {
         this.slotRow = slotRow;
     }
 
+    /**
+     * Gets the current sub-state for menu navigation.
+     *
+     * @return The current sub-state
+     */
     public int getSubState() {
         return subState;
     }
 
+    /**
+     * Displays a temporary message on screen.
+     * The message will automatically disappear after a short duration.
+     *
+     * @param message The message text to display
+     */
     public void showMessage(String message) {
         this.message = message;
         messageOn = true;
     }
 
+    /**
+     * Main drawing method that renders the appropriate UI based on current game state.
+     * This method delegates to specific drawing methods based on the current game state.
+     *
+     * @param g2 The Graphics2D object to draw with
+     */
     public void draw(Graphics2D g2) {
         this.g2 = g2;
         g2.setFont(arial20);
@@ -144,6 +275,12 @@ public class UI {
         }
     }
 
+    /**
+     * Loads an image from the specified resource path.
+     *
+     * @param path The resource path to the image file
+     * @return The loaded BufferedImage, or null if loading failed
+     */
     private BufferedImage loadImage(String path) {
         try {
             return ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(path)));
@@ -153,6 +290,10 @@ public class UI {
         }
     }
 
+    /**
+     * Draws the title screen with game logo and main menu options.
+     * Includes "New Game", "Load Game", and "Exit" options with navigation cursor.
+     */
     public void drawTitleScreen() {
         // Title image + name
         BufferedImage menuImage = loadImage("/Titles/TitleScreen.png");
@@ -191,6 +332,10 @@ public class UI {
         }
     }
 
+    /**
+     * Draws the game timer in the top-right corner of the screen.
+     * Updates and displays the current play time in seconds.
+     */
     public void drawTimer() {
         g2.setColor(Color.WHITE);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 25F));
@@ -198,6 +343,9 @@ public class UI {
         g2.drawString("Time: " + decimalFormat.format(playTime), gamePanel.getTILE_SIZE() * 13, gamePanel.getTILE_SIZE());
     }
 
+    /**
+     * Draws the pause screen with "PAUSED" text centered on screen.
+     */
     public void drawPauseScreen() {
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
         g2.setColor(Color.WHITE);
@@ -208,6 +356,10 @@ public class UI {
         g2.drawString(text, x, y);
     }
 
+    /**
+     * Draws the dialog screen with a text box containing the current dialogue.
+     * Supports multi-line text separated by newline characters.
+     */
     public void drawDialogScreen() {
         // Window
         int x = gamePanel.getTILE_SIZE() * 2;
@@ -226,6 +378,10 @@ public class UI {
         }
     }
 
+    /**
+     * Draws the player's health bar using heart images.
+     * Shows current health with full hearts, half hearts, and empty hearts.
+     */
     public void drawPlayerLife() {
         int x = gamePanel.getTILE_SIZE() / 2;
         int y = gamePanel.getTILE_SIZE() / 2;
@@ -258,6 +414,11 @@ public class UI {
         }
     }
 
+    /**
+     * Draws health bars for monsters currently visible on screen.
+     * Regular monsters show small health bars above them, while boss monsters
+     * show larger health bars at the bottom of the screen with their name.
+     */
     public void drawMonsterLife() {
         for (int i = 0; i < gamePanel.getMonster().length; ++i) {
             Entity monster = gamePanel.getMonster()[i];
@@ -299,6 +460,10 @@ public class UI {
         }
     }
 
+    /**
+     * Draws the inventory screen showing player's items in a grid layout.
+     * Includes item icons, quantities, selection cursor, and item descriptions.
+     */
     public void drawInventory() {
         // Frame
         int frameX = gamePanel.getTILE_SIZE() * 9;
@@ -381,6 +546,10 @@ public class UI {
         }
     }
 
+    /**
+     * Draws the game over screen with retry and quit options.
+     * Displays "Game Over!" text with menu navigation.
+     */
     public void gameOverScreen() {
         g2.setColor(new Color(0, 0, 0, 150));
         g2.fillRect(0, 0, gamePanel.getSCREEN_WIDTH(), gamePanel.getSCREEN_HEIGHT());
@@ -419,6 +588,10 @@ public class UI {
         }
     }
 
+    /**
+     * Draws the game completion screen showing victory message and final play time.
+     * Includes options to return to title screen or quit the game.
+     */
     public void gameEndScreen() {
         // Semi-transparent dark background overlay
         g2.setColor(new Color(0, 0, 0, 150));
@@ -466,6 +639,10 @@ public class UI {
         }
     }
 
+    /**
+     * Draws the options/settings screen with various sub-menus.
+     * Handles navigation between different option categories.
+     */
     public void drawOptionScreen() {
         g2.setColor(Color.white);
         g2.setFont(g2.getFont().deriveFont(20F));
@@ -487,6 +664,12 @@ public class UI {
         gamePanel.getKeyHandler().setEnterPressed(false);
     }
 
+    /**
+     * Draws the main options menu with settings for music, sound effects, controls, etc.
+     *
+     * @param frameX The x-coordinate of the options frame
+     * @param frameY The y-coordinate of the options frame
+     */
     public void options_top(int frameX, int frameY) {
         int textX;
         int textY;
@@ -578,6 +761,12 @@ public class UI {
 
     }
 
+    /**
+     * Draws the save game confirmation screen.
+     *
+     * @param frameX The x-coordinate of the options frame
+     * @param frameY The y-coordinate of the options frame
+     */
     public void options_savedGame(int frameX, int frameY) {
         int textX = frameX + gamePanel.getTILE_SIZE();
         int textY = frameY + gamePanel.getTILE_SIZE() * 3;
@@ -601,6 +790,12 @@ public class UI {
         }
     }
 
+    /**
+     * Draws the control scheme information screen.
+     *
+     * @param frameX The x-coordinate of the options frame
+     * @param frameY The y-coordinate of the options frame
+     */
     public void option_control(int frameX, int frameY) {
         int textX;
         int textY;
@@ -641,6 +836,12 @@ public class UI {
         }
     }
 
+    /**
+     * Draws the end game confirmation dialog.
+     *
+     * @param frameX The x-coordinate of the options frame
+     * @param frameY The y-coordinate of the options frame
+     */
     public void options_endGameConfirmation(int frameX, int frameY) {
         int textX = frameX + gamePanel.getTILE_SIZE();
         int textY = frameY + gamePanel.getTILE_SIZE();
@@ -683,10 +884,25 @@ public class UI {
 
     }
 
+    /**
+     * Calculates the inventory item index based on current slot position.
+     * Uses a 5-column grid layout to convert row/column coordinates to array index.
+     *
+     * @return The calculated item index in the inventory array
+     */
     public int getItemIndexLSot() {
         return slotCol + (slotRow * 5);
     }
 
+    /**
+     * Draws a styled sub-window with rounded corners and border.
+     * Used for dialog boxes, menus, and other UI panels.
+     *
+     * @param x      The x-coordinate of the window
+     * @param y      The y-coordinate of the window
+     * @param width  The width of the window
+     * @param height The height of the window
+     */
     public void drawSubWindow(int x, int y, int width, int height) {
         // New color
         Color color = new Color(0, 0, 0, 210);
@@ -700,11 +916,25 @@ public class UI {
         g2.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
     }
 
+    /**
+     * Calculates the x-coordinate to center text horizontally on the screen.
+     *
+     * @param text The text string to center
+     * @return The x-coordinate for centered text positioning
+     */
     public int getXCenteredText(String text) {
         int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         return gamePanel.getSCREEN_WIDTH() / 2 - length / 2;
     }
 
+    /**
+     * Calculates the x-coordinate to align text to the right from a given position.
+     * Used for right-aligning numbers and other UI elements.
+     *
+     * @param text  The text string to align
+     * @param tailX The right edge x-coordinate to align to
+     * @return The x-coordinate for right-aligned text positioning
+     */
     public int getXAlignToRightText(String text, int tailX) {
         int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
 

@@ -12,14 +12,42 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Objects;
 
-// Flyweight pattern
+/**
+ * TileManager class implementing the Flyweight pattern for efficient tile management.
+ * This class handles loading, caching, and rendering of game tiles across multiple maps and layers.
+ * It manages tile images, collision data, and map layouts for a 2D tile-based game.
+ * <p>
+ * The class supports multiple maps (up to MAX_MAP) with 2 layers each, allowing for
+ * background and foreground tile rendering with proper layering.
+ */
 public class TileManager {
+    /**
+     * Reference to the main game panel for accessing game state and configuration
+     */
     private GamePanel gamePanel;
+
+    /**
+     * Array storing all available tile types using Flyweight pattern
+     */
     private Tile[] tiles;
 
+    /**
+     * 4D array storing tile numbers for each map, layer, column, and row
+     * Structure: [map][layer][column][row]
+     */
     private int[][][][] mapTileNumber;
+
+    /**
+     * Cache for storing loaded tile images to avoid redundant I/O operations
+     */
     private HashMap<String, BufferedImage> imageCache = new HashMap<>();
 
+    /**
+     * Constructs a new TileManager with the specified GamePanel.
+     * Initializes tile array, map data structure, loads tile images, and loads all maps.
+     *
+     * @param gamePanel The main game panel containing game configuration and state
+     */
     public TileManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         tiles = new Tile[3336]; // Array of different tiles type
@@ -31,14 +59,31 @@ public class TileManager {
         loadMap(new String[]{"/maps/Map3.txt", "/maps/Map3_Objects.txt"}, 2);
     }
 
+    /**
+     * Returns the complete map tile number array.
+     * This 4D array contains tile IDs for all maps, layers, columns, and rows.
+     *
+     * @return 4D integer array with structure [map][layer][column][row]
+     */
     public int[][][][] getMapTileNumber() {
         return mapTileNumber;
     }
 
+    /**
+     * Retrieves a specific tile by its index.
+     *
+     * @param i The index of the tile to retrieve
+     * @return The Tile object at the specified index, or null if index is invalid
+     */
     public Tile getTile(int i) {
         return tiles[i];
     }
 
+    /**
+     * Loads and sets up all tile images used in the game.
+     * This method calls setup() for each tile with its specific image path and collision properties.
+     * Tiles are organized by map layers: base tiles, second layer tiles, and third layer tiles.
+     */
     public void getTileImage() {
         setup(12, "map3/tile_12", false);
         setup(65, "map1/tile_65", false);
@@ -231,7 +276,16 @@ public class TileManager {
         setup(111, "secondlayer3/tile_111", true);
     }
 
-    // CAMERA
+    /**
+     * Renders all visible tiles to the screen using camera-based rendering.
+     * This method implements efficient viewport culling by only drawing tiles
+     * that are visible on screen based on the player's position.
+     * <p>
+     * Renders tiles in layer order (0 then 1) to ensure proper visual layering.
+     * Uses the player's world position to calculate screen positions for each tile.
+     *
+     * @param graphics2D The Graphics2D context used for rendering
+     */
     public void draw(Graphics2D graphics2D) {
         int maxRow = gamePanel.getMAX_WORLD_ROW();
         int maxCol = gamePanel.getMAX_WORLD_COLUMN();
@@ -264,6 +318,15 @@ public class TileManager {
         }
     }
 
+    /**
+     * Sets up a tile with its image and collision properties.
+     * Uses image caching to avoid loading the same image multiple times.
+     * If the image fails to load, an error message is printed but execution continues.
+     *
+     * @param index     The tile index in the tiles array
+     * @param imagePath The path to the tile image (without file extension)
+     * @param collision Whether this tile should have collision detection enabled
+     */
     public void setup(int index, String imagePath, boolean collision) {
         try {
             if (!imageCache.containsKey(imagePath)) {
@@ -279,6 +342,19 @@ public class TileManager {
         }
     }
 
+    /**
+     * Loads map data from text files into the mapTileNumber array.
+     * Each map consists of 2 layers loaded from separate files.
+     * <p>
+     * The method performs validation to ensure:
+     * - Files exist and are readable
+     * - All rows have consistent column counts
+     * - File contains expected number of rows
+     * - Tile numbers are within valid bounds
+     *
+     * @param filePaths Array of file paths for each layer (should contain 2 paths)
+     * @param map       The map index to load data into
+     */
     public void loadMap(String[] filePaths, int map) {
         for (int layer = 0; layer < 2; layer++) {
             try {

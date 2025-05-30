@@ -3,13 +3,36 @@ package paoo.game.main;
 import paoo.game.entity.Entity;
 import paoo.game.panel.GamePanel;
 
+/**
+ * Handles collision detection for entities within the game world.
+ * This class provides methods to check collisions between entities and various game elements
+ * including tiles, objects, other entities, and the player.
+ */
 public class CollisionChecker {
+    /**
+     * The game panel containing game state and entities
+     */
     private GamePanel gamePanel;
 
+    /**
+     * Constructs a new CollisionChecker with the specified game panel.
+     *
+     * @param gamePanel the game panel containing game state and entities
+     */
     public CollisionChecker(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
 
+    /**
+     * Checks for tile collisions for the specified entity based on its movement direction.
+     * This method examines tiles in the entity's path and sets the collision flag if
+     * the entity would collide with solid tiles.
+     * <p>
+     * The method checks two tile layers and considers the entity's solid area bounds
+     * to determine which tiles need to be examined based on the movement direction.
+     *
+     * @param entity the entity to check for tile collisions
+     */
     public void checkTile(Entity entity) {
         int entityLeftWorldX = entity.getWorldX() + entity.getSolidArea().x;
         int entityRightWorldX = entity.getWorldX() + entity.getSolidArea().x + entity.getSolidArea().width;
@@ -82,6 +105,15 @@ public class CollisionChecker {
         }
     }
 
+    /**
+     * Checks for collisions between an entity and game objects.
+     * This method tests if the entity will intersect with any objects in its path
+     * and handles both collision detection and object interaction.
+     *
+     * @param entity the entity to check for object collisions
+     * @param player true if the entity is the player (allows object pickup), false otherwise
+     * @return the index of the intersected object, or -1 if no collision occurred
+     */
     public int checkObject(Entity entity, boolean player) {
         // Suppose the player isn't touching any object
         int index = -1;
@@ -125,7 +157,15 @@ public class CollisionChecker {
         return index;
     }
 
-    // NPC or monster collision
+    /**
+     * Checks for collisions between an entity and other entities (NPCs or monsters).
+     * This method determines if the entity will collide with any entities in the target array
+     * during its next movement.
+     *
+     * @param entity the entity to check for collisions
+     * @param target the array of target entities to check against
+     * @return the index of the collided entity, or -1 if no collision occurred
+     */
     public int checkEntity(Entity entity, Entity[] target) {
         // Suppose the entity isn't touching any object
         int index = -1;
@@ -164,6 +204,13 @@ public class CollisionChecker {
         return index;
     }
 
+    /**
+     * Checks if an entity will collide with the player character.
+     * This method is typically used by NPCs or monsters to detect contact with the player.
+     *
+     * @param entity the entity to check for player collision
+     * @return true if the entity will contact the player, false otherwise
+     */
     public boolean checkPlayer(Entity entity) {
         boolean contactPlayer = false;
 

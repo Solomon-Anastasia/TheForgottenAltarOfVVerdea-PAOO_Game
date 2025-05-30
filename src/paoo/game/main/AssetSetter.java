@@ -9,13 +9,43 @@ import paoo.game.panel.GamePanel;
 
 import java.util.List;
 
+/**
+ * Manages the placement and initialization of game assets including objects, NPCs, and monsters
+ * across different game levels. This class is responsible for setting up the game world
+ * by populating it with interactive elements based on the current level.
+ * <p>
+ * The AssetSetter configures different layouts for each level:
+ * - Level 1: Tutorial/starting level with multiple carrots, goblins, and basic NPCs
+ * - Level 2: Intermediate level with fewer resources and moderate enemy count
+ * - Level 3+: Final level with boss encounter and rare items
+ */
 public class AssetSetter {
+    /**
+     * The main game panel that manages the game state and entities
+     */
     private GamePanel gamePanel;
+
+    /**
+     * Constructs a new AssetSetter with the specified game panel.
+     *
+     * @param gamePanel the main game panel that will contain all the assets
+     */
 
     public AssetSetter(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
 
+    /**
+     * Sets up and places all interactive objects in the game world based on the current level.
+     * This includes chests with loot, consumable items like carrots, and level transition objects.
+     * <p>
+     * Level-specific object placement:
+     * - Level 1: Treasure chest with sword and pendant, 10 carrots scattered across the map, portal to next level
+     * - Level 2: Treasure chest with pickaxe and cup, cave entrance object
+     * - Level 3+: Treasure chest containing rare diamond
+     * <p>
+     * Objects are positioned using tile-based coordinates multiplied by TILE_SIZE.
+     */
     public void setObject() {
         int i = 0;
 
@@ -99,6 +129,17 @@ public class AssetSetter {
         }
     }
 
+    /**
+     * Places Non-Player Characters (NPCs) throughout the game world based on the current level.
+     * NPCs provide dialogue, quests, or other interactive elements for the player.
+     * <p>
+     * Level-specific NPC placement:
+     * - Level 1: Grandpa (tutorial/quest giver) and Wizard (magical services)
+     * - Level 2: Single Wizard (continued magical services)
+     * - Level 3+: No NPCs (boss encounter focus)
+     * <p>
+     * NPCs are positioned using tile-based coordinates for consistent placement.
+     */
     public void setNpc() {
         int i = 0;
 
@@ -120,6 +161,18 @@ public class AssetSetter {
         }
     }
 
+    /**
+     * Spawns and positions monsters/enemies throughout the game world based on the current level.
+     * Monster placement creates gameplay challenges and combat encounters for the player.
+     * <p>
+     * Level-specific monster placement:
+     * - Level 1: 8 Goblins scattered across the starting area for basic combat training
+     * - Level 2: 5 Goblins positioned strategically for intermediate challenge
+     * - Level 3+: Single Boss monster for final encounter
+     * <p>
+     * Monsters are positioned using tile-based coordinates, often near valuable items
+     * or strategic locations to create meaningful combat encounters.
+     */
     public void setMonster() {
         int i = 0;
 
