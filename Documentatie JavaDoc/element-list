@@ -1,0 +1,8 @@
+paoo.game.database
+paoo.game.entity
+paoo.game.handler
+paoo.game.main
+paoo.game.monster
+paoo.game.object
+paoo.game.panel
+paoo.game.tile
