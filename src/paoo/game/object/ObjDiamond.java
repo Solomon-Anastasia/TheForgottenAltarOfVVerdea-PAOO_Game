@@ -1,7 +1,6 @@
 package paoo.game.object;
 
 import paoo.game.entity.Entity;
-import paoo.game.panel.GamePanel;
 
 /**
  * Represents a Diamond object in the game.
@@ -11,11 +10,9 @@ public class ObjDiamond extends Entity {
 
     /**
      * Constructs a new Diamond object.
-     *
-     * @param gamePanel the game panel that manages this object
      */
-    public ObjDiamond(GamePanel gamePanel) {
-        super(gamePanel);
+    public ObjDiamond() {
+        super();
 
         name = "Diamond";
         description = "[" + name + "]\nA rare gem that shimmers with\nmystical energy.";

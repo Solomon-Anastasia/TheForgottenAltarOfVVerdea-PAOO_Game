@@ -1,7 +1,6 @@
 package paoo.game.object;
 
 import paoo.game.entity.Entity;
-import paoo.game.panel.GamePanel;
 
 /**
  * Represents a mystical portal object that serves as a transportation mechanism in the game.
@@ -20,12 +19,9 @@ public class ObjPortal extends Entity {
      * Constructs a new portal object with default properties and appearance.
      * The portal is initialized as a collision-enabled entity with a mysterious
      * swirling light appearance.
-     *
-     * @param gamePanel the main game panel instance used for game state management
-     *                  and player interactions
      */
-    public ObjPortal(GamePanel gamePanel) {
-        super(gamePanel);
+    public ObjPortal() {
+        super();
 
         name = "Portal";
         collision = true;

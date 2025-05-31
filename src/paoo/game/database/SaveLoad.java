@@ -20,11 +20,9 @@ public class SaveLoad {
 
     /**
      * Constructs a new {@code SaveLoad} handler.
-     *
-     * @param gamePanel the main game panel containing the current game state
      */
-    public SaveLoad(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
+    public SaveLoad() {
+        this.gamePanel = GamePanel.getInstance();
     }
 
     /**
@@ -37,12 +35,12 @@ public class SaveLoad {
         Entity obj = null;
 
         switch (itemName) {
-            case "Carrot" -> obj = new ObjCarrot(gamePanel);
-            case "Cup" -> obj = new ObjCup(gamePanel);
-            case "Diamond" -> obj = new ObjDiamond(gamePanel);
-            case "Pendant" -> obj = new ObjPendant(gamePanel);
-            case "Pickaxe" -> obj = new ObjPickaxe(gamePanel);
-            case "Sword" -> obj = new ObjSword(gamePanel);
+            case "Carrot" -> obj = new ObjCarrot();
+            case "Cup" -> obj = new ObjCup();
+            case "Diamond" -> obj = new ObjDiamond();
+            case "Pendant" -> obj = new ObjPendant();
+            case "Pickaxe" -> obj = new ObjPickaxe();
+            case "Sword" -> obj = new ObjSword();
         }
 
         return obj;

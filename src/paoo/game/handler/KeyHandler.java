@@ -54,11 +54,9 @@ public class KeyHandler implements KeyListener {
 
     /**
      * Constructs a new KeyHandler with a reference to the game panel.
-     *
-     * @param gamePanel the main game panel that this handler will interact with
      */
-    public KeyHandler(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
+    public KeyHandler() {
+        this.gamePanel = GamePanel.getInstance();
     }
 
     /**
@@ -230,7 +228,7 @@ public class KeyHandler implements KeyListener {
                     gamePanel.setGameState(gamePanel.getPLAY_STATE());
                     gamePanel.playMusic(0);
 
-                    SaveLoad saveLoad = new SaveLoad(gamePanel);
+                    SaveLoad saveLoad = new SaveLoad();
                     saveLoad.load();
                 }
                 case 2 -> System.exit(0);

@@ -102,16 +102,14 @@ public class UI {
     /**
      * Constructs a new UI instance.
      * Initializes fonts, loads heart images, and sets up the UI system.
-     *
-     * @param gamePanel The main game panel this UI belongs to
      */
-    public UI(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
+    public UI() {
+        this.gamePanel = GamePanel.getInstance();
 
         arial20 = new Font("Arial", Font.BOLD, 20);
 
         // Create HUD object
-        Entity heart = new ObjHeart(gamePanel);
+        Entity heart = new ObjHeart();
         heart_full = heart.getImage1();
         heart_half = heart.getImage2();
         heart_blank = heart.getImage3();
@@ -725,7 +723,7 @@ public class UI {
         if (getCommandNum() == 4) {
             g2.drawString(">", textX - 25, textY);
             if (gamePanel.getKeyHandler().isEnterPressed()) {
-                SaveLoad saveLoad = new SaveLoad(gamePanel);
+                SaveLoad saveLoad = new SaveLoad();
                 saveLoad.save();
 
                 subState = 3;

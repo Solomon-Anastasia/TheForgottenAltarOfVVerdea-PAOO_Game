@@ -1,7 +1,6 @@
 package paoo.game.object;
 
 import paoo.game.entity.Entity;
-import paoo.game.panel.GamePanel;
 
 /**
  * Represents a mystical cave entrance that serves as a teleportation gateway in the game.
@@ -20,12 +19,9 @@ public class ObjCave extends Entity {
      * Constructs a new cave entrance object with default properties and appearance.
      * The cave is initialized as a collision-enabled entity that blocks player
      * movement until properly activated.
-     *
-     * @param gamePanel the main game panel instance used for game state management
-     *                  and player interactions
      */
-    public ObjCave(GamePanel gamePanel) {
-        super(gamePanel);
+    public ObjCave() {
+        super();
 
         name = "Cave";
         collision = true;

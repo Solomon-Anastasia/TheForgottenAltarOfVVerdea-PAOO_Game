@@ -1,7 +1,6 @@
 package paoo.game.object;
 
 import paoo.game.entity.Entity;
-import paoo.game.panel.GamePanel;
 
 import java.awt.*;
 
@@ -13,11 +12,9 @@ public class ObjPickaxe extends Entity {
 
     /**
      * Constructs a new Pickaxe object.
-     *
-     * @param gamePanel the game panel that manages this object
      */
-    public ObjPickaxe(GamePanel gamePanel) {
-        super(gamePanel);
+    public ObjPickaxe() {
+        super();
 
         name = "Pickaxe";
         description = "[" + name + "]\nA sturdy tool used to break\nrocks and mine valuable ores.";

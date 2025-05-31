@@ -1,7 +1,5 @@
 package paoo.game.entity;
 
-import paoo.game.panel.GamePanel;
-
 import java.util.Random;
 
 /**
@@ -17,11 +15,9 @@ public class Grandpa extends Entity {
     /**
      * Constructs a new Grandpa NPC with default properties.
      * Initializes movement speed, size, sprite images, and dialogue content.
-     *
-     * @param gamePanel reference to the main game panel for accessing game state
      */
-    public Grandpa(GamePanel gamePanel) {
-        super(gamePanel);
+    public Grandpa() {
+        super();
 
         direction = "down";
         speed = 1;

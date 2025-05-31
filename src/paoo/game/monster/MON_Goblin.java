@@ -1,7 +1,6 @@
 package paoo.game.monster;
 
 import paoo.game.entity.Entity;
-import paoo.game.panel.GamePanel;
 
 import java.util.Random;
 
@@ -15,11 +14,9 @@ public class MON_Goblin extends Entity {
      * Constructs a new Goblin monster with default attributes and behavior.
      * Initializes the goblin's properties including health, speed, collision area,
      * and loads the monster's sprite images.
-     *
-     * @param gamePanel the main game panel that manages game state and rendering
      */
-    public MON_Goblin(GamePanel gamePanel) {
-        super(gamePanel);
+    public MON_Goblin() {
+        super();
 
         type = 2;
         name = "Goblin";

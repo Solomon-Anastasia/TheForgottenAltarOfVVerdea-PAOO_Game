@@ -45,11 +45,9 @@ public class TileManager {
     /**
      * Constructs a new TileManager with the specified GamePanel.
      * Initializes tile array, map data structure, loads tile images, and loads all maps.
-     *
-     * @param gamePanel The main game panel containing game configuration and state
      */
-    public TileManager(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
+    public TileManager() {
+        this.gamePanel = GamePanel.getInstance();
         tiles = new Tile[3336]; // Array of different tiles type
         mapTileNumber = new int[gamePanel.getMAX_MAP()][2][gamePanel.getMAX_WORLD_COLUMN()][gamePanel.getMAX_WORLD_ROW()];
 

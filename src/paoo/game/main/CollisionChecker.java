@@ -16,11 +16,9 @@ public class CollisionChecker {
 
     /**
      * Constructs a new CollisionChecker with the specified game panel.
-     *
-     * @param gamePanel the game panel containing game state and entities
      */
-    public CollisionChecker(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
+    public CollisionChecker() {
+        this.gamePanel = GamePanel.getInstance();
     }
 
     /**

@@ -1,7 +1,6 @@
 package paoo.game.object;
 
 import paoo.game.entity.Entity;
-import paoo.game.panel.GamePanel;
 
 import java.util.List;
 
@@ -30,12 +29,10 @@ public class ObjChest extends Entity {
 
     /**
      * Constructs a new chest object with the specified loot items.
-     *
-     * @param gamePanel the main game panel instance
      * @param loots     the list of items that can be obtained from this chest
      */
-    public ObjChest(GamePanel gamePanel, List<Entity> loots) {
-        super(gamePanel);
+    public ObjChest(List<Entity> loots) {
+        super();
 
         down1 = setup("/objects/chest1");
         down2 = setup("/objects/chest2");

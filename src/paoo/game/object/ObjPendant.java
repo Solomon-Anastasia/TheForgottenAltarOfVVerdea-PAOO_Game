@@ -1,7 +1,6 @@
 package paoo.game.object;
 
 import paoo.game.entity.Entity;
-import paoo.game.panel.GamePanel;
 
 import java.awt.*;
 
@@ -13,11 +12,9 @@ public class ObjPendant extends Entity {
 
     /**
      * Constructs a new Pendant object.
-     *
-     * @param gamePanel the game panel that manages this object
      */
-    public ObjPendant(GamePanel gamePanel) {
-        super(gamePanel);
+    public ObjPendant() {
+        super();
 
         name = "Pendant";
         description = "[" + name + "]\nAn ancient charm said to protect\nits bearer.";

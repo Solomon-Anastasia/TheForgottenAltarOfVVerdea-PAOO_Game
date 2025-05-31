@@ -1,7 +1,6 @@
 package paoo.game.object;
 
 import paoo.game.entity.Entity;
-import paoo.game.panel.GamePanel;
 
 import java.awt.image.BufferedImage;
 
@@ -63,11 +62,9 @@ public class ObjCarrot extends Entity {
      * <p>Initializes all growth stage images, sets up entity properties such as
      * collision detection, stack ability, and consumable type. The carrot starts
      * at growth stage 0 and begins its growth timer immediately.</p>
-     *
-     * @param gamePanel the main game panel instance for resource loading and game state access
      */
-    public ObjCarrot(GamePanel gamePanel) {
-        super(gamePanel);
+    public ObjCarrot() {
+        super();
 
         this.name = "Carrot";
         direction = "down";

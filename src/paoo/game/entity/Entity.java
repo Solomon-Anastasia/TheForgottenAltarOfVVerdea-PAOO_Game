@@ -228,11 +228,9 @@ public class Entity {
     /**
      * Constructs a new Entity with the specified game panel.
      * Initializes default size based on tile size.
-     *
-     * @param gamePanel the main game panel reference
      */
-    public Entity(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
+    public Entity() {
+        this.gamePanel = GamePanel.getInstance();
         width = gamePanel.getTILE_SIZE();
         height = gamePanel.getTILE_SIZE();
     }

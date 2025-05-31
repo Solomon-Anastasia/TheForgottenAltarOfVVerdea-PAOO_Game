@@ -93,27 +93,27 @@ public class GamePanel extends JPanel implements Runnable {
     /**
      * Manages tile rendering and collision
      */
-    private TileManager tileManager = new TileManager(this);
+    private TileManager tileManager;
     /**
      * Handles keyboard input
      */
-    private KeyHandler keyHandler = new KeyHandler(this);
+    private KeyHandler keyHandler;
     /**
      * Manages background music
      */
-    private Sound music = new Sound();
+    private Sound music;
     /**
      * Manages sound effects
      */
-    private Sound soundEffect = new Sound();
+    private Sound soundEffect;
     /**
      * Handles collision detection between entities
      */
-    private CollisionChecker collisionChecker = new CollisionChecker(this);
+    private CollisionChecker collisionChecker;
     /**
      * Places entities and objects in the game world
      */
-    private AssetSetter assetSetter = new AssetSetter(this);
+    private AssetSetter assetSetter;
     /**
      * Main game thread for the game loop
      */
@@ -123,13 +123,13 @@ public class GamePanel extends JPanel implements Runnable {
     /**
      * User interface manager
      */
-    private UI ui = new UI(this);
+    private UI ui;
 
     // Entity and objects
     /**
      * The player character
      */
-    private Player player = new Player(this, keyHandler);
+    private Player player;
     /**
      * Array of interactive objects in the game world
      */
@@ -194,12 +194,23 @@ public class GamePanel extends JPanel implements Runnable {
      * Constructs a new GamePanel with default settings.
      * Initializes the panel dimensions, background color, and input handling.
      */
-    public GamePanel() {
+    private GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
-        this.addKeyListener(keyHandler);
-        this.setFocusable(true);
+    }
+
+    private static GamePanel instance = null;
+
+    public static GamePanel getInstance() {
+        if (instance == null) {
+            instance = new GamePanel();
+        }
+        return instance;
+    }
+
+    public static void reset() {
+        instance = null;
     }
 
     /**
@@ -208,6 +219,19 @@ public class GamePanel extends JPanel implements Runnable {
      * Sets up the temporary screen buffer for optimized rendering.
      */
     public void setupGame() {
+        if (tileManager == null) tileManager = new TileManager();
+        if (keyHandler == null) keyHandler = new KeyHandler();
+        if (music == null) music = new Sound();
+        if (soundEffect == null) soundEffect = new Sound();
+        if (collisionChecker == null) collisionChecker = new CollisionChecker();
+        if (assetSetter == null) assetSetter = new AssetSetter();
+        if (ui == null) ui = new UI();
+        if (player == null) player = new Player(keyHandler);
+
+        this.addKeyListener(keyHandler);
+        this.setFocusable(true);
+        this.requestFocusInWindow();
+
         assetSetter.setObject();
         assetSetter.setNpc();
         assetSetter.setMonster();

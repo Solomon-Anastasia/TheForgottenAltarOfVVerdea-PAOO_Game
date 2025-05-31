@@ -1,7 +1,6 @@
 package paoo.game.object;
 
 import paoo.game.entity.Entity;
-import paoo.game.panel.GamePanel;
 
 /**
  * Represents a Heart object in the game.
@@ -12,11 +11,9 @@ public class ObjHeart extends Entity {
     /**
      * Constructs a new Heart object.
      * Initializes the heart with three different visual states for life representation.
-     *
-     * @param gamePanel the game panel that manages this object
      */
-    public ObjHeart(GamePanel gamePanel) {
-        super(gamePanel);
+    public ObjHeart() {
+        super();
 
         name = "Heart";
         image1 = setup("/objects/life_1");

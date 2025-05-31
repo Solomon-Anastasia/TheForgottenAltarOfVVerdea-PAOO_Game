@@ -2,7 +2,6 @@ package paoo.game.entity;
 
 import paoo.game.handler.KeyHandler;
 import paoo.game.object.ObjCarrot;
-import paoo.game.panel.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -66,12 +65,10 @@ public class Player extends Entity {
     /**
      * Constructs a new Player instance.
      * Initializes the player's position, collision areas, and loads all sprites.
-     *
-     * @param gamePanel  the main game panel containing game state and utilities
      * @param keyHandler the keyboard input handler for player controls
      */
-    public Player(GamePanel gamePanel, KeyHandler keyHandler) {
-        super(gamePanel);
+    public Player(KeyHandler keyHandler) {
+        super();
 
         this.keyHandler = keyHandler;
 

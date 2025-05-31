@@ -1,7 +1,6 @@
 package paoo.game.object;
 
 import paoo.game.entity.Entity;
-import paoo.game.panel.GamePanel;
 
 import java.awt.*;
 
@@ -13,11 +12,9 @@ public class ObjSword extends Entity {
 
     /**
      * Constructs a new Sword object.
-     *
-     * @param gamePanel the game panel that manages this object
      */
-    public ObjSword(GamePanel gamePanel) {
-        super(gamePanel);
+    public ObjSword() {
+        super();
 
         name = "Sword";
         description = "[" + name + "]\nA sharp blade forged to cut\nthrough enemies with ease.";

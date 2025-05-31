@@ -1,7 +1,6 @@
 package paoo.game.monster;
 
 import paoo.game.entity.Entity;
-import paoo.game.panel.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -24,12 +23,10 @@ public class MON_Boss extends Entity {
     /**
      * Constructs a new boss monster with predefined characteristics.
      * Initializes the boss with enhanced stats, larger collision areas,
-     * and loads all necessary sprite animations.
-     *
-     * @param gamePanel the main game panel that manages this entity
+     * and loads all necessary sprite animation.
      */
-    public MON_Boss(GamePanel gamePanel) {
-        super(gamePanel);
+    public MON_Boss() {
+        super();
 
         type = 2;
         name = MONSTER_NAME;

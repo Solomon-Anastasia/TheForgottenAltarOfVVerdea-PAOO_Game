@@ -1,7 +1,6 @@
 package paoo.game.object;
 
 import paoo.game.entity.Entity;
-import paoo.game.panel.GamePanel;
 
 /**
  * Represents a Cup object in the game.
@@ -10,11 +9,9 @@ import paoo.game.panel.GamePanel;
 public class ObjCup extends Entity {
     /**
      * Constructs a new Cup object.
-     *
-     * @param gamePanel the game panel that manages this object
      */
-    public ObjCup(GamePanel gamePanel) {
-        super(gamePanel);
+    public ObjCup() {
+        super();
 
         name = "Cup";
         description = "[" + name + "]\nA sacred relic once used in\nroyal rituals.";
