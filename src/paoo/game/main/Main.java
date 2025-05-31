@@ -58,7 +58,7 @@ public class Main {
 
         // Add the game panel to the window and size appropriately
         window.add(GamePanel.getInstance());
-        GamePanel.getInstance().setupGame();
+        GamePanel.getInstance().setupGame(); // Load game assets, initialize entities and game state
         window.pack(); // Size window to fit the preferred size of GamePanel
 
         // Configure window behavior and appearance
@@ -78,7 +78,6 @@ public class Main {
         }
 
         // Initialize game assets and start the main game loop
-//        GamePanel.getInstance().setupGame(); // Load game assets, initialize entities and game state
         GamePanel.getInstance().startGameThread(); // Begin the main game update/render loop
     }
 }
