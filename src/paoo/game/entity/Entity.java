@@ -14,7 +14,7 @@ import java.util.Random;
  * Base class for all game entities including players, NPCs, monsters, and items.
  * Provides common functionality for movement, animation, collision detection, and rendering.
  */
-public class Entity {
+public abstract class Entity {
     /**
      * Reference to the main game panel
      */
