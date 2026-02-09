@@ -96,7 +96,8 @@ The documentation includes: - Game design and story
 The source code is fully documented using **Javadoc**, providing detailed descriptions for classes, methods, and packages.  
 This documentation helps understand the architecture, responsibilities of each module, and the interaction between game components.
 
-The generated Javadoc HTML pages can be accessed from the following entry point: **[Javadoc Main Page](Documentatie%20JavaDoc/index.html)**
+The generated Javadoc HTML pages can be accessed from the following entry point: 
+**[Javadoc Main Page](Documentatie%20JavaDoc/)**
 
 
 ------------------------------------------------------------------------
