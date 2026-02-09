@@ -97,7 +97,7 @@ The source code is fully documented using **Javadoc**, providing detailed descri
 This documentation helps understand the architecture, responsibilities of each module, and the interaction between game components.
 
 The generated Javadoc HTML pages can be accessed from the following entry point: 
-**[Javadoc Main Page](Documentatie%20JavaDoc/)**
+**[Javadoc Main Page](https://solomon-anastasia.github.io/TheForgottenAltarOfVVerdea-PAOO_Game/Documentatie%20JavaDoc/index.html)**
 
 
 ------------------------------------------------------------------------
